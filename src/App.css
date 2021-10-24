@@ -36,3 +36,16 @@
     transform: rotate(360deg);
   }
 }
+
+.heroText {
+  top: 400px;
+  position: absolute;
+  background: #ffffff94;
+  padding: 20px;
+  width: 100%;
+}
+
+.heroText h1 {
+  margin: auto;
+  display: table;
+}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import * as actions from "../actions/businessServices";
-import { Grid, Paper, TableBody, TableCell, TableRow, TableContainer, Table, TableHead, withStyles } from '@material-ui/core';
+import { Grid, Paper, TableBody, TableCell, TableRow, TableContainer, Table, TableHead, withStyles, Container } from '@material-ui/core';
 import BusinessServicesForm from './BusinessServicesForm';
 
 const style = theme => ({
@@ -18,35 +18,37 @@ const BusinessServices = (props) => {
     }, [])
 
     return (
-        <Paper>
-            <Grid container>
-                <Grid item xs={3}>Navigation</Grid>
-                <Grid item xs={9}>
-                    <TableContainer>
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>Name</TableCell>
-                                    <TableCell>Price</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {
-                                    props.businessServicesList.map((record, index)=> {
-                                        return(<TableRow key={index}>
+        <Container>
+            <Paper>
+                <Grid container>
+                    <Grid item xs={3}>Navigation</Grid>
+                    <Grid item xs={9}>
+                        <TableContainer>
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Name</TableCell>
+                                        <TableCell>Price</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {
+                                        props.businessServicesList.map((record, index) => {
+                                            return (<TableRow key={index}>
                                                 <TableCell>{record.name}</TableCell>
                                                 <TableCell>{record.price}</TableCell>
                                             </TableRow>
-                                        )
-                                    })
-                                }
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                    <Grid container><BusinessServicesForm /></Grid>
+                                            )
+                                        })
+                                    }
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        <Grid container><BusinessServicesForm /></Grid>
+                    </Grid>
                 </Grid>
-            </Grid>
-        </Paper>
+            </Paper>
+        </Container>
     )
 }
 

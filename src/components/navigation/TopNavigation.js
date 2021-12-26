@@ -8,7 +8,7 @@ import {
     useTheme,
     useMediaQuery, } from '@material-ui/core';
 import { Link } from "react-router-dom";
-import DrawerComponent from './Drawer';
+import DrawerComponent from '../Drawer';
 
 const useStyles = makeStyles((theme) => ({
     navlinks: {
@@ -55,7 +55,7 @@ const TopNavigation = () => {
                     <Link to="/contact" className={classes.link}>
                         Contact
                     </Link>
-                    <Link to="/account" className={classes.link}>
+                    <Link to="/services" className={classes.link}>
                         Account
                     </Link>
                 </div>}

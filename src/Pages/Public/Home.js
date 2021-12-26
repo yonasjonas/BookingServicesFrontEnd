@@ -1,6 +1,6 @@
 import React from "react";
-import HomepageCards from "../components/HomepageCard";
-import hero from '../images/hero.jpg';
+import HomepageCards from "../../components/HomepageCard";
+import hero from '../../images/hero.jpg';
 
 
 const Home = () => {

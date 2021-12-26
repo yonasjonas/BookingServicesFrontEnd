@@ -1,7 +1,7 @@
 import * as actions from "../actions/businessServices";
 import { connect } from "react-redux";
 import React, { useState, useEffect } from "react";
-import { Grid, InputLabel, Select, MenuItem, withStyles, FormControl, Button, TextField, OutlinedInput } from '@material-ui/core';
+import { Grid, InputLabel, Select, MenuItem, withStyles, FormControl, Button, TextField, ListItemText, Checkbox, Input } from '@material-ui/core';
 import useForm from './useForm';
 import { useToasts } from "react-toast-notifications";
 
@@ -52,18 +52,6 @@ const BusinessServicesForm = ({ classes, ...props }) => {
 
     const {addToast} = useToasts();
     const [personName, setPersonName] = React.useState([]);
-    const handleChangeMultiple = (event) => {
-        const { options } = event.target;
-        const value = [];
-        for (let i = 0, l = options.length; i < l; i += 1) {
-            if (options[i].selected) {
-                value.push(options[i].value);
-            }
-        }        
-        setPersonName(value);
-        initialFieldValues.weekvalue = value;
-        console.log(initialFieldValues);
-    };
 
     const validate = (fieldValues = values) => {
         let temp = {...errors}
@@ -73,8 +61,8 @@ const BusinessServicesForm = ({ classes, ...props }) => {
             temp.price = fieldValues.price.toString().length > 0 ? "" : "Price is required"
         if ("timeSlotDuration" in fieldValues)
             temp.timeSlotDuration = fieldValues.timeSlotDuration.toString().length > 0 ? "" : "Time Slot Duration is required"
-        if ("weekvalue" in fieldValues)
-            temp.weekvalue = fieldValues.weekvalue.length > 0 ? "" : "Week is required"
+        /* if ("weekvalue" in fieldValues)
+            temp.weekvalue = fieldValues.weekvalue.length > 0 ? "" : "Week is required" */
         setErrors({
             ...temp
         });
@@ -87,6 +75,7 @@ const BusinessServicesForm = ({ classes, ...props }) => {
         errors,
         setErrors,
         handleInputChange,
+        handleChangeMultiple,
         resetForm
     } = useForm(initialFieldValues, validate, props.setCurrentId)
 
@@ -175,9 +164,9 @@ const BusinessServicesForm = ({ classes, ...props }) => {
                     <Select
                         multiple
                         native
-                        value={personName}
+                        value={initialFieldValues.weekvalue[0]}
                         // @ts-ignore Typings are not considering `native`
-                        onChange={handleChangeMultiple}
+                        onChange={handleInputChange}
                         label="Native"
                         inputProps={{
                             id: 'select-multiple-native',
@@ -190,6 +179,28 @@ const BusinessServicesForm = ({ classes, ...props }) => {
                         ))}
                     </Select>
                 </FormControl>
+                <FormControl className={classes.formControl}>
+        <InputLabel htmlFor="age-native-simple">
+          MORE names to select from
+        </InputLabel>
+        <Select
+          labelId="demo-mutiple-checkbox-label"
+          id="demo-mutiple-checkbox"
+          multiple
+          name="second"
+          value={initialFieldValues.weekvalue}
+          onChange={handleInputChange}
+          input={<Input />}
+          renderValue={selected => selected.join(", ")}
+        >
+          {allWeekdays.map(name => (
+            <MenuItem key={name} value={name}>
+              <Checkbox checked={initialFieldValues.weekvalue.indexOf(name) > -1} />
+              <ListItemText primary={name} />
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
             </Grid>
             <Button
                 className={classes.smMargin}

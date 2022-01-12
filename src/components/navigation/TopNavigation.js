@@ -58,6 +58,12 @@ const TopNavigation = () => {
                     <Link to="/services" className={classes.link}>
                         Account
                     </Link>
+                    <Link to="/login" className={classes.link}>
+                        Login
+                    </Link>
+                    <Link to="/register" className={classes.link}>
+                        Register
+                    </Link>
                 </div>}
             </Toolbar>
         </AppBar>

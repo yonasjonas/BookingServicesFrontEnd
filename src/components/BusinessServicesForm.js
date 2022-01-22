@@ -15,9 +15,11 @@ const styles = theme => ({
     },
     formControl: {
         margin: theme.spacing(1),
-        minWidth: '400px'
+        minWidth: '400px',
+        minHeigth: '400px'
 
     },
+
     selectEmpty: {
         marginTop: theme.spacing(1),
         minWidth: '400px'
@@ -42,39 +44,25 @@ const initialFieldValues = {
     serviceName: "",
     price: "",
     timeSlotDuration: "",
-    weekvalue: []
-
+    weekvalue: [],
 }
 
 
 
 const BusinessServicesForm = ({ classes, ...props }) => {
 
-    const {addToast} = useToasts();
-    const [personName, setPersonName] = React.useState([]);
-    const handleChangeMultiple = (event) => {
-        const { options } = event.target;
-        const value = [];
-        for (let i = 0, l = options.length; i < l; i += 1) {
-            if (options[i].selected) {
-                value.push(options[i].value);
-            }
-        }        
-        setPersonName(value);
-        initialFieldValues.weekvalue = value;
-        console.log(initialFieldValues);
-    };
+    const { addToast } = useToasts();
 
     const validate = (fieldValues = values) => {
-        let temp = {...errors}
+        let temp = { ...errors }
         if ("serviceName" in fieldValues)
             temp.serviceName = fieldValues.serviceName.length > 0 ? "" : "Service Name is required"
         if ("price" in fieldValues)
             temp.price = fieldValues.price.toString().length > 0 ? "" : "Price is required"
         if ("timeSlotDuration" in fieldValues)
             temp.timeSlotDuration = fieldValues.timeSlotDuration.toString().length > 0 ? "" : "Time Slot Duration is required"
-        if ("weekvalue" in fieldValues)
-            temp.weekvalue = fieldValues.weekvalue.length > 0 ? "" : "Week is required"
+        /* if ("weekvalue" in fieldValues)
+            temp.weekvalue = fieldValues.weekvalue.length > 0 ? "" : "Week is required" */
         setErrors({
             ...temp
         });
@@ -85,33 +73,69 @@ const BusinessServicesForm = ({ classes, ...props }) => {
         values,
         setValues,
         errors,
+        weekvalue,
         setErrors,
         handleInputChange,
+        handleChangeMultiple,
         resetForm
     } = useForm(initialFieldValues, validate, props.setCurrentId)
 
 
     const handleSubmit = e => {
         e.preventDefault();
-        console.log("works", values);
+        //console.log("works", values);
         if (validate()) {
             const onSuccess = () => {
-                addToast("Submitted successfully", {appearance:'success'});
+                addToast("Submitted successfully", { appearance: 'success' });
                 resetForm();
-            }            
-            if (props.currentId == 0)
+            }
+            /* initialFieldValues.serviceName = values.serviceName;
+            initialFieldValues.price = values.price;
+            initialFieldValues.timeSlotDuration = values.timeSlotDuration;
+            initialFieldValues.weekvalue = initialFieldValues.weekvalue.toString(); */
+            values.weekvalue = values.weekvalue.toString();
+
+
+            if (props.currentId == 0) {
+                //console.log("values@:@::::", initialFieldValues);
+                console.log("values@:@::::", values);
                 props.createBusinessService(values, onSuccess);
-            else
+            }
+            else {
+                console.log("values2@:@::::", values);
                 props.updateBusinessService(props.currentId, values, onSuccess);
+            }
+            
         }
-        
+
     }
 
     useEffect(() => {
         if (props.currentId !== 0) {
-            setValues({
-                ...props.businessServicesList.find(x => x.id == props.currentId)
+            console.log("props: ", props)
+
+           let temp = props.businessServicesList.find(x => x.id == props.currentId); 
+
+          // temp.weekvalue = temp.weekvalue.split(',');
+
+           console.log("temp: ", temp)
+
+           
+           
+            
+            
+           
+            //values.weekvalue
+           setValues({                
+               ...temp
             })
+            setTimeout(() => {
+                //initialFieldValues.weekvalue =  temp.weekvalue.split(',');
+                values.weekvalue =  temp.weekvalue.split(',');
+            }, 1000);
+            
+
+            //console.log("values: ", Array.from(values.weekvalue, x => x));
             setErrors({})
         }
     }, [props.currentId])
@@ -148,7 +172,7 @@ const BusinessServicesForm = ({ classes, ...props }) => {
                     onChange={handleInputChange}
                     {...(errors.timeSlotDuration && { error: true, helperText: errors.timeSlotDuration })}
                 />
-                <FormControl variant="outlined" className={classes.formControl}>
+                {/* <FormControl variant="outlined" className={classes.formControl}>
                     <InputLabel id="demo-multiple-checkbox-label">Tag</InputLabel>
                     <Select
                         name="weekvalue"
@@ -167,15 +191,16 @@ const BusinessServicesForm = ({ classes, ...props }) => {
                         <MenuItem value={allWeekdays[5]}>{allWeekdays[5]}</MenuItem>
                         <MenuItem value={allWeekdays[6]}>{allWeekdays[6]}</MenuItem>
                     </Select>
-                </FormControl>
-                <FormControl sx={{ m: 1, minWidth: 120, maxWidth: 300 }}>
-                    <InputLabel shrink htmlFor="select-multiple-native">
-                        Native
-                    </InputLabel>
+                </FormControl> */}
+                <FormControl variant="outlined" className={classes.formControl}>
+
                     <Select
                         multiple
                         native
-                        value={personName}
+                        variant="outlined"
+                        label="Days of service"
+                        name="weekvalue"
+                        value={values.weekvalue}
                         // @ts-ignore Typings are not considering `native`
                         onChange={handleChangeMultiple}
                         label="Native"

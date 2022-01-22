@@ -28,6 +28,8 @@ const BusinessServices = (props, classes) => {
 
     const [currentId, setCurrentId] = useState(0);
 
+    console.log("useState(0)" ,props)
+
     useEffect(() => {
         props.fetchAllBusinessServices()
     }, [])

@@ -64,7 +64,9 @@ class PhoneBookForm extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleClick} style={style.form.container}>
+
+      <div><h1>Contact</h1></div>
+      /* <form onSubmit={this.handleClick} style={style.form.container}>
         <label>First name:</label>
         <br />
         <input
@@ -105,7 +107,7 @@ class PhoneBookForm extends React.Component {
           value='Add User'
         />
         <InformationTable list={this.state.list}/>
-      </form>
+      </form> */
        
 
     )
@@ -115,7 +117,7 @@ class PhoneBookForm extends React.Component {
 function InformationTable(props) {
   const list = props.list;
   return (
-    <table style={style.table} classNamAae='informationTable'>
+    <table style={style.table} className='informationTable'>
       <thead>
         <tr>
           <th style={style.tableCell}>First name</th>

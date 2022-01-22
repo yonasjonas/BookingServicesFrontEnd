@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const baseURL = "https://localhost:44365/api/";
+const baseURL = "http://localhost:4000/api/";
 
 export default {
-    businessService(url = baseURL + 'BusinessServices/') {
+    businessService(url = baseURL + '') {
         return {
             fetchAll: () => axios.get(url),
             fetchById: id=> axios.get(url+id),

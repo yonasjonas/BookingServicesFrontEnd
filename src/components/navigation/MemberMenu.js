@@ -29,12 +29,9 @@ export default function TypographyMenu() {
                     <ListItemIcon>
                         <SendIcon fontSize="small" />
                     </ListItemIcon>
-                    <Link href="/">
-                        <Link to="/providers" >
+                    <Link to="/providers" >
                             <Typography fontSize="large" variant="inherit">Providers</Typography>
                         </Link>
-
-                    </Link>
                 </MenuItem>
                 <MenuItem>
                     <ListItemIcon>

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import * as actions from "../../actions/businessServices";
+import * as actions from "../../actions/businessProviders";
 import { Grid, Paper, TableBody, TableCell, TableRow, TableContainer, Table, TableHead, withStyles, Container, ButtonGroup, Button } from '@material-ui/core';
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
-import BusinessServicesForm from '../../components/BusinessServicesForm';
+import ProvidersForm from '../../components/ProvidersForm';
 import { useToasts } from "react-toast-notifications";
 import Nav from '../../components/navigation/MemberMenu';
 
@@ -22,19 +22,20 @@ const style = theme => ({
     }
 });
 
-const BusinessServices = (props, classes) => {
+const BusinessProviders = (props, classes) => {
 
     const {addToast} = useToasts();
 
     const [currentId, setCurrentId] = useState(0);
 
     useEffect(() => {
-        props.fetchAllBusinessServices()
+        console.log("useEffect(0)" ,props)
+        props.fetchAllProviders()
     }, [])
 
     const onDelete = id => {
         if(window.confirm('Are you sure?')){
-            props.deleteBusinessService(id, () => addToast("Submitted successfully", {appearance:'info'}));
+            props.deleteProvider(id, () => addToast("Submitted successfully", {appearance:'info'}));
         }
     }
 
@@ -46,31 +47,30 @@ const BusinessServices = (props, classes) => {
                     <Grid item xs={9}>
                         <TableContainer>
                             <h1> Providers</h1>
-                            <Grid container><BusinessServicesForm {...({currentId, setCurrentId})}/></Grid>
+                            <Grid container><ProvidersForm {...({currentId, setCurrentId})}/></Grid>
                             <Table>
                                 <TableHead className={classes.root}>
                                     <TableRow>
-                                        <TableCell>Service Name</TableCell>
-                                        <TableCell>Time Slot</TableCell>
+                                        <TableCell>Name</TableCell>
+                                        <TableCell>Email</TableCell>
                                         <TableCell>Weekdays</TableCell>
-                                        <TableCell>Price</TableCell>
+                                        <TableCell>Phone</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     {
-                                        props.businessServicesList.map((record, index) => {
+                                        props.providersList.map((record, index) => {
                                             return (<TableRow key={index}>
-                                                <TableCell>{record.serviceName}</TableCell>
-                                                <TableCell>{record.timeSlotDuration}</TableCell>
+                                                <TableCell>{record.name}</TableCell>
+                                                <TableCell>{record.email}</TableCell>
                                                 <TableCell>{record.weekvalue}</TableCell>
-                                                <TableCell>{record.price}</TableCell>
+                                                <TableCell>{record.phone}</TableCell>
                                                 <TableCell>
                                                     <ButtonGroup>
                                                         <Button><EditIcon color="primary" onClick={()=>{setCurrentId(record.id)}}/></Button>
                                                         <Button><DeleteIcon color="secondary" onClick={()=>{onDelete(record.id)}}/></Button>
                                                     </ButtonGroup>
                                                 </TableCell>
-
                                             </TableRow>
                                             )
                                         })
@@ -86,15 +86,15 @@ const BusinessServices = (props, classes) => {
 }
 
 const mapStateToProps = state => ({
-    businessServicesList: state.businessService.list
+    providersList: state.businessProvider.list
 });
 
 const mapActionsToProps = {
-    fetchAllBusinessServices: actions.fetchAll,
-    deleteBusinessService: actions.deleteData
+    fetchAllProviders: actions.fetchAll,
+    deleteProvider: actions.deleteData
 }
 
 
 
-export default connect(mapStateToProps, mapActionsToProps)(withStyles(style)(BusinessServices));
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(style)(BusinessProviders));
 

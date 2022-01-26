@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import BusinessServices from './Pages/Member/BusinessServices';
 import Business from './Pages/Member/Business';
 import Widget from './Pages/Member/Widget';
-import Providers from './Pages/Member/Providers';
+import BusinessProviders from './Pages/Member/BusinessProviders';
 import Bookings from './Pages/Member/Bookings';
 import TopNavigation from "./components/navigation/TopNavigation";
 import MemberMenu from "./components/navigation/MemberMenu";
@@ -26,7 +26,7 @@ function App() {
                     <Route path="/about" component={About} />
                     <Route path="/contact" component={Contact} />
                     <Route path="/services" component={BusinessServices} />
-                    <Route path="/providers" component={Providers} />
+                    <Route path="/providers" component={BusinessProviders} />
                     <Route path="/widget" component={Widget} />
                     <Route path="/business" component={Business} />
                     <Route path="/bookings" component={Bookings} />

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../actions/businessServices";
+//import * as provideractions from "../../actions/businessProvider";
 import { Grid, Paper, TableBody, TableCell, TableRow, TableContainer, Table, TableHead, withStyles, Container, ButtonGroup, Button } from '@material-ui/core';
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -26,12 +27,12 @@ const BusinessServices = (props, classes) => {
 
     const {addToast} = useToasts();
 
-    const [currentId, setCurrentId] = useState(0);
-
-    console.log("useState(0)" ,props)
+    const [currentId, setCurrentId] = useState("");
+    //console.log("useState(0)" ,props)
 
     useEffect(() => {
         props.fetchAllBusinessServices()
+        //props.fetchSingleProvider("1")
     }, [])
 
     const onDelete = id => {
@@ -89,12 +90,15 @@ const BusinessServices = (props, classes) => {
 }
 
 const mapStateToProps = state => ({
-    businessServicesList: state.businessService.list
+    
+    businessServicesList: state.businessService.list,
+    //singleProvider: state.businessService.singleProvider
 });
 
 const mapActionsToProps = {
     fetchAllBusinessServices: actions.fetchAll,
-    deleteBusinessService: actions.deleteData
+    deleteBusinessService: actions.deleteData,
+    //fetchSingleProvider: provideractions.fetchByBusinessId
 }
 
 

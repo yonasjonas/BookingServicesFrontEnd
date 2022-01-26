@@ -8,17 +8,17 @@ export const ACTION_TYPES = {
 }
 
 const formatData = (data) => ({
-    serviceName: String(data.serviceName ? data.serviceName : "" ),
-    timeSlotDuration: parseInt(data.timeSlotDuration ? data.timeSlotDuration:0),    
+    name: String(data.name ? data.name : "" ),
+    email: String(data.email ? data.email : "" ),
     weekvalue: data.weekvalue.toString(),
-    price: parseInt(data.price ? data.price:0),
+    phone: String(data.phone ? data.phone : "" ),
 
 });
 
 export const fetchAll = () => dispatch => { 
-    api.businessService().fetchAll()
+
+    api.businessProvider().fetchAll()
     .then(response => {
-        
         for (let i = 0; i < response.data.length; i++) {
             response.data[i].weekvalue  = response.data[i].weekvalue.split(',');            
         }
@@ -32,8 +32,7 @@ export const fetchAll = () => dispatch => {
 
 export const create = (data, onSuccess) => dispatch => {
     data = formatData(data);
-    console.log("from actions:", data);
-    api.businessService().create(data)
+    api.businessProvider().create(data)
         .then(response => {
             dispatch({
                 type:ACTION_TYPES.CREATE,
@@ -45,16 +44,13 @@ export const create = (data, onSuccess) => dispatch => {
 };
 
 export const update = (id, data, onSuccess) => dispatch => {
-    data = formatData(data);
-    //
-    //var dataLocal = data;
-    
+    data = formatData(data);    
     let dataLocal = Object.assign({}, data)
     dataLocal.weekvalue = dataLocal.weekvalue.split(',');
     console.log("from actions:", dataLocal.weekvalue);
     //console.log("from actions:", dataLocal.weekvalue.split(','));
    
-    api.businessService().update(id, data)
+    api.businessProvider().update(id, data)
     .then(response => {
         dispatch({
             type:ACTION_TYPES.UPDATE,
@@ -66,7 +62,7 @@ export const update = (id, data, onSuccess) => dispatch => {
 };
 
 export const deleteData = (id, onSuccess) => dispatch => {
-    api.businessService().delete(id)
+    api.businessProvider().delete(id)
         .then(response => {
             dispatch({
                 type:ACTION_TYPES.DELETE,

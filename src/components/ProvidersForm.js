@@ -1,5 +1,4 @@
-import * as actions from "../actions/businessServices";
-import * as provideractions from "../actions/businessProviders";
+import * as actions from "../actions/businessProviders";
 import { connect } from "react-redux";
 import React, { useState, useEffect } from "react";
 import { Grid, InputLabel, Select, MenuItem, withStyles, FormControl, Button, TextField, OutlinedInput } from '@material-ui/core';
@@ -32,38 +31,38 @@ const styles = theme => ({
 });
 
 const allWeekdays = [
-    'John',
-    'Jack',
-    'Jane',
-    'Julia',
-    'Jackson',
-    'Jessica',
-    'Jennifer',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday',
 ];
 
 const initialFieldValues = {
-    serviceName: "",
-    price: "",
-    timeSlotDuration: "",
-    providers: [],
+    name: "",
+    email: "",
+    phone: "",
+    weekvalue: [],
 }
 
 
 
-const BusinessServicesForm = ({ classes, ...props }) => {
+const ProvidersForm = ({ classes, ...props }) => {
 
     const { addToast } = useToasts();
 
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
         if ("serviceName" in fieldValues)
-            temp.serviceName = fieldValues.serviceName.length > 0 ? "" : "Service Name is required"
+            temp.name = fieldValues.name.length > 0 ? "" : "Service Name is required"
         if ("price" in fieldValues)
-            temp.price = fieldValues.price.toString().length > 0 ? "" : "Price is required"
+            temp.email = fieldValues.email.toString().length > 0 ? "" : "Price is required"
         if ("timeSlotDuration" in fieldValues)
-            temp.timeSlotDuration = fieldValues.timeSlotDuration.toString().length > 0 ? "" : "Time Slot Duration is required"
-        if ("providers" in fieldValues)
-            temp.weekvalue = fieldValues.providers.length > 0 ? "" : "Week is required"
+            temp.phone = fieldValues.phone.toString().length > 0 ? "" : "Time Slot Duration is required"
+        if ("weekvalue" in fieldValues)
+            temp.weekvalue = fieldValues.weekvalue.length > 0 ? "" : "Week is required"
         setErrors({
             ...temp
         });
@@ -92,18 +91,20 @@ const BusinessServicesForm = ({ classes, ...props }) => {
             }
 
             if (props.currentId == 0) {
-                props.createBusinessService(values, onSuccess);
+                props.createProvider(values, onSuccess);
             }
             else {
-                props.updateBusinessService(props.currentId, values, onSuccess);
+                props.updateProvider(props.currentId, values, onSuccess);
             }
+
         }
+
     }
 
     useEffect(() => {
-        
+        //console.log("props.currentId", props.currentId);
         if (props.currentId !== 0) {
-            let temp = props.businessServicesList.find(x => x.id == props.currentId);           
+            let temp = props.providersList.find(x => x.id == props.currentId);           
             
             setValues({
                 ...temp
@@ -121,28 +122,28 @@ const BusinessServicesForm = ({ classes, ...props }) => {
         >
             <Grid container>
                 <TextField
-                    name="serviceName"
+                    name="name"
                     variant="outlined"
-                    label="Service Name"
-                    value={values.serviceName}
+                    label="Person Name"
+                    value={values.name}
                     onChange={handleInputChange}
-                    {...(errors.serviceName && { error: true, helperText: errors.serviceName })}
+                    {...(errors.name && { error: true, helperText: errors.name })}
                 />
                 <TextField
-                    name="price"
+                    name="email"
                     variant="outlined"
-                    label="Price"
-                    value={values.price}
+                    label="Email"
+                    value={values.email}
                     onChange={handleInputChange}
-                    {...(errors.price && { error: true, helperText: errors.price })}
+                    {...(errors.email && { error: true, helperText: errors.email })}
                 />
                 <TextField
-                    name="timeSlotDuration"
+                    name="phone"
                     variant="outlined"
-                    label="Time Slot Duration"
-                    value={values.timeSlotDuration}
+                    label="Phone"
+                    value={values.phone}
                     onChange={handleInputChange}
-                    {...(errors.timeSlotDuration && { error: true, helperText: errors.timeSlotDuration })}
+                    {...(errors.phone && { error: true, helperText: errors.timeSlotDuration })}
                 />
                 {/* <FormControl variant="outlined" className={classes.formControl}>
                     <InputLabel id="demo-multiple-checkbox-label">Tag</InputLabel>
@@ -211,14 +212,14 @@ const BusinessServicesForm = ({ classes, ...props }) => {
 }
 
 const mapStateToProps = state => ({
-    businessServicesList: state.businessService.list,
-    //providersList: state.businessProviders.list,
+    providersList: state.businessProvider.list,
+
 });
 
 const mapActionsToProps = {
-    createBusinessService: actions.create,
-    updateBusinessService: actions.update,
-    deleteBusinessService: actions.deleteData
+    createProvider: actions.create,
+    updateProvider: actions.update,
+    deleteProvider: actions.deleteData,
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(BusinessServicesForm));
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(ProvidersForm));

@@ -1,10 +1,10 @@
 import api from "./api";
 
 export const ACTION_TYPES = {
-    CREATE : 'CREATE',
-    UPDATE:'UPDATE',
-    DELETE:'DELETE',
-    FETCH_ALL:'FETCH_ALL'
+    CREATE2 : 'CREATE2',
+    UPDATE2:'UPDATE2',
+    DELETE2:'DELETE2',
+    FETCH_ALL2:'FETCH_ALL2'
 }
 
 const formatData = (data) => ({
@@ -19,13 +19,16 @@ export const fetchAll = () => dispatch => {
 
     api.businessProvider().fetchAll()
     .then(response => {
+        let dataLocal = Object.assign({}, response)
+        //dataLocal.weekvalue = dataLocal.weekvalue.split(',');
+        console.log("from actions:", response.data);
         for (let i = 0; i < response.data.length; i++) {
-            response.data[i].weekvalue  = response.data[i].weekvalue.split(',');            
+            //dataLocal.data[i].weekvalue  = response.data[i].weekvalue.split(',');            
         }
 
         dispatch({
-            type:ACTION_TYPES.FETCH_ALL,
-            payload: response.data
+            type:ACTION_TYPES.FETCH_ALL2,
+            payload: dataLocal.data
         })
     });    
 };
@@ -35,7 +38,7 @@ export const create = (data, onSuccess) => dispatch => {
     api.businessProvider().create(data)
         .then(response => {
             dispatch({
-                type:ACTION_TYPES.CREATE,
+                type:ACTION_TYPES.CREATE2,
                 payload: response.data
             })
             onSuccess()
@@ -46,14 +49,11 @@ export const create = (data, onSuccess) => dispatch => {
 export const update = (id, data, onSuccess) => dispatch => {
     data = formatData(data);    
     let dataLocal = Object.assign({}, data)
-    dataLocal.weekvalue = dataLocal.weekvalue.split(',');
-    console.log("from actions:", dataLocal.weekvalue);
-    //console.log("from actions:", dataLocal.weekvalue.split(','));
-   
+    dataLocal.weekvalue = dataLocal.weekvalue.split(',');   
     api.businessProvider().update(id, data)
     .then(response => {
         dispatch({
-            type:ACTION_TYPES.UPDATE,
+            type:ACTION_TYPES.UPDATE2,
             payload: {id, ...dataLocal}
         })
         onSuccess()
@@ -65,7 +65,7 @@ export const deleteData = (id, onSuccess) => dispatch => {
     api.businessProvider().delete(id)
         .then(response => {
             dispatch({
-                type:ACTION_TYPES.DELETE,
+                type:ACTION_TYPES.DELETE2,
                 payload: id
             })
             onSuccess()

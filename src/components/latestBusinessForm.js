@@ -82,7 +82,6 @@ const BusinessServicesForm = ({ classes, ...props }) => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        console.log("works", values);
         if (validate()) {
             const onSuccess = () => {
                 addToast("Submitted successfully", {appearance:'success'});

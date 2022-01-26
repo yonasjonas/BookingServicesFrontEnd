@@ -19,7 +19,6 @@ const useForm = (initialFieldValues, validate, setCurrentId) => {
 		//values.weekvalue = thevalue;
 		//setWeekvalue(thevalue);
 		//eekDays.value = weekvalue;
-		console.log("thevalue", thevalue);
 	};
 
 	const handleInputChange = (event) => {
@@ -51,7 +50,6 @@ const useForm = (initialFieldValues, validate, setCurrentId) => {
 		};
 
 		const resetForm = () => {
-			console.log(initialFieldValues)
 			setValues({
 				...initialFieldValues
 			})
@@ -61,7 +59,6 @@ const useForm = (initialFieldValues, validate, setCurrentId) => {
 
 		/* const handleSubmit = (event) => {
 		  event.preventDefault();
-		  console.log(values);
 		}; */
 
 		return {

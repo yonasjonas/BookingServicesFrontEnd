@@ -6,22 +6,22 @@ const initialState = {
 
 export const businessProvider = (state = initialState, action) => {    
     switch (action.type) {        
-        case ACTION_TYPES.FETCH_ALL:
+        case ACTION_TYPES.FETCH_ALL2:
             return {
                 ...state,
                 list: [...action.payload]
             }
-        case ACTION_TYPES.CREATE:
+        case ACTION_TYPES.CREATE2:
             return {
                 ...state,
                 list: [...state.list, action.payload]
             }        
-        case ACTION_TYPES.UPDATE:
+        case ACTION_TYPES.UPDATE2:
             return {
                 ...state,
                 list: state.list.map(item => item.id === action.payload.id ? action.payload : item)
             }
-        case ACTION_TYPES.DELETE:
+        case ACTION_TYPES.DELETE2:
             return {
                 ...state,
                 list: state.list.filter(item => item.id !== action.payload)

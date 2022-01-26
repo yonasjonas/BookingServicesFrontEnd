@@ -29,7 +29,6 @@ const BusinessProviders = (props, classes) => {
     const [currentId, setCurrentId] = useState(0);
 
     useEffect(() => {
-        console.log("useEffect(0)" ,props)
         props.fetchAllProviders()
     }, [])
 
@@ -92,9 +91,8 @@ const mapStateToProps = state => ({
 const mapActionsToProps = {
     fetchAllProviders: actions.fetchAll,
     deleteProvider: actions.deleteData
+
 }
-
-
 
 export default connect(mapStateToProps, mapActionsToProps)(withStyles(style)(BusinessProviders));
 

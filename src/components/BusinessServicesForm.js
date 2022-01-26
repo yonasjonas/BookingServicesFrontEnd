@@ -1,5 +1,5 @@
 import * as actions from "../actions/businessServices";
-import * as provideractions from "../actions/businessProviders";
+//import * as provideractions from "../actions/businessProviders";
 import { connect } from "react-redux";
 import React, { useState, useEffect } from "react";
 import { Grid, InputLabel, Select, MenuItem, withStyles, FormControl, Button, TextField, OutlinedInput } from '@material-ui/core';
@@ -218,7 +218,8 @@ const mapStateToProps = state => ({
 const mapActionsToProps = {
     createBusinessService: actions.create,
     updateBusinessService: actions.update,
-    deleteBusinessService: actions.deleteData
+    deleteBusinessService: actions.deleteData,
+    //fetchAllProviders: provideractions.fetchAll
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(BusinessServicesForm));

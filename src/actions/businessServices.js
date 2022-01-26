@@ -18,11 +18,9 @@ const formatData = (data) => ({
 export const fetchAll = () => dispatch => { 
     api.businessService().fetchAll()
     .then(response => {
-        
         for (let i = 0; i < response.data.length; i++) {
-            response.data[i].weekvalue  = response.data[i].weekvalue.split(',');            
+            //response.data[i].weekvalue  = response.data[i].weekvalue.split(',');            
         }
-
         dispatch({
             type:ACTION_TYPES.FETCH_ALL,
             payload: response.data
@@ -32,7 +30,6 @@ export const fetchAll = () => dispatch => {
 
 export const create = (data, onSuccess) => dispatch => {
     data = formatData(data);
-    console.log("from actions:", data);
     api.businessService().create(data)
         .then(response => {
             dispatch({
@@ -51,8 +48,6 @@ export const update = (id, data, onSuccess) => dispatch => {
     
     let dataLocal = Object.assign({}, data)
     dataLocal.weekvalue = dataLocal.weekvalue.split(',');
-    console.log("from actions:", dataLocal.weekvalue);
-    //console.log("from actions:", dataLocal.weekvalue.split(','));
    
     api.businessService().update(id, data)
     .then(response => {

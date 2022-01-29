@@ -28,7 +28,7 @@ const Businesses = (props, classes) => {
     const {addToast} = useToasts();
 
     //const [currentId, setCurrentId] = useState(0);
-busines
+
     useEffect(() => {
         //props.fetchAllBusinessServices()
     }, [])

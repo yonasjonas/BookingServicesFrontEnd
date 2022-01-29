@@ -52,7 +52,38 @@ busines
                                 <TableHead className={classes.root}>
                                     <TableRow>
                                         <TableCell>Business Name</TableCell>
-                                        <Tab
+                                        <TableCell>Service Type</TableCell>
+                                        <TableCell>Location</TableCell>
+                                        <TableCell>Price Range</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {
+                                        props.businessesList.map((record, index) => {
+                                            return (<TableRow key={index}>
+                                                <TableCell>{record.businessName}</TableCell>
+                                                <TableCell>{record.type}</TableCell>
+                                                <TableCell>{record.location}</TableCell>
+                                                <TableCell>{record.priceRange}</TableCell>
+                                                <TableCell>
+                                                    <ButtonGroup>
+                                                        <Button><VisibilityIcon color="primary" /* onClick={()=>{setCurrentId(record.id)}} *//></Button>
+                                                        
+                                                    </ButtonGroup>
+                                                </TableCell>
+
+                                            </TableRow>
+                                            )
+                                        })
+                                    }
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </Grid>
+                </Grid>
+            </Paper>
+        </Container>
+    )
 }
 
 const mapStateToProps = state => ({

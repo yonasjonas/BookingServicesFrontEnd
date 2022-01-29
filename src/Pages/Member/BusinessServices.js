@@ -69,40 +69,16 @@ const BusinessServices = (props, classes) => {
                                     {
                                         
                                         props.businessServicesList.map((record, index) => {
+                                            console.log("record", record)
                                             return (<TableRow key={index}>
                                                 <TableCell>{record.serviceName}</TableCell>
                                                 <TableCell>{record.timeSlotDuration}</TableCell>
                                                 <TableCell>{
-                                                    //console.log(record),
-                                                    
-                                                   
-                                                    
-                                                    record.weekvalue.split(",").forEach((item) => {                                                        
-                                                        setTimeout(() => {
-                                                            
-                                                            //console.log("item", item);
-                                                            
-                                                            //console.log({item});
-                                                            
-                                                            if (item == props.businessProviders[i].id){
-
-                                                                console.log("nindex me is: ", i);
-
-                                                                temp.push("name: ", props.businessProviders[i].name);
-                                                                
-                                                            }
-                                                            console.log("temp: ", temp);
-                                                            i = i+1;
-                                                            
-
-                                                                                                                   
-                                                        
-                                                        }, 500);
-
-
+                                                    temp = [],
+                                                    props.businessProviders.map((provider) => {
+                                                        if (record.weekvalue.split(",").includes(provider.id.toString())) temp.push(provider.name  + ", ")                                                        
                                                     })
-                                                    
-                                                }</TableCell>
+                                                }{temp}</TableCell>
                                                 <TableCell>{record.price}</TableCell>
                                                 <TableCell>
                                                     <ButtonGroup>

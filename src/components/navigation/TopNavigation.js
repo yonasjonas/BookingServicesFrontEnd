@@ -55,6 +55,9 @@ const TopNavigation = () => {
                     <Link to="/contact" className={classes.link}>
                         Contact
                     </Link>
+                    <Link to="/book-services" className={classes.link}>
+                        Find Services
+                    </Link>
                     <Link to="/services" className={classes.link}>
                         Account
                     </Link>

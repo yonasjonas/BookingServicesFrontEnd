@@ -13,6 +13,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "./Pages/Public/Home";
 import About from "./Pages/Public/About";
 import Contact from "./Pages/Public/Contact";
+import BookNow from "./Pages/Public/ListOfServices";
 import { ToastProvider } from "react-toast-notifications";
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
                     <Route exact path="/" component={Home} />
                     <Route path="/about" component={About} />
                     <Route path="/contact" component={Contact} />
+                    <Route path="/book-services" component={BookNow} />
                     <Route path="/services" component={BusinessServices} />
                     <Route path="/providers" component={BusinessProviders} />
                     <Route path="/widget" component={Widget} />

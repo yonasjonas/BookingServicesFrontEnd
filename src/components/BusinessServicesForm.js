@@ -1,5 +1,5 @@
 import * as actions from "../actions/businessServices";
-//import * as provideractions from "../actions/businessProviders";
+import * as provideractions from "../actions/businessProviders";
 import { connect } from "react-redux";
 import React, { useState, useEffect } from "react";
 import { Grid, InputLabel, Select, MenuItem, withStyles, FormControl, Button, TextField, OutlinedInput } from '@material-ui/core';
@@ -101,7 +101,7 @@ const BusinessServicesForm = ({ classes, ...props }) => {
     }
 
     useEffect(() => {
-        
+        props.fetchAllProviders();
         if (props.currentId !== 0) {
             let temp = props.businessServicesList.find(x => x.id == props.currentId);           
             
@@ -181,9 +181,9 @@ const BusinessServicesForm = ({ classes, ...props }) => {
                         }}
                         {...(errors.weekvalue && { error: true, helperText: errors.weekvalue })}
                     >
-                        {allWeekdays.map((name) => (
-                            <option key={name} value={name}>
-                                {name}
+                        {props.businessProviders.map((provider) => (
+                            <option key={provider.id} value={provider.id}>
+                                {provider.name}
                             </option>
                         ))}
                     </Select>
@@ -212,14 +212,14 @@ const BusinessServicesForm = ({ classes, ...props }) => {
 
 const mapStateToProps = state => ({
     businessServicesList: state.businessService.list,
-    //providersList: state.businessProviders.list,
+    businessProviders: state.businessProvider.list
 });
 
 const mapActionsToProps = {
     createBusinessService: actions.create,
     updateBusinessService: actions.update,
     deleteBusinessService: actions.deleteData,
-    //fetchAllProviders: provideractions.fetchAll
+    fetchAllProviders: provideractions.fetchAll
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(BusinessServicesForm));

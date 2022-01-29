@@ -41,6 +41,8 @@ const BusinessServices = (props, classes) => {
             props.deleteBusinessService(id, () => addToast("Submitted successfully", { appearance: 'info' }));
         }
     }
+    let temp = [];
+    let i = 0;
 
 
 
@@ -65,20 +67,37 @@ const BusinessServices = (props, classes) => {
                                 </TableHead>
                                 <TableBody>
                                     {
+                                        
                                         props.businessServicesList.map((record, index) => {
                                             return (<TableRow key={index}>
                                                 <TableCell>{record.serviceName}</TableCell>
                                                 <TableCell>{record.timeSlotDuration}</TableCell>
                                                 <TableCell>{
-                                                     
-                                                    record.weekvalue.split(",").map((item, index) => {
-                                                        //console.log("item", item);
-                                                        console.log("props.businessProviders[index].id: ", props.businessProviders);
-                                                        if (item === props.businessProviders[index].id.toString()){
-                                                            console.log("frommap", props.businessProviders[index].name);
-                                                            return props.businessProviders[index].name
-                                                        }
+                                                    //console.log(record),
+                                                    
+                                                   
+                                                    
+                                                    record.weekvalue.split(",").forEach((item) => {                                                        
+                                                        setTimeout(() => {
+                                                            
+                                                            //console.log("item", item);
+                                                            
+                                                            //console.log({item});
+                                                            
+                                                            if (item == props.businessProviders[i].id){
 
+                                                                console.log("nindex me is: ", i);
+
+                                                                temp.push("name: ", props.businessProviders[i].name);
+                                                                
+                                                            }
+                                                            console.log("temp: ", temp);
+                                                            i = i+1;
+                                                            
+
+                                                                                                                   
+                                                        
+                                                        }, 500);
 
 
                                                     })

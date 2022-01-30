@@ -9,6 +9,8 @@ import BusinessServicesForm from '../../components/BusinessServicesForm';
 import { useToasts } from "react-toast-notifications";
 import Nav from '../../components/navigation/MemberMenu';
 import BusinessProviders from "./BusinessProviders";
+import { accountService } from '../../services';
+
 
 
 const style = theme => ({
@@ -43,6 +45,7 @@ const BusinessServices = (props, classes) => {
     }
     let temp = [];
     let i = 0;
+    const user = accountService.userValue;
 
 
 
@@ -54,6 +57,7 @@ const BusinessServices = (props, classes) => {
                     <Grid item xs={9}>
                         <TableContainer>
                             <h1>Business Services</h1>
+                            <h1>Hi {user.firstName}!</h1>
 
                             <Grid container><BusinessServicesForm {...({ currentId, setCurrentId })} /></Grid>
                             <Table>

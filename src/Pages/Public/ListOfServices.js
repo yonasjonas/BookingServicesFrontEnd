@@ -41,14 +41,7 @@ const Businesses = (props, classes) => {
 
     // create a function to handle the form submit
 
-    function calculateDaysBetweenDates(begin, end) {}
-
-
-    
-
-
-
-
+    function calculateDaysBetweenDates(begin, end) {}   
     
 
     return (

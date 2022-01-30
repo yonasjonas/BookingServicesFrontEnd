@@ -1,4 +1,8 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import { accountService } from '../../services';
+import { Role } from '../../helpers';
+
+
 import { 
     AppBar,
     Toolbar,
@@ -32,6 +36,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const TopNavigation = () => {
+
+    const [user, setUser] = useState({});
+
+    useEffect(() => {
+        const subscription = accountService.user.subscribe(x => setUser(x));
+        return subscription.unsubscribe;
+    }, []);
+
     const classes = useStyles();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("md"));
@@ -60,6 +72,16 @@ const TopNavigation = () => {
                     </Link>
                     <Link to="/services" className={classes.link}>
                         Account
+                    </Link>
+                    {console.log({user})}
+                    {!user &&
+                        <Link to="/login" className={classes.link}>
+                            Login
+                        </Link>
+                    }
+
+                    <Link to="/profile" className={classes.link}>
+                        Profile
                     </Link>
                 </div>}
             </Toolbar>

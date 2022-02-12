@@ -11,3 +11,18 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+header.MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-colorPrimary.MuiAppBar-positionAbsolute.css-n7rtur-MuiPaper-root-MuiAppBar-root {
+  position: fixed;
+  top: 108px;
+}
+
+.MuiDrawer-root.MuiDrawer-docked.css-cvumne-MuiDrawer-docked a  
+{
+  color: rgb(29, 20, 20);
+}
+
+a {
+  text-decoration: solid;
+}
+

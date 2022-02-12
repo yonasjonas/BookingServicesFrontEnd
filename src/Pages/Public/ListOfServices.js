@@ -5,7 +5,7 @@ import { Grid, Paper, TableBody, TableCell, TableRow, TableContainer, Table, Tab
 import EditIcon from "@material-ui/icons/Edit";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from "@material-ui/icons/Delete";
-import BusinessServicesForm from '../../components/BusinessServicesForm';
+import BusinessServicesForm from '../../components/Forms/BusinessServicesForm';
 import { useToasts } from "react-toast-notifications";
 import Nav from '../../components/navigation/MemberMenu';
 

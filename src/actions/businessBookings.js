@@ -1,10 +1,10 @@
 import api from "./api";
 
 export const ACTION_TYPES = {
-    CREATE2 : 'CREATE2',
-    UPDATE2:'UPDATE2',
-    DELETE2:'DELETE2',
-    FETCH_ALL2:'FETCH_ALL2'
+    CREATE : 'CREATE',
+    UPDATE:'UPDATE',
+    DELETE:'DELETE',
+    FETCH_ALL:'FETCH_ALL'
 }
 
 const formatData = (data) => ({
@@ -17,7 +17,7 @@ const formatData = (data) => ({
 
 export const fetchAll = () => dispatch => { 
 
-    api.businessProvider().fetchAll()
+    api.businessBooking().fetchAll()
     .then(response => {
         let dataLocal = Object.assign({}, response)
         //dataLocal.weekvalue = dataLocal.weekvalue.split(',');
@@ -27,7 +27,7 @@ export const fetchAll = () => dispatch => {
         }
 
         dispatch({
-            type:ACTION_TYPES.FETCH_ALL2,
+            type:ACTION_TYPES.FETCH_ALL,
             payload: dataLocal.data
         })
     });    
@@ -35,10 +35,10 @@ export const fetchAll = () => dispatch => {
 
 export const create = (data, onSuccess) => dispatch => {
     data = formatData(data);
-    api.businessProvider().create(data)
+    api.businessBooking().create(data)
         .then(response => {
             dispatch({
-                type:ACTION_TYPES.CREATE2,
+                type:ACTION_TYPES.CREATE,
                 payload: response.data
             })
             onSuccess()
@@ -50,10 +50,10 @@ export const update = (id, data, onSuccess) => dispatch => {
     data = formatData(data);    
     let dataLocal = Object.assign({}, data)
     dataLocal.weekvalue = dataLocal.weekvalue.split(',');   
-    api.businessProvider().update(id, data)
+    api.businessBooking().update(id, data)
     .then(response => {
         dispatch({
-            type:ACTION_TYPES.UPDATE2,
+            type:ACTION_TYPES.UPDATE,
             payload: {id, ...dataLocal}
         })
         onSuccess()
@@ -62,10 +62,10 @@ export const update = (id, data, onSuccess) => dispatch => {
 };
 
 export const deleteData = (id, onSuccess) => dispatch => {
-    api.businessProvider().delete(id)
+    api.businessBooking().delete(id)
         .then(response => {
             dispatch({
-                type:ACTION_TYPES.DELETE2,
+                type:ACTION_TYPES.DELETE,
                 payload: id
             })
             onSuccess()

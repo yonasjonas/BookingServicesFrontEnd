@@ -21,7 +21,7 @@ export const fetchAll = () => dispatch => {
     .then(response => {
         let dataLocal = Object.assign({}, response)
         //dataLocal.weekvalue = dataLocal.weekvalue.split(',');
-        console.log("from actions:", response.data);
+        //console.log("from actions:", response.data);
         for (let i = 0; i < response.data.length; i++) {
             //dataLocal.data[i].weekvalue  = response.data[i].weekvalue.split(',');            
         }

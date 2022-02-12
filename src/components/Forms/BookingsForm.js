@@ -1,8 +1,8 @@
-import * as actions from "../actions/businessProviders";
+import * as actions from "../../actions/businessProviders";
 import { connect } from "react-redux";
 import React, { useState, useEffect } from "react";
 import { Grid, InputLabel, Select, MenuItem, withStyles, FormControl, Button, TextField, OutlinedInput } from '@material-ui/core';
-import useForm from './useForm';
+import useForm from '../useForm';
 import { useToasts } from "react-toast-notifications";
 
 
@@ -49,7 +49,7 @@ const initialFieldValues = {
 
 
 
-const ProvidersForm = ({ classes, ...props }) => {
+const BookingsForm = ({ classes, ...props }) => {
 
     const { addToast } = useToasts();
 
@@ -124,71 +124,12 @@ const ProvidersForm = ({ classes, ...props }) => {
                 <TextField
                     name="name"
                     variant="outlined"
-                    label="Person Name"
+                    label="Business Name"
                     value={values.name}
                     onChange={handleInputChange}
                     {...(errors.name && { error: true, helperText: errors.name })}
-                />
-                <TextField
-                    name="email"
-                    variant="outlined"
-                    label="Email"
-                    value={values.email}
-                    onChange={handleInputChange}
-                    {...(errors.email && { error: true, helperText: errors.email })}
-                />
-                <TextField
-                    name="phone"
-                    variant="outlined"
-                    label="Phone"
-                    value={values.phone}
-                    onChange={handleInputChange}
-                    {...(errors.phone && { error: true, helperText: errors.timeSlotDuration })}
-                />
-                {/* <FormControl variant="outlined" className={classes.formControl}>
-                    <InputLabel id="demo-multiple-checkbox-label">Tag</InputLabel>
-                    <Select
-                        name="weekvalue"
-                        variant="outlined"
-                        value={values.weekvalue}
-                        className={classes.formControl}
-                        onChange={handleInputChange}
-                        defaultValue="Please Select"
-                        {...(errors.weekvalue && { error: true, helperText: errors.weekvalue })}
-                    >
-                        <MenuItem value={allWeekdays[0]}>{allWeekdays[0]}</MenuItem>
-                        <MenuItem value={allWeekdays[1]}>{allWeekdays[1]}</MenuItem>
-                        <MenuItem value={allWeekdays[2]}>{allWeekdays[2]}</MenuItem>
-                        <MenuItem value={allWeekdays[3]}>{allWeekdays[3]}</MenuItem>
-                        <MenuItem value={allWeekdays[4]}>{allWeekdays[4]}</MenuItem>
-                        <MenuItem value={allWeekdays[5]}>{allWeekdays[5]}</MenuItem>
-                        <MenuItem value={allWeekdays[6]}>{allWeekdays[6]}</MenuItem>
-                    </Select>
-                </FormControl> */}
-                <FormControl variant="outlined" className={classes.formControl}>
-
-                    <Select
-                        multiple
-                        native
-                        variant="outlined"
-                        label="Days of service"
-                        name="weekvalue"
-                        value={values.weekvalue}
-                        // @ts-ignore Typings are not considering `native`
-                        onChange={handleInputChange}
-                        label="Native"
-                        inputProps={{
-                            id: 'select-multiple-native',
-                        }}
-                        {...(errors.weekvalue && { error: true, helperText: errors.weekvalue })}
-                    >
-                        {allWeekdays.map((name) => (
-                            <option key={name} value={name}>
-                                {name}
-                            </option>
-                        ))}
-                    </Select>
-                </FormControl>
+                />               
+                
             </Grid>
             <Button
                 className={classes.smMargin}
@@ -212,9 +153,9 @@ const ProvidersForm = ({ classes, ...props }) => {
 }
 
 const mapStateToProps = state => ({
-    providersList: state.businessProvider.list,
-
+    businessBookingsList: state.businessBooking.list
 });
+
 
 const mapActionsToProps = {
     createProvider: actions.create,
@@ -222,4 +163,4 @@ const mapActionsToProps = {
     deleteProvider: actions.deleteData,
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(ProvidersForm));
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(BookingsForm));

@@ -4,12 +4,14 @@ import React, { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 //import { Role } from '@/helpers';
 import { accountService } from './services';
-import { Nav, PrivateRoute, Alert } from './components/account';
+import { PrivateRoute, Alert } from './components/account';
 import BusinessServices from './Pages/Member/BusinessServices';
+import BusinessBookings from './Pages/Member/BusinessBookings';
 import Business from './Pages/Member/Business';
 import Widget from './Pages/Member/Widget';
 import BusinessProviders from './Pages/Member/BusinessProviders';
-import Bookings from './Pages/Member/Bookings';
+import Bookings from './Pages/Member/BusinessBookings';
+import BusinessInformation from './Pages/Member/BusinessInformation';
 import TopNavigation from "./components/navigation/TopNavigation";
 import MemberMenu from "./components/navigation/MemberMenu";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -18,7 +20,7 @@ import About from "./Pages/Public/About";
 import Contact from "./Pages/Public/Contact";
 import BookNow from "./Pages/Public/ListOfServices";
 import Login from "./Pages/Account/Login";
-import MyDashboard from "./Pages/Member/MyDashboard";
+import DashBoard from "./Pages/Member/Dashboard";
 import { ToastProvider } from "react-toast-notifications";
 import { Profile } from './components/profile';
 
@@ -35,7 +37,6 @@ function App() {
 
         <Provider store={store}>
             <Router>
-                <Nav />
                 <Alert />
                 <TopNavigation />
                 <ToastProvider autoDismiss={true}>
@@ -44,8 +45,9 @@ function App() {
                         <Route path="/about" component={About} />
                         <Route path="/contact" component={Contact} />
                         <PrivateRoute exact path="/services" component={BusinessServices} />
-                        <PrivateRoute exact path="/services" component={BusinessServices} />
-                        <PrivateRoute exact path="/dashboard" component={MyDashboard} />
+                        <PrivateRoute exact path="/bookings" component={BusinessBookings} />
+                        <PrivateRoute exact path="/dashboard" component={DashBoard} />
+                        <PrivateRoute exact path="/business-details" component={BusinessInformation} />
                         <Route path="/book-services" component={BookNow} />
                         {/* <Route path="/services" component={BusinessServices} /> */}
                         <Route path="/providers" component={BusinessProviders} />
@@ -53,6 +55,7 @@ function App() {
                         <PrivateRoute path="/profile" component={Profile} />
                         <PrivateRoute path="/business" component={Business} />
                         <PrivateRoute path="/bookings" component={Bookings} />
+
                         <Route path="/login" component={Login} />
                     </Switch>
                 </ToastProvider>

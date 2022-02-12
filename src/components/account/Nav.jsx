@@ -4,6 +4,7 @@ import { NavLink, Route } from 'react-router-dom';
 import { Role } from '../../helpers';
 import { accountService } from '../../services';
 
+
 function Nav() {
     const [user, setUser] = useState({});
 
@@ -16,7 +17,7 @@ function Nav() {
     if (!user) return null;
 
     return (
-        <div>
+        <>
             <nav className="navbar navbar-expand navbar-dark bg-dark">
                 <div className="navbar-nav">
                     <NavLink exact to="/" className="nav-item nav-link">Home</NavLink>
@@ -28,7 +29,7 @@ function Nav() {
                 </div>
             </nav>
             <Route path="/admin" component={AdminNav} />
-        </div>
+        </>
     );
 }
 

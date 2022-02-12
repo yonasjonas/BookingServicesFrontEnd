@@ -4,7 +4,7 @@ import * as actions from "../../actions/businessServices";
 import { Grid, Paper, TableBody, TableCell, TableRow, TableContainer, Table, TableHead, withStyles, Container, ButtonGroup, Button } from '@material-ui/core';
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
-import BusinessServicesForm from '../../components/BusinessServicesForm';
+import BusinessServicesForm from '../../components/Forms/BusinessServicesForm';
 import { useToasts } from "react-toast-notifications";
 import Nav from '../../components/navigation/MemberMenu';
 

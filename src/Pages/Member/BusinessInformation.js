@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import * as actions from "../../actions/businessServices";
+import * as actions from "../../actions/businessBookings";
 import { Grid, Paper, TableBody, TableCell, TableRow, TableContainer, Table, TableHead, withStyles, Container, ButtonGroup, Button } from '@material-ui/core';
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
-import BusinessServicesForm from '../../components/BusinessServicesForm';
+import BookingsForm from '../../components/Forms/BookingsForm';
 import { useToasts } from "react-toast-notifications";
-import Nav from '../../components/navigation/MemberMenu';
+import MembersMenu from '../../components/navigation/MemberMenu';
 
 
 const style = theme => ({
@@ -22,48 +22,52 @@ const style = theme => ({
     }
 });
 
-const BusinessServices = (props, classes) => {
+const BusinessInformation = (props, classes) => {
 
-    const {addToast} = useToasts();
+    const { addToast } = useToasts();
 
     const [currentId, setCurrentId] = useState(0);
 
     useEffect(() => {
-        props.fetchAllBusinessServices()
+        //props.fetchAllBookings()
     }, [])
 
-    const onDelete = id => {
+    /* const onDelete = id => {
         if(window.confirm('Are you sure?')){
-            props.deleteBusinessService(id, () => addToast("Submitted successfully", {appearance:'info'}));
+            props.deleteBooking(id, () => addToast("Submitted successfully", {appearance:'info'}));
         }
-    }
+    } */
 
     return (
-        <Container>
+        <Container maxWidth={false}>
             <Paper>
                 <Grid container>
-                    <Grid item xs={3}>{<Nav />}</Grid>
+                    <Grid item xs={3}>{<MembersMenu />}</Grid>
                     <Grid item xs={9}>
                         <TableContainer>
-                            <h1> Bookngs</h1>
-                            <Grid container><BusinessServicesForm {...({currentId, setCurrentId})}/></Grid>
+                        <Grid container><BookingsForm {...({currentId, setCurrentId})}/></Grid>
+                            <h1> Bookings</h1>
+
+
                             <Table>
                                 <TableHead className={classes.root}>
                                     <TableRow>
-                                        <TableCell>Service Name</TableCell>
-                                        <TableCell>Time Slot</TableCell>
-                                        <TableCell>Weekdays</TableCell>
+                                        <TableCell>Id</TableCell>
+                                        <TableCell>Booked Service</TableCell>
+                                        <TableCell>Date</TableCell>
                                         <TableCell>Price</TableCell>
+                                        <TableCell>Accept/Decline</TableCell>
+                                    
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {
-                                        props.businessServicesList.map((record, index) => {
+                                    {/* {
+                                        props.businessBookingsList.map((record, index) => {
                                             return (<TableRow key={index}>
-                                                <TableCell>{record.serviceName}</TableCell>
-                                                <TableCell>{record.timeSlotDuration}</TableCell>
-                                                <TableCell>{record.weekvalue}</TableCell>
-                                                <TableCell>{record.price}</TableCell>
+                                                <TableCell>{record.id}</TableCell>
+                                                <TableCell>{record.businessName}</TableCell>
+                                                <TableCell>{record.businessId}</TableCell>
+                                                <TableCell>{record.serviceId}</TableCell>
                                                 <TableCell>
                                                     <ButtonGroup>
                                                         <Button><EditIcon color="primary" onClick={()=>{setCurrentId(record.id)}}/></Button>
@@ -74,7 +78,7 @@ const BusinessServices = (props, classes) => {
                                             </TableRow>
                                             )
                                         })
-                                    }
+                                    } */}
                                 </TableBody>
                             </Table>
                         </TableContainer>
@@ -86,15 +90,17 @@ const BusinessServices = (props, classes) => {
 }
 
 const mapStateToProps = state => ({
-    businessServicesList: state.businessService.list
+    //businessBookingsList: state.businessBooking.list
 });
 
+//console.log({ mapStateToProps });
+
 const mapActionsToProps = {
-    fetchAllBusinessServices: actions.fetchAll,
-    deleteBusinessService: actions.deleteData
+    //fetchAllBookings: actions.fetchAll,
+    //deleteBusinessService: actions.deleteData
 }
 
 
 
-export default connect(mapStateToProps, mapActionsToProps)(withStyles(style)(BusinessServices));
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(style)(BusinessInformation));
 

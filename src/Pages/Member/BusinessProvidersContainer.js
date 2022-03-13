@@ -8,6 +8,8 @@ import ProvidersForm from '../../components/Forms/ProvidersForm';
 import { useToasts } from "react-toast-notifications";
 import MembersMenu from '../../components/navigation/MemberMenu';
 
+import { accountService, alertService } from '../../services';
+
 
 const style = theme => ({
     root: {
@@ -24,8 +26,8 @@ const style = theme => ({
 
 const BusinessProviders = (props, classes) => {
 
-    //const { addToast } = useToasts();
-
+    const { addToast } = useToasts();
+    const user = accountService.userValue;
     const [currentId, setCurrentId] = useState(0);
 
     //setCurrentId(null)
@@ -51,11 +53,11 @@ const BusinessProviders = (props, classes) => {
 
 
 
-    /* const onDelete = id => {
+    const onDelete = id => {
         if (window.confirm('Are you sure?')) {
             props.deleteProvider(id, () => addToast("Submitted successfully", { appearance: 'info' }));
         }
-    } */
+    }
     const [value, setValue] = React.useState(new Date());
 
     /*  const convertToObj = (value) => {
@@ -118,7 +120,7 @@ const BusinessProviders = (props, classes) => {
                                                     <TableCell>
                                                         <ButtonGroup>
                                                             <Button><EditIcon color="primary" onClick={() => { setCurrentId(record.id) }} /></Button>
-                                                            {/* <Button><DeleteIcon color="secondary" onClick={() => { onDelete(record.id) }} /></Button> */}
+                                                            <Button><DeleteIcon color="secondary" onClick={() => { onDelete(record.id) }} /></Button>
                                                         </ButtonGroup>
                                                     </TableCell>
                                                 </TableRow>

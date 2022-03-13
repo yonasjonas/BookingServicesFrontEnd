@@ -24,7 +24,8 @@ const useForm = (initialFieldValues, validate, setCurrentId, workingDays) => {
 	const handleInputChange = (event) => {
 		const { name, value } = event.target;
 		const fieldValue = { [name]: value }
-		console.log("handleInputChange : ", values);	
+
+		console.log("handleInputChange2 : ", values);	
 			setValues({
 				...values,
 				...fieldValue,

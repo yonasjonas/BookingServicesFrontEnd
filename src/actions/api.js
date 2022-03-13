@@ -16,8 +16,9 @@ export default {
     businessProvider(url = baseURL + 'providers/') {
         return {
             fetchAll: () => axios.get(url),
+            fetchAllFromSingleBusiness: (id) => axios.get(url + "business/" + id),
             fetchById: id=> axios.get(url+id),
-            //fetchByBusinessId: id=> axios.get(url + "business/" + id),
+            //fetchByBusinessId: id => axios.get(url + "business/" + id),
             //createProviderWorkingDays: (id, workingDaysHours) => axios.put(url + id, workingDaysHours),
             create: newRecord => axios.post(url, newRecord),
             update: (id, updateRecord) => axios.put(url + id, updateRecord),
@@ -50,11 +51,10 @@ export default {
             credentials: 'include'
         };
         return {
-            fetchAll: () => axios.get(url),
             fetchById: id=> axios.get(url+id, requestOptions),
             //fetchByBusinessId: id=> axios.get(url + "business/" + id),
             create: newRecord => axios.post(url, newRecord),
-            update: (id, updateRecord) => axios.put(url + id, updateRecord),
+            update: (id, updateRecord) => axios.put(url + id, updateRecord, requestOptions),
             delete: id => axios.delete(url + id)
         }
     },

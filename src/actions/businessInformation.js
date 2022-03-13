@@ -8,11 +8,15 @@ export const ACTION_TYPES = {
 }
 
 const formatData = (data) => ({
-    name: String(data.name ? data.name : "" ),
-    email: String(data.email ? data.email : "" ),
-    weekvalue: data.weekvalue.toString(),
-    phone: String(data.phone ? data.phone : "" ),
-
+    AcceptTerms: Boolean(data.AcceptTerms ? data.AcceptTerms : false ),
+    Address1: String(data.Address1 ? data.Address1 : "" ),
+    Address2: String(data.Address2 ? data.Address2 : "" ),
+    BusinessName: String(data.BusinessName ? data.BusinessName : "" ),
+    Country: String(data.Country ? data.Country : "" ),
+    County: String(data.County ? data.County : "" ),
+    Description: String(data.Description ? data.Description : "" ),
+    Email: String(data.Email ? data.Email : "" ),
+    Phone: String(data.Phone ? data.Phone : "" ),
 });
 
 export const fetchById = () => dispatch => { 
@@ -49,7 +53,7 @@ export const create = (data, onSuccess) => dispatch => {
 export const update = (id, data, onSuccess) => dispatch => {
     data = formatData(data);    
     let dataLocal = Object.assign({}, data)
-    dataLocal.weekvalue = dataLocal.weekvalue.split(',');   
+    //dataLocal.weekvalue = dataLocal.weekvalue.split(',');   
     api.businessInformation().update(id, data)
     .then(response => {
         dispatch({

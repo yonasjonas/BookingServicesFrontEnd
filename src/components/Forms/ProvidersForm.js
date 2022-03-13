@@ -124,7 +124,7 @@ console.log({ props });
 
     useEffect(() => {
 
-
+        //props.providersList();
         if (props.currentId !== 0) {
             console.log()
             let days = [];

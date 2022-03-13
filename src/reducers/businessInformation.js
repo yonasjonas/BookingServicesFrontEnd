@@ -9,7 +9,7 @@ export const businessInformation = (state = initialState, action) => {
         case ACTION_TYPES.FETCH_ONE:
             return {
                 ...state,
-                list: [action.payload]
+                item: [action.payload]
             }
         case ACTION_TYPES.CREATE:
             return {

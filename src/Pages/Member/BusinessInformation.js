@@ -8,6 +8,7 @@ import BookingsForm from '../../components/Forms/BookingsForm';
 import { useToasts } from "react-toast-notifications";
 import MembersMenu from '../../components/navigation/MemberMenu';
 import { accountService, alertService } from '../../services';
+import BusinessInformationForm from "../../components/Forms/BusinessInformationForm";
 
 
 const style = theme => ({
@@ -24,15 +25,10 @@ const style = theme => ({
 });
 
 const BusinessInformation = (props, classes) => {
-    const user = accountService.userValue;
-    console.log({ user });
+    //const user = accountService.userValue;
     const { addToast } = useToasts();
 
     const [currentId, setCurrentId] = useState(0);
-
-    useEffect(() => {
-        props.fetchBusinessInfo(user.id)
-    }, [])
 
     /* const onDelete = id => {
         if(window.confirm('Are you sure?')){
@@ -46,44 +42,7 @@ const BusinessInformation = (props, classes) => {
                 <Grid container>
                     <Grid item xs={3}>{<MembersMenu />}</Grid>
                     <Grid item xs={9}>
-                        <TableContainer>
-                        <Grid container><BookingsForm {...({currentId, setCurrentId})}/></Grid>
-                            <h1> Bookings</h1>
-
-
-                            <Table>
-                                <TableHead className={classes.root}>
-                                    <TableRow>
-                                        <TableCell>Id</TableCell>
-                                        <TableCell>Booked Service</TableCell>
-                                        <TableCell>Date</TableCell>
-                                        <TableCell>Price</TableCell>
-                                        <TableCell>Accept/Decline</TableCell>
-                                    
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {/* {
-                                        props.businessBookingsList.map((record, index) => {
-                                            return (<TableRow key={index}>
-                                                <TableCell>{record.id}</TableCell>
-                                                <TableCell>{record.businessName}</TableCell>
-                                                <TableCell>{record.businessId}</TableCell>
-                                                <TableCell>{record.serviceId}</TableCell>
-                                                <TableCell>
-                                                    <ButtonGroup>
-                                                        <Button><EditIcon color="primary" onClick={()=>{setCurrentId(record.id)}}/></Button>
-                                                        <Button><DeleteIcon color="secondary" onClick={()=>{onDelete(record.id)}}/></Button>
-                                                    </ButtonGroup>
-                                                </TableCell>
-
-                                            </TableRow>
-                                            )
-                                        })
-                                    } */}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                        <BusinessInformationForm/>
                     </Grid>
                 </Grid>
             </Paper>

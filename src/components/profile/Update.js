@@ -7,13 +7,19 @@ import { accountService, alertService } from '../../services';
 
 function Update({ history }) {
     const user = accountService.userValue;
+    
     const initialValues = {
-        title: user.title,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        password: '',
-        confirmPassword: ''
+        BusinessName: user.BusinessName,
+        Email: '',
+        Phone: '',
+        Description: '',
+        Address1: '',
+        Address2: '',
+        County: '',
+        Country: '',
+        Password: '',
+        ConfirmPassword: '',
+        AcceptTerms: true,
     };
 
     const validationSchema = Yup.object().shape({

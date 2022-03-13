@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import * as actions from "../../actions/businessBookings";
+import * as actions from "../../actions/businessInformation";
 import { Grid, Paper, TableBody, TableCell, TableRow, TableContainer, Table, TableHead, withStyles, Container, ButtonGroup, Button } from '@material-ui/core';
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import BookingsForm from '../../components/Forms/BookingsForm';
 import { useToasts } from "react-toast-notifications";
 import MembersMenu from '../../components/navigation/MemberMenu';
+import { accountService, alertService } from '../../services';
 
 
 const style = theme => ({
@@ -23,13 +24,14 @@ const style = theme => ({
 });
 
 const BusinessInformation = (props, classes) => {
-
+    const user = accountService.userValue;
+    console.log({ user });
     const { addToast } = useToasts();
 
     const [currentId, setCurrentId] = useState(0);
 
     useEffect(() => {
-        //props.fetchAllBookings()
+        props.fetchBusinessInfo(user.id)
     }, [])
 
     /* const onDelete = id => {
@@ -90,14 +92,14 @@ const BusinessInformation = (props, classes) => {
 }
 
 const mapStateToProps = state => ({
-    //businessBookingsList: state.businessBooking.list
+    BusinessInformation: state.businessInformation
 });
 
 //console.log({ mapStateToProps });
 
 const mapActionsToProps = {
-    //fetchAllBookings: actions.fetchAll,
-    //deleteBusinessService: actions.deleteData
+    fetchBusinessInfo: actions.fetchById,
+    deleteBusinessService: actions.deleteData
 }
 
 

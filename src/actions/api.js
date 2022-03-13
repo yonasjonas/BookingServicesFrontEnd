@@ -1,4 +1,5 @@
 import axios from "axios";
+import { accountService } from '../services';
 
 const baseURL = "http://localhost:4000/";
 
@@ -41,5 +42,33 @@ export default {
             update: (id, updateRecord) => axios.put(url + id, updateRecord),
             delete: id => axios.delete(url + id)
         }
+    },
+    businessInformation(url = baseURL + 'accounts/') {
+        const requestOptions = {
+            method: 'GET',
+            headers: { ...authHeader(url) },
+            credentials: 'include'
+        };
+        return {
+            fetchAll: () => axios.get(url),
+            fetchById: id=> axios.get(url+id, requestOptions),
+            //fetchByBusinessId: id=> axios.get(url + "business/" + id),
+            create: newRecord => axios.post(url, newRecord),
+            update: (id, updateRecord) => axios.put(url + id, updateRecord),
+            delete: id => axios.delete(url + id)
+        }
+    },
+    
+    
+}
+function authHeader(url) {
+    // return auth header with jwt if user is logged in and request is to the api url
+    const user = accountService.userValue;
+    const isLoggedIn = user && user.jwtToken;
+    const isApiUrl = url.startsWith(baseURL);
+    if (isLoggedIn && baseURL) {
+        return { Authorization: `Bearer ${user.jwtToken}` };
+    } else {
+        return {};
     }
 }

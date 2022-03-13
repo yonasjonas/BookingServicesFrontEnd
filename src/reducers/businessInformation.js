@@ -6,10 +6,10 @@ const initialState = {
 
 export const businessInformation = (state = initialState, action) => {    
     switch (action.type) {        
-        case ACTION_TYPES.FETCH_ALL:
+        case ACTION_TYPES.FETCH_ONE:
             return {
                 ...state,
-                list: [...action.payload]
+                list: [action.payload]
             }
         case ACTION_TYPES.CREATE:
             return {

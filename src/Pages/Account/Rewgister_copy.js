@@ -65,6 +65,8 @@ const initialFieldValues = {
     BusinessName: '',
     Email: '',
     Phone: '',
+    ProfileImagePath: null,
+    CoverImagePath: null,
     Description: '',
     Address1: '',
     Address2: '',
@@ -75,7 +77,7 @@ const initialFieldValues = {
     AcceptTerms: true,
 };
 
-function Register(history, classes, ...props) {
+function Register(classes, ...props) {
 
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
@@ -150,7 +152,6 @@ function Register(history, classes, ...props) {
         accountService.register(values)
             .then(() => {
                 alertService.success('Registration successful, please check your email for verification instructions', { keepAfterRouteChange: true });
-                history.push('login');
             })
             .catch(error => {
                 alertService.error(error);
@@ -180,6 +181,7 @@ function Register(history, classes, ...props) {
                         <TextField name="BusinessName" label="BusinessName" type="text" variant="outlined" value={values.BusinessName} onChange={handleInputChange} />
                         <TextField name="Email" label="Email" type="text" variant="outlined" value={values.Email} onChange={handleInputChange} />
                         <TextField name="Phone" label="Phone" type="text" value={values.Phone} onChange={handleInputChange} />
+                        <UploadToServer parentCallback={callbackFunction} value={values.ProfileImagePath} onChange={handleInputChange} />
                         <TextField name="Description" label="Description" type="text" variant="outlined" value={values.Description} onChange={handleInputChange} />
                         <TextField name="Address1" label="Address1" type="text" variant="outlined" value={values.Address1} onChange={handleInputChange} />
                         <TextField name="Address2" label="Address2" type="text" variant="outlined" value={values.Address2} onChange={handleInputChange} />

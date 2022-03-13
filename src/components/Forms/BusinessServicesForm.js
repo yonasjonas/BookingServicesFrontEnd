@@ -31,15 +31,6 @@ const styles = theme => ({
 
 });
 
-const allWeekdays = [
-    'John',
-    'Jack',
-    'Jane',
-    'Julia',
-    'Jackson',
-    'Jessica',
-    'Jennifer',
-];
 
 const initialFieldValues = {
     serviceName: "",
@@ -174,7 +165,6 @@ const BusinessServicesForm = ({ classes, ...props }) => {
                         value={values.weekvalue}
                         // @ts-ignore Typings are not considering `native`
                         onChange={handleInputChange}
-                        label="Native"
                         inputProps={{
                             id: 'select-multiple-native',
                         }}

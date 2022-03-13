@@ -118,6 +118,8 @@ const BusinessInformationForm = ({ classes, ...props }) => {
         resetForm
     } = useForm(initialFieldValues, validate, props.setCurrentId)
 
+    let alreadyExists = false;
+
     const updateAfterSave = () => {
         initialFieldValues.BusinessName = props.BusinessInformation.item[0].businessName;
         initialFieldValues.Email = props.BusinessInformation.item[0].email;
@@ -127,6 +129,8 @@ const BusinessInformationForm = ({ classes, ...props }) => {
         initialFieldValues.Address2 = props.BusinessInformation.item[0].address2;
         initialFieldValues.County = props.BusinessInformation.item[0].county;
         initialFieldValues.Country = props.BusinessInformation.item[0].country;
+        alreadyExists = true;
+
     }
 
     const handleSubmit = e => {
@@ -136,9 +140,9 @@ const BusinessInformationForm = ({ classes, ...props }) => {
             const onSuccess = () => {
                 addToast("Submitted successfully", { appearance: 'success' });
                 //resetForm();
-                //updateAfterSave();
+                updateAfterSave();
             }
-            if (user) props.updateBusinessInfo(user.id, values, onSuccess);
+            if (user && !alreadyExists) props.updateBusinessInfo(user.id, values, onSuccess);
         }
     }
     
@@ -147,14 +151,14 @@ const BusinessInformationForm = ({ classes, ...props }) => {
     useEffect(() => {
         props.fetchBusinessInfo(user.id);
         console.log({ props });
-        //onLoadPlease();
-        updateAfterSave();
+        onLoadPlease();
+        //if (user && !alreadyExists) updateAfterSave();
         
     }, [user.id])
 
     const onLoadPlease = () => {
         let interval = setInterval(() => {
-            if (props.BusinessInformation.item && props.BusinessInformation.item.length > 0){
+            if (user){
                 updateAfterSave();
                 console.log("updated");
                 clearInterval(interval);

@@ -24,6 +24,7 @@ import Register from "./Pages/Account/Register";
 import DashBoard from "./Pages/Member/Dashboard";
 import { ToastProvider } from "react-toast-notifications";
 import { Profile } from './components/profile';
+import { history } from './helpers';
 
 function App() {
 
@@ -31,13 +32,14 @@ function App() {
 
     useEffect(() => {
         const subscription = accountService.user.subscribe(x => setUser(x));
+        console.log("user from app.js : ", user);
         return subscription.unsubscribe;
     }, []);
 
     return (
 
         <Provider store={store}>
-            <Router>
+            <Router history={history}>
                 <TopNavigation />
                 <CustomAlert />
                 <ToastProvider autoDismiss={true}>

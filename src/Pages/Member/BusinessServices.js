@@ -78,12 +78,7 @@ const BusinessServices = (props, classes) => {
                                     return (<TableRow key={index}>
                                         <TableCell>{record.serviceName}</TableCell>
                                         <TableCell>{record.timeSlotDuration}</TableCell>
-                                        <TableCell>{
-                                            temp = [],
-                                            props.businessProviders.map((provider) => {
-                                                //if (record.weekvalue.split(",").includes(provider.id.toString())) temp.push(provider.name + ", ")
-                                            })
-                                        }{temp}</TableCell>
+                                        <TableCell></TableCell>
                                         <TableCell>{record.price}</TableCell>
                                         <TableCell>
                                             <ButtonGroup>

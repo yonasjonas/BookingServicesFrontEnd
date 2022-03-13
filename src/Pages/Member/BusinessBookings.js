@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../actions/businessBookings";
+import * as providerActions from "../../actions/businessProvidersActions";
+import * as serviceActions from "../../actions/businessServices";
 import { Grid, Paper, TableBody, TableCell, TableRow, TableContainer, Table, TableHead, withStyles, Container, ButtonGroup, Button } from '@material-ui/core';
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -31,6 +33,7 @@ const BusinessBookings = (props, classes) => {
 
     useEffect(() => {
         props.fetchAllBookings()
+        props.fetchAllBusinessServices()
     }, [])
 
     const onDelete = id => {
@@ -67,6 +70,7 @@ const BusinessBookings = (props, classes) => {
                                 <TableBody>
                                     {
                                         props.businessBookingsList.map((record, index) => {
+                                             console.log({record})
                                             return (<TableRow key={index}>
                                                 <TableCell>{record.id}</TableCell>
                                                 <TableCell>{record.businessName}</TableCell>
@@ -97,13 +101,18 @@ const BusinessBookings = (props, classes) => {
 }
 
 const mapStateToProps = state => ({
-    businessBookingsList: state.businessBooking.list
+    businessBookingsList: state.businessBooking.list,
+    businessProviders: state.businessProvider.list,
+    businessServicesList: state.businessService.list,
 });
 
-//console.log({ mapStateToProps });
+console.log({ mapStateToProps });
 
 const mapActionsToProps = {
+    fetchAllBusinessServices: serviceActions.fetchAll,
     fetchAllBookings: actions.fetchAll,
+    fetchAllProviders: providerActions.fetchAll
+
     //deleteBusinessService: actions.deleteData
 }
 

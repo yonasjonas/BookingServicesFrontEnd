@@ -4,7 +4,7 @@ const UploadAndDisplayImage = () => {
   const [selectedImage, setSelectedImage] = useState(null);
 
   return (
-    <div>
+    <>
       {selectedImage && (
         <div>
         <img alt="not fount" width={"250px"} src={URL.createObjectURL(selectedImage)} />
@@ -23,7 +23,7 @@ const UploadAndDisplayImage = () => {
           setSelectedImage(event.target.files[0]);
         }}
       />
-    </div>
+    </>
   );
 };
 

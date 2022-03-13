@@ -4,12 +4,12 @@ import React, { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 //import { Role } from '@/helpers';
 import { accountService } from './services';
-import { PrivateRoute, Alert } from './components/account';
+import { PrivateRoute, CustomAlert } from './components/account';
 import BusinessServices from './Pages/Member/BusinessServices';
 import BusinessBookings from './Pages/Member/BusinessBookings';
 import Business from './Pages/Member/Business';
 import Widget from './Pages/Member/Widget';
-import BusinessProviders from './Pages/Member/BusinessProviders';
+import BusinessProviders from './Pages/Member/BusinessProvidersContainer';
 import Bookings from './Pages/Member/BusinessBookings';
 import BusinessInformation from './Pages/Member/BusinessInformation';
 import TopNavigation from "./components/navigation/TopNavigation";
@@ -20,6 +20,7 @@ import About from "./Pages/Public/About";
 import Contact from "./Pages/Public/Contact";
 import BookNow from "./Pages/Public/ListOfServices";
 import Login from "./Pages/Account/Login";
+import Register from "./Pages/Account/Register";
 import DashBoard from "./Pages/Member/Dashboard";
 import { ToastProvider } from "react-toast-notifications";
 import { Profile } from './components/profile';
@@ -37,8 +38,8 @@ function App() {
 
         <Provider store={store}>
             <Router>
-                <Alert />
                 <TopNavigation />
+                <CustomAlert />
                 <ToastProvider autoDismiss={true}>
                     <Switch>
                         <Route exact path="/" component={Home} />
@@ -55,8 +56,8 @@ function App() {
                         <PrivateRoute path="/profile" component={Profile} />
                         <PrivateRoute path="/business" component={Business} />
                         <PrivateRoute path="/bookings" component={Bookings} />
-
                         <Route path="/login" component={Login} />
+                        <Route path="/register" component={Register} />
                     </Switch>
                 </ToastProvider>
 

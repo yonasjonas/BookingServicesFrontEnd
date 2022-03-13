@@ -1,4 +1,4 @@
-import * as actions from "../../actions/businessProviders";
+import * as actions from "../../actions/businessProvidersActions";
 import { connect } from "react-redux";
 import React, { useState, useEffect } from "react";
 import { Grid, InputLabel, Select, MenuItem, withStyles, FormControl, Button, TextField, Divider } from '@material-ui/core';
@@ -55,24 +55,18 @@ const initialFieldValues = {
     name: "",
     email: "",
     phone: "",
-    weekvalue: [],
-    weekValue2: {
-        day: {
-            value: "",
-            start: "",
-            end: ""
-        },
-
-
-    },
+    weekvalue: "",
+    businessId: "",
 }
 
 
 
 const ProvidersForm = ({ classes, ...props }) => {
 
-    const [days, setDays] = React.useState(() => []);
+console.log({ props });
+    const [days, setDays] = useState(() => []);
     const handleDays = (event, newDays) => {
+        
         if (newDays.length) {
             setDays(newDays);
         }
@@ -80,7 +74,6 @@ const ProvidersForm = ({ classes, ...props }) => {
     };
 
     const { addToast } = useToasts();
-    const [workingDays, setWorkingDays] = React.useState();
     var daysSelected = [];
     //const state = this.state;
 
@@ -92,8 +85,8 @@ const ProvidersForm = ({ classes, ...props }) => {
             temp.email = fieldValues.email.toString().length > 0 ? "" : "Price is required"
         if ("timeSlotDuration" in fieldValues)
             temp.phone = fieldValues.phone.toString().length > 0 ? "" : "Time Slot Duration is required"
-        if ("weekvalue" in fieldValues)
-            temp.weekvalue = fieldValues.weekvalue.length > 0 ? "" : "Week is required"
+        /* if ("weekvalue" in fieldValues)
+            temp.weekvalue = fieldValues.weekvalue.length > 0 ? "" : "Week is required" */
         setErrors({
             ...temp
         });
@@ -107,75 +100,61 @@ const ProvidersForm = ({ classes, ...props }) => {
         weekvalue,
         setErrors,
         handleInputChange,
-        handleChangeMultiple,
         resetForm
-    } = useForm(initialFieldValues, validate, props.setCurrentId)
+    } = useForm(initialFieldValues, validate, props.setCurrentId,)
 
 
     const handleSubmit = e => {
         e.preventDefault();
-        //console.log("works", values);
+        values.weekvalue = values.weekvalue ? values.weekvalue : "";
+        console.log("works:", values);
         if (validate()) {
             const onSuccess = () => {
                 addToast("Submitted successfully", { appearance: 'success' });
                 resetForm();
             }
-
             if (props.currentId == 0) {
                 props.createProvider(values, onSuccess);
             }
             else {
                 props.updateProvider(props.currentId, values, onSuccess);
             }
-
         }
-
     }
 
     useEffect(() => {
+
+
         if (props.currentId !== 0) {
+            console.log()
+            let days = [];
             let temp = props.providersList.find(x => x.id == props.currentId);
+            if (!!temp.weekvalue && temp.weekvalue !== "[object Object]") {
+                if (typeof temp.weekvalue === 'string') {
+                    Object.keys(JSON.parse(temp.weekvalue)).map(i => {
+                        console.log("inside : ", i);
+                        days.push(i);
+                    })
+                }
+                else {
+                    Object.keys(temp.weekvalue).map(i => { console.log("showDays : ", i) })
+                }
+            }
+            setDays(days);
             setValues({
                 ...temp
             })
+            
             setErrors({})
         }
-        setWorkingDays(daysSelected);
 
     }, [props.currentId])
 
-    const renderTimeslots = (days) => {
-        daysSelected = [];
-        days.map(day => {
-            daysSelected.push(day);
-        });
-        console.log({ workingDays });
-        //console.log({props});
-    }
-    //renderTimeslots([""]);
-
 
     //
-    const pull_data = (props) => {
-        setWorkingDays(props);
-        return props;
-        // LOGS DATA FROM CHILD (My name is Dean Winchester... &)
+    const callbackFunction = (childData) => {
+        values.weekvalue = childData;
     }
-
-
-    const handleClick = () => {
-        console.log(values);
-    }
-
-    const handleCallback = (childData) =>{
-        this.setState({name: childData})
-    }
-
-
-    //let workDays = workingDays.length;
-
-
-
 
     return (
         <form
@@ -193,7 +172,7 @@ const ProvidersForm = ({ classes, ...props }) => {
                     onChange={handleInputChange}
                     {...(errors.name && { error: true, helperText: errors.name })}
                 />
-                <ImageUpload />
+                {/* <ImageUpload /> */}
                 <TextField
                     name="email"
                     variant="outlined"
@@ -209,7 +188,7 @@ const ProvidersForm = ({ classes, ...props }) => {
                     value={values.phone}
                     onChange={handleInputChange}
                     {...(errors.phone && { error: true, helperText: errors.timeSlotDuration })}
-                />
+                />{/* 
                 <TextField
                     name="phone"
                     variant="outlined"
@@ -220,29 +199,7 @@ const ProvidersForm = ({ classes, ...props }) => {
                     value={values.phone}
                     onChange={handleInputChange}
                     {...(errors.phone && { error: true, helperText: errors.timeSlotDuration })}
-                />
-                <Select
-                        multiple
-                        native
-                        variant="outlined"
-                        label="Days of service"
-                        name="weekvalue"
-                        value={values.weekvalue}
-                        // @ts-ignore Typings are not considering `native`
-                        onChange={handleInputChange}
-                        label="Native"
-                        inputProps={{
-                            id: 'select-multiple-native',
-                        }}
-                        {...(errors.weekvalue && { error: true, helperText: errors.weekvalue })}
-                    >
-                        {allWeekdays.map((name) => (
-                            <option key={name} value={name}>
-                                {name}
-                            </option>
-                        ))}
-                    </Select>
-
+                /> */}
                 <Stack direction="row" spacing={3}>
                     <ToggleButtonGroup
                         value={days}
@@ -277,17 +234,19 @@ const ProvidersForm = ({ classes, ...props }) => {
                 {days.length > 0 &&
 
                     console.log(days)}
-                {days.find(x => x == "1") && <TimeSlider parentCallback = {this.handleCallback} spkey="1" day="Monday" />}
-                {days.find(x => x == "2") && <TimeSlider spkey="2" day="Tuesday" />}
-                {days.find(x => x == "3") && <TimeSlider spkey="3" day="Wednesday" />}
-                {days.find(x => x == "4") && <TimeSlider spkey="4" day="Thursday" />}
-                {days.find(x => x == "5") && <TimeSlider spkey="5" day="Friday" />}
-                {days.find(x => x == "6") && <TimeSlider spkey="6" day="Saturday" />}
-                {days.find(x => x == "7") && <TimeSlider spkey="7" day="Sunday" />}
-                <br />
-                <FormControl variant="outlined" className={classes.formControl}>
 
-                    
+
+                {days.find(x => x == "1") && <TimeSlider parentCallback={callbackFunction} spkey="1" day="Monday" />}
+                {days.find(x => x == "2") && <TimeSlider parentCallback={callbackFunction} spkey="2" day="Tuesday" />}
+                {days.find(x => x == "3") && <TimeSlider parentCallback={callbackFunction} spkey="3" day="Wednesday" />}
+                {days.find(x => x == "4") && <TimeSlider parentCallback={callbackFunction} spkey="4" day="Thursday" />}
+                {days.find(x => x == "5") && <TimeSlider parentCallback={callbackFunction} spkey="5" day="Friday" />}
+                {days.find(x => x == "6") && <TimeSlider parentCallback={callbackFunction} spkey="6" day="Saturday" />}
+                {days.find(x => x == "7") && <TimeSlider parentCallback={callbackFunction} spkey="7" day="Sunday" />}
+                <br />
+                <FormControl variant="outlined" className={classes.formControl} >
+
+
                 </FormControl>
             </Grid>
             <Button

@@ -4,6 +4,12 @@ import PropTypes from 'prop-types';
 import { alertService, AlertType } from '../../services';
 import { history } from '../../helpers';
 
+import { default as MUIAlert } from '@mui/material/Alert';
+import IconButton from '@mui/material/IconButton';
+import Collapse from '@mui/material/Collapse';
+import Button from '@mui/material/Button';
+import CloseIcon from '@mui/icons-material/Close';
+
 const propTypes = {
     id: PropTypes.string,
     fade: PropTypes.bool
@@ -14,8 +20,9 @@ const defaultProps = {
     fade: true
 };
 
-function Alert({ id, fade }) {
+function CustomAlert({ id, fade }) {
     const [alerts, setAlerts] = useState([]);
+    const [open, setOpen] = React.useState(true);
 
     useEffect(() => {
         // subscribe to new alert notifications
@@ -67,7 +74,7 @@ function Alert({ id, fade }) {
             // remove alert after faded out
             setTimeout(() => {
                 setAlerts(alerts => alerts.filter(x => x !== alertWithFade));
-            }, 250);
+            }, 25000);
         } else {
             // remove alert
             setAlerts(alerts => alerts.filter(x => x !== alert));
@@ -78,7 +85,7 @@ function Alert({ id, fade }) {
         if (!alert) return;
 
         const classes = ['alert', 'alert-dismissable'];
-                
+
         const alertTypeClass = {
             [AlertType.Success]: 'alert alert-success',
             [AlertType.Error]: 'alert alert-danger',
@@ -101,16 +108,34 @@ function Alert({ id, fade }) {
         <div className="container">
             <div className="m-3">
                 {alerts.map((alert, index) =>
-                    <div key={index} className={cssClasses(alert)}>
-                        <a className="close" onClick={() => removeAlert(alert)}>&times;</a>
-                        <span dangerouslySetInnerHTML={{__html: alert.message}}></span>
-                    </div>
+                    <Collapse in={open}>
+                        <MUIAlert
+                            severity={alert.type.toString().toLowerCase()}
+                            key={index}
+                            action={
+                                <IconButton
+                                    aria-label="close"
+                                    color="inherit"
+                                    size="small"
+                                    onClick={() => {
+                                        setOpen(false);
+                                    }}
+                                >
+                                    <CloseIcon fontSize="inherit" />
+                                </IconButton>
+                            }
+                        >
+
+
+                            <span dangerouslySetInnerHTML={{ __html: alert.message }}></span>
+                        </MUIAlert >
+                    </Collapse>,
                 )}
             </div>
         </div>
     );
 }
 
-Alert.propTypes = propTypes;
-Alert.defaultProps = defaultProps;
-export { Alert };
+CustomAlert.propTypes = propTypes;
+CustomAlert.defaultProps = defaultProps;
+export { CustomAlert };

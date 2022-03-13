@@ -4,7 +4,7 @@ import queryString from 'query-string';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
-import { accountService, alertService } from '@/_services';
+import { accountService, alertService } from '../../services';
 
 function ResetPassword({ history }) {
     const TokenStatus = {
@@ -17,10 +17,10 @@ function ResetPassword({ history }) {
     const [tokenStatus, setTokenStatus] = useState(TokenStatus.Validating);
 
     useEffect(() => {
-        const { token } = queryString.parse(location.search);
+        const { token } = queryString.parse(window.location.search);
 
         // remove token from url to prevent http referer leakage
-        history.replace(location.pathname);
+        history.replace(window.location.pathname);
 
         accountService.validateResetToken(token)
             .then(() => {
@@ -108,4 +108,4 @@ function ResetPassword({ history }) {
     )
 }
 
-export { ResetPassword }; 
+export default ResetPassword; 

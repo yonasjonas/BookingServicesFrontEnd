@@ -25,4 +25,24 @@ header.MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation4.MuiAppBar-root.MuiAp
 a {
   text-decoration: solid;
 }
+.MuiFormControl-root.MuiTextField-root {
+  clear: both;
+  float: left;
+  width: 100%;
+  height: 81px;
+}
 
+.MuiGrid-container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  padding: 20px;
+}
+.MuiInputBase-root.MuiOutlinedInput-root {
+  min-width: 200px;
+  margin-bottom: 25px;
+}
+label.MuiFormLabel-root.MuiFormLabel-colorPrimary.css-u4tvz2-MuiFormLabel-root {
+  margin-top: 10px;
+}

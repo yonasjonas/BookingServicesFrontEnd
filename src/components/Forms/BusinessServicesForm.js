@@ -1,5 +1,5 @@
 import * as actions from "../../actions/businessServices";
-import * as provideractions from "../../actions/businessProviders";
+import * as provideractions from "../../actions/businessProvidersActions";
 import { connect } from "react-redux";
 import React, { useState, useEffect } from "react";
 import { Grid, InputLabel, Select, MenuItem, withStyles, FormControl, Button, TextField, OutlinedInput } from '@material-ui/core';

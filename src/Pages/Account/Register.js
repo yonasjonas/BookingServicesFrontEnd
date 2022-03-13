@@ -2,10 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 //import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import useForm from '../../useForm';
+import useForm from '../../components/useForm';
 import { Grid, InputLabel, Select, MenuItem, withStyles, FormControl, Button, TextField, Paper, Container } from '@material-ui/core';
 import Checkbox from '@mui/material/Checkbox';
 import { FormLabel } from '@mui/material';
+import UploadToServer from '../../components/FormElements/UploadToServer';
 
 import { accountService, alertService } from '../../services';
 
@@ -60,16 +61,38 @@ const styles = theme => ({
 
 });
 
-function Register(classes) {
+const initialFieldValues = {
+    BusinessName: '',
+    Email: '',
+    Phone: '',
+    ProfileImagePath: null,
+    CoverImagePath: null,
+    Description: '',
+    Address1: '',
+    Address2: '',
+    County: '',
+    Country: '',
+    Password: '',
+    ConfirmPassword: '',
+    AcceptTerms: true,
+};
+
+function Register(classes, ...props) {
 
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
-        if ("serviceName" in fieldValues)
-            temp.name = fieldValues.name.length > 0 ? "" : "Service Name is required"
-        if ("price" in fieldValues)
-            temp.email = fieldValues.email.toString().length > 0 ? "" : "Price is required"
-        if ("timeSlotDuration" in fieldValues)
-            temp.phone = fieldValues.phone.toString().length > 0 ? "" : "Time Slot Duration is required"
+        if ("firstname" in fieldValues)
+            temp.firstname = fieldValues.firstname.length > 0 ? "" : "First Name is required"
+        if ("lastname" in fieldValues)
+            temp.lastname = fieldValues.lastname.length > 0 ? "" : "Last Name is required"
+        if ("email" in fieldValues)
+            temp.email = fieldValues.email.length > 0 ? "" : "email is required"
+        if ("password" in fieldValues)
+            temp.password = fieldValues.password.length > 0 ? "" : "password is required"
+        if ("repeatpassword" in fieldValues)
+            temp.repeatpassword = fieldValues.repeatpassword.length > 0 ? "" : "repeatpassword is required"
+        if ("acceptTerms" in fieldValues)
+            temp.acceptTerms = fieldValues.acceptTerms ? "" : "Accept Terms is required"
         /* if ("weekvalue" in fieldValues)
             temp.weekvalue = fieldValues.weekvalue.length > 0 ? "" : "Week is required" */
         setErrors({
@@ -78,7 +101,7 @@ function Register(classes) {
         if (fieldValues == values)
             return Object.values(temp).every(x => x == "");
     }
-    
+
     const {
         values,
         setValues,
@@ -89,18 +112,7 @@ function Register(classes) {
         resetForm
     } = useForm(initialFieldValues, validate, props.setCurrentId,)
 
-
-    const initialFieldValues = {
-        title: '',
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        acceptTerms: false
-    };
-
-    const validationSchema = Yup.object().shape({
+    /* const validationSchema = Yup.object().shape({
         title: Yup.string()
             .required('Title is required'),
         firstName: Yup.string()
@@ -131,50 +143,54 @@ function Register(classes) {
                 setSubmitting(false);
                 alertService.error(error);
             });
+    } */
+
+    const handleSubmit = e => {
+        e.preventDefault();
+        //values.weekvalue = values.weekvalue ? values.weekvalue : "";
+        console.log("works from register:", values);
+        accountService.register(values)
+            .then(() => {
+                alertService.success('Registration successful, please check your email for verification instructions', { keepAfterRouteChange: true });
+            })
+            .catch(error => {
+                alertService.error(error);
+            });
+        if (validate()) {
+            const onSuccess = () => {
+                //addToast("Submitted successfully", { appearance: 'success' });
+                resetForm();
+            }
+            /* if (props.currentId == 0) {
+                props.createProvider(values, onSuccess);
+            }
+            else {
+                props.updateProvider(props.currentId, values, onSuccess);
+            } */
+        }
+    }
+    const callbackFunction = (childData) => {
+        values.ProfileImagePath = childData;
     }
 
     return (
         <Container maxWidth="md">
             <Paper>
-                <form onSubmit={onSubmit} className={classes.root}>
+                <form onSubmit={handleSubmit} className={classes.root}>
                     <Grid container>
-                        <Select
-                            name="title"
-                            variant="outlined"
-                            MenuProps={MenuProps}
-                        >
-                            <MenuItem value=""></MenuItem>
-                            <MenuItem value="Mr">Mr</MenuItem>
-                            <MenuItem value="Mrs">Mrs</MenuItem>
-                            <MenuItem value="Miss">Miss</MenuItem>
-                            <MenuItem value="Ms">Ms</MenuItem>
-                        </Select>
-                        <TextField
-                            name="firstName"
-                            variant="outlined"
-                            label="First Name"
-                            value=
-                        />
-                        <TextField
-                            name="lastName"
-                            variant="outlined"
-                            label="Last Name"
-                        />
-                        <TextField
-                            name="email"
-                            variant="outlined"
-                            label="Email Address"
-                        />
-                        <TextField
-                            name="password"
-                            variant="outlined"
-                            label="Password"
-                        />
-                        <TextField
-                            name="confirmPassword"
-                            variant="outlined"
-                            label="Confirm Password"
-                        />
+                        <TextField name="BusinessName" label="BusinessName" type="text" variant="outlined" value={values.BusinessName} onChange={handleInputChange} />
+                        <TextField name="Email" label="Email" type="text" variant="outlined" value={values.Email} onChange={handleInputChange} />
+                        <TextField name="Phone" label="Phone" type="text" value={values.Phone} onChange={handleInputChange} />
+                        <UploadToServer parentCallback={callbackFunction} value={values.ProfileImagePath} onChange={handleInputChange} />
+                        <TextField name="Description" label="Description" type="text" variant="outlined" value={values.Description} onChange={handleInputChange} />
+                        <TextField name="Address1" label="Address1" type="text" variant="outlined" value={values.Address1} onChange={handleInputChange} />
+                        <TextField name="Address2" label="Address2" type="text" variant="outlined" value={values.Address2} onChange={handleInputChange} />
+                        <TextField name="County" label="County" type="text" variant="outlined" value={values.County} onChange={handleInputChange} />
+                        <TextField name="Country" label="Country" type="text" variant="outlined" value={values.Country} onChange={handleInputChange} />
+                        <TextField name="Password" label="Password" type="password" variant="outlined" value={values.Password} onChange={handleInputChange} />
+                        <TextField name="ConfirmPassword" label="ConfirmPassword" type="password" variant="outlined" value={values.ConfirmPassword} onChange={handleInputChange} />
+
+
                         <Checkbox />
                         <FormControl label="Accept Terms & Conditions" variant="outlined" className={classes.formControl} >
                             <FormLabel>Accept Terms & Conditions</FormLabel>
@@ -196,4 +212,4 @@ function Register(classes) {
     )
 }
 
-export default withStyles(styles)(Register); 
+export default withStyles(styles)(Register);

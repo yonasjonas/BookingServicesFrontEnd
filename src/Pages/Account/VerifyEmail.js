@@ -13,10 +13,10 @@ function VerifyEmail({ history }) {
     const [emailStatus, setEmailStatus] = useState(EmailStatus.Verifying);
 
     useEffect(() => {
-        const { token } = queryString.parse(location.search);
+        const { token } = queryString.parse(document.location.search);
 
         // remove token from url to prevent http referer leakage
-        history.replace(location.pathname);
+        history.replace(document.location.pathname);
 
         accountService.verifyEmail(token)
             .then(() => {

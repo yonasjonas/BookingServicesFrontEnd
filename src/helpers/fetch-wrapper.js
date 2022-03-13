@@ -21,7 +21,7 @@ function get(url) {
 function post(url, body) {
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', ...authHeader(url) },
+        headers: { 'Content-Type': 'multipart/form-data', ...authHeader(url) },
         credentials: 'include',
         body: JSON.stringify(body)
     };

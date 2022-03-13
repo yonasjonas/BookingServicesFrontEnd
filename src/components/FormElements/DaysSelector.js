@@ -1,4 +1,5 @@
-import * as React from 'react';
+
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import Stack from '@mui/material/Stack';
 import ToggleButton from '@mui/material/ToggleButton';
@@ -14,9 +15,12 @@ function ToggleButtonNotEmpty(props) {
         if (newDays.length) {
             setDays(newDays);
         }
-        props.func(days);
-        console.log({ props });
+        
     };
+    useEffect(() => {
+        //setDays([1,2]);
+        console.log({ days });
+    }, [days]);
 
     return (
         <><Stack direction="row" spacing={3}>
@@ -42,10 +46,10 @@ function ToggleButtonNotEmpty(props) {
                 </ToggleButton>
                 <ToggleButton value="6" aria-label="aligned" aria-labelledby="6">
                     Saturday
-                </ToggleButton>
                 <ToggleButton value="7" aria-label="right aligned" aria-labelledby="7">
                     Sunday
-                </ToggleButton>
+                </ToggleButton></ToggleButton>
+                
             </ToggleButtonGroup>
         </Stack>
         </>

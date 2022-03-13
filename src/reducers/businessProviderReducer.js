@@ -1,4 +1,4 @@
-import { ACTION_TYPES } from "../actions/businessProviders";
+import { ACTION_TYPES } from "../actions/businessProvidersActions";
 
 const initialState = {
     list:[]
@@ -26,7 +26,25 @@ export const businessProvider = (state = initialState, action) => {
                 ...state,
                 list: state.list.filter(item => item.id !== action.payload)
             }
+        case ACTION_TYPES.ADD_TIMES:
+            //console.log("from provider: ", {state});
+            return {
+                ...state,
+                item: [action.payload]
+                
+
+
+ 
+                /* ...state,
+                list: state.list.map(item =>
+
+                    //item.weekvalue = action.payload.data,
+                    console.log({state}, {action})
+                ) */
+
+            }
         default:
             return state
     }
 }
+

@@ -28,7 +28,7 @@ export default function MultipleSelectNative() {
     };
   
     return (
-      <div>
+      <>
         <FormControl sx={{ m: 1, minWidth: 120, maxWidth: 300 }}>
           <InputLabel shrink htmlFor="select-multiple-native">
             Native
@@ -51,6 +51,6 @@ export default function MultipleSelectNative() {
             ))}
           </Select>
         </FormControl>
-      </div>
+      </>
     );
   }

@@ -1,8 +1,9 @@
 import React from "react";
+import Register from "../Account/Register";
 
 const About = () => {
     return (
-        <div>About</div>
+        <div><Register/></div>
     )
 }
 

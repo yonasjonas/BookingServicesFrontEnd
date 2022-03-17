@@ -46,3 +46,7 @@ a {
 label.MuiFormLabel-root.MuiFormLabel-colorPrimary.css-u4tvz2-MuiFormLabel-root {
   margin-top: 10px;
 }
+.MuiButton-textSecondary {
+  color: #f50057;
+  background: black;
+}

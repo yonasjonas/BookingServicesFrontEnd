@@ -63,7 +63,7 @@ const BusinessServices = (props, classes) => {
     }
     let temp = [];
     let i = 0;
-    const user = accountService.userValue;
+    const user = JSON.parse(localStorage.getItem('user'))
 
 
 

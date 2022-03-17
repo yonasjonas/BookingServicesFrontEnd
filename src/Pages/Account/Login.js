@@ -1,15 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { connect } from 'react-redux';
+import { userActions } from '../../actions/user.actions';
 
-import { accountService, alertService } from '../../services';
 
-function Login({ history, location }) {
+function LoginPage({ history, location, ...props }) {
     const initialValues = {
         email: '',
-        password: ''
+        password: '',
+        submitted: false
     };
+
+    useEffect(() => {
+        console.log({ props })
+    });
 
     const validationSchema = Yup.object().shape({
         email: Yup.string()
@@ -18,17 +24,9 @@ function Login({ history, location }) {
         password: Yup.string().required('Password is required')
     });
 
-    function onSubmit({ email, password }, { setSubmitting }) {
-        alertService.clear();
-        accountService.login(email, password)
-            .then(() => {
-                const { from } = location.state || { from: { pathname: "/dashboard" } };
-                history.push(from);
-            })
-            .catch(error => {
-                setSubmitting(false);
-                alertService.error(error);
-            });
+    function onSubmit({ email, password }, setSubmitting) {
+        initialValues.submitted = true;
+        props.login(email, password);
     }
 
     return (
@@ -66,4 +64,14 @@ function Login({ history, location }) {
     )
 }
 
-export default Login; 
+function mapStateToProps(state) {
+    const { loggingIn } = state.authentication;
+    return { loggingIn };
+}
+
+const mapActionsToProps = {
+    login: userActions.login,
+    logout: userActions.logout
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(LoginPage);

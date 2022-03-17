@@ -9,6 +9,7 @@ import { useToasts } from "react-toast-notifications";
 import MembersMenu from '../../components/navigation/MemberMenu';
 import { accountService, alertService } from '../../services';
 import BusinessInformationForm from "../../components/Forms/BusinessInformationForm";
+import FileUpload from '../../components/FormElements/FileUpload';
 
 
 const style = theme => ({
@@ -25,24 +26,19 @@ const style = theme => ({
 });
 
 const BusinessInformation = (props, classes) => {
-    //const user = accountService.userValue;
+    //const user = JSON.parse(localStorage.getItem('user'))
     const { addToast } = useToasts();
 
     const [currentId, setCurrentId] = useState(0);
 
-    /* const onDelete = id => {
-        if(window.confirm('Are you sure?')){
-            props.deleteBooking(id, () => addToast("Submitted successfully", {appearance:'info'}));
-        }
-    } */
-
     return (
         <Container maxWidth={false}>
+            <FileUpload/>
             <Paper>
                 <Grid container>
                     <Grid item xs={3}>{<MembersMenu />}</Grid>
                     <Grid item xs={9}>
-                        <BusinessInformationForm/>
+                        <BusinessInformationForm props={props}/>
                     </Grid>
                 </Grid>
             </Paper>

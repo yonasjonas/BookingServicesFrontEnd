@@ -4,17 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Grid, InputLabel, Select, MenuItem, withStyles, FormControl, Button, TextField, Divider } from '@material-ui/core';
 import useForm from '../useForm';
 import { useToasts } from "react-toast-notifications";
-import ImageUpload from "../FormElements/UploadToServer"
 import "react-datetime/css/react-datetime.css";
-import Datetime from "react-datetime";
-import DaysSelector from "../FormElements/DaysSelector";
-import TimeSlider from "../FormElements/TimeSlider";
-import Stack from '@mui/material/Stack';
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { accountService, alertService } from '../../services';
-import Checkbox from '@mui/material/Checkbox';
-import { FormLabel } from '@mui/material';
 
 
 
@@ -72,7 +62,7 @@ const initialFieldValues = {
 
 const BusinessInformationForm = ({ classes, ...props }) => {
 
-    const user = accountService.userValue;
+    const user = JSON.parse(localStorage.getItem('user'))
     const [businessInformation, setBusinessInformation] = useState(initialFieldValues);
     //console.log({ user });
 
@@ -120,7 +110,7 @@ const BusinessInformationForm = ({ classes, ...props }) => {
 
     let alreadyExists = false;
 
-    const updateAfterSave = () => {
+    /* const updateAfterSave = () => {
         initialFieldValues.BusinessName = props.BusinessInformation.item[0].businessName;
         initialFieldValues.Email = props.BusinessInformation.item[0].email;
         initialFieldValues.Phone = props.BusinessInformation.item[0].phone;
@@ -131,7 +121,7 @@ const BusinessInformationForm = ({ classes, ...props }) => {
         initialFieldValues.Country = props.BusinessInformation.item[0].country;
         alreadyExists = true;
 
-    }
+    } */
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -140,12 +130,12 @@ const BusinessInformationForm = ({ classes, ...props }) => {
             const onSuccess = () => {
                 addToast("Submitted successfully", { appearance: 'success' });
                 //resetForm();
-                updateAfterSave();
+                //updateAfterSave();
             }
             if (user && !alreadyExists) props.updateBusinessInfo(user.id, values, onSuccess);
         }
     }
-    
+
 
 
     useEffect(() => {
@@ -153,22 +143,22 @@ const BusinessInformationForm = ({ classes, ...props }) => {
         console.log({ props });
         onLoadPlease();
         //if (user && !alreadyExists) updateAfterSave();
-        
+
     }, [user.id])
 
     const onLoadPlease = () => {
         let interval = setInterval(() => {
-            if (user){
-                updateAfterSave();
+            if (user) {
+                //updateAfterSave();
                 console.log("updated");
                 clearInterval(interval);
-        }
+            }
         }, 1000);
     }
 
-    
 
-    
+
+
 
 
 

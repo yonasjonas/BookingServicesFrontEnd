@@ -86,7 +86,7 @@ export default function TypographyMenu() {
     const bookings = "'http://localhost:3000/bookings'";
     const widget = "'http://localhost:3000/widget'";
 
-    const user = accountService.userValue;
+    const user = JSON.parse(localStorage.getItem('user'))
 
     return (
         <Drawer variant="permanent" open={open}>
@@ -182,9 +182,6 @@ export default function TypographyMenu() {
             <Divider />
             <Nav />
             <Divider />
-
-
-
         </Drawer>
     );
 }

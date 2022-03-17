@@ -27,7 +27,7 @@ const style = theme => ({
 const BusinessProviders = (props, classes) => {
 
     const { addToast } = useToasts();
-    const user = accountService.userValue;
+    const user = JSON.parse(localStorage.getItem('user'))
     const [currentId, setCurrentId] = useState(0);
 
     //setCurrentId(null)

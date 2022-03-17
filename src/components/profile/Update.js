@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import { accountService, alertService } from '../../services';
 
 function Update({ history }) {
-    const user = accountService.userValue;
+    const user = JSON.parse(localStorage.getItem('user'))
     
     const initialValues = {
         BusinessName: user.BusinessName,

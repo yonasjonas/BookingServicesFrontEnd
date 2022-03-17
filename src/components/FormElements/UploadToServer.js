@@ -1,7 +1,5 @@
 import React from 'react'
 
-
-
 const UploadToServer = ({ ...props}) => {
 
 	const handleFileInput = (e) => {
@@ -9,14 +7,11 @@ const UploadToServer = ({ ...props}) => {
 		props.parentCallback(file)
 	};
 
-	return (
+	return (		
 		<div className="file-uploader">
 			<input type="file" onChange={handleFileInput} />
 		</div>
 	)
 }
-
-
-
 
 export default UploadToServer;

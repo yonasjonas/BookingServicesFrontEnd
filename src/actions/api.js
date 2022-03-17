@@ -58,12 +58,27 @@ export default {
             delete: id => axios.delete(url + id)
         }
     },
+    fileInformation(url = baseURL + 'upload/') {
+        const requestOptions = {
+            method: 'GET',
+            headers: { ...authHeader(url) },
+            credentials: 'include'
+        };
+        return {
+            fetchById: id=> axios.get(url+id),
+            //fetchByBusinessId: id=> axios.get(url + "business/" + id),
+            /* create: newRecord => axios.post(url, newRecord),
+            update: (id, updateRecord) => axios.put(url + id, updateRecord, requestOptions),
+            delete: id => axios.delete(url + id) */
+        }
+    },
+
     
     
 }
 function authHeader(url) {
     // return auth header with jwt if user is logged in and request is to the api url
-    const user = accountService.userValue;
+    const user = JSON.parse(localStorage.getItem('user'))
     const isLoggedIn = user && user.jwtToken;
     const isApiUrl = url.startsWith(baseURL);
     if (isLoggedIn && baseURL) {

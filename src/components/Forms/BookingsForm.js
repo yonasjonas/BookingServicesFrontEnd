@@ -2,11 +2,16 @@ import * as actions from "../../actions/businessServices";
 import * as providerActions from "../../actions/businessProvidersActions";
 import * as serviceActions from "../../actions/businessServices";
 import { connect } from "react-redux";
+import { styled } from '@mui/material/styles';
 import React, { useState, useEffect } from "react";
 import { Grid, InputLabel, Select, MenuItem, withStyles, FormControl, Button, TextField, OutlinedInput } from '@material-ui/core';
 import useForm from '../useForm';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
 import { useToasts } from "react-toast-notifications";
 import BusinessBookings from "../../Pages/Member/BusinessBookings";
+import { Scheduler } from "@aldabil/react-scheduler";
+
 
 
 const styles = theme => ({
@@ -33,6 +38,14 @@ const styles = theme => ({
 
 });
 
+const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+}));
+
 const initialFieldValues = {
     name: "",
     email: "",
@@ -47,7 +60,7 @@ const initialFieldValues = {
 const BookingsForm = ({ classes, ...props }) => {
 
     const { addToast } = useToasts();
-    const [businessId, setBusinessId ] = useState(0);
+    const [currentProvider, setCurrentProvider] = useState(null);
 
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
@@ -87,10 +100,10 @@ const BookingsForm = ({ classes, ...props }) => {
             }
 
             if (props.currentId == 0) {
-                props.createProvider(values, onSuccess);
+                props.createBooking(values, onSuccess);
             }
             else {
-                props.updateProvider(props.currentId, values, onSuccess);
+                props.updateBooking(props.currentId, values, onSuccess);
             }
 
         }
@@ -112,7 +125,15 @@ const BookingsForm = ({ classes, ...props }) => {
         console.log("props", props);
     }, [props.currentId])
 
-    let businessIds = [];
+    const renderProviders = (providerId) => {
+
+        console.log({ providerId })
+
+        const currentProv = props.businessProviders.filter(x => x.id == providerId);
+        setCurrentProvider(currentProv);
+
+        console.log({ currentProvider });
+    }
 
     return (
         <form
@@ -122,6 +143,141 @@ const BookingsForm = ({ classes, ...props }) => {
             onSubmit={handleSubmit}
         >
             <Grid container>
+
+
+                <div className="services-bookform">
+                    {props.businessServices && props.businessServices.map((service) => (
+                        <Box key={service.id} value={service.id}
+                            sx={{
+                                minWidth: '1200px',
+                                border: '1px solid lightgrey',
+                                height: 100,
+                            }}
+                        >
+                            <Grid container spacing={2}>
+                                <Grid item xs={4} md={4}>
+                                    {service.serviceName}
+                                </Grid>
+                                <Grid item xs={2} md={2}>
+                                    {service.price}
+                                </Grid>
+                                <Grid item xs={2} md={2}>
+                                    {service.timeSlotDuration}
+                                    {service.providerId}
+                                </Grid>
+                                <Grid item xs={4} md={4}>
+                                    <Button onClick={() => { renderProviders(service.providerId) }} className="bookButton" color="secondary" >Select</Button>
+                                </Grid>
+                            </Grid>
+                        </Box>
+
+                    ))}
+                </div>
+                <Box
+                    className="providers-bookform"
+                    native
+                    variant="outlined"
+                    label="Service Provider"
+                    name="provider"
+                    value={values.provider}
+                    // @ts-ignore Typings are not considering `native`
+                    onChange={handleInputChange}
+                    inputProps={{
+                        id: 'select-multiple-native',
+                    }}
+                    {...(errors.weekvalue && { error: true, helperText: errors.weekvalue })}
+                >
+                    {currentProvider ?
+                        <Grid container spacing={2}>
+                            <Grid item xs={4} md={4}>
+                                {currentProvider[0].name}
+                            </Grid>
+                            <Grid item xs={4} md={4}>
+                                {currentProvider[0].email}
+                            </Grid>
+                            <Grid item xs={4} md={4}>
+                                {currentProvider[0].phone}
+                            </Grid>
+                            <Grid item xs={12} md={12}>
+                                {console.log("providers", JSON.parse(currentProvider[0].weekvalue))}
+                                <Scheduler
+                                    height={200}
+                                    view="month"
+                                    events={[
+                                        {
+                                            event_id: 1,
+                                            title: "Event 1",
+                                            start: new Date("2021 5 2 09:30"),
+                                            end: new Date("2022 5 2 10:30"),
+                                        },
+                                        {
+                                            event_id: 2,
+                                            title: "Event 2",
+                                            start: new Date("2022 1 4 10:00"),
+                                            end: new Date("2022 9 4 11:00"),
+                                        },
+                                    ]}
+                                />
+                            </Grid>
+
+                        </Grid>
+
+                        :
+
+                        props.businessProviders.map((providers) => (
+
+                            <Grid container key={providers.id} spacing={2}>
+                                <Grid item xs={4} md={4}>
+                                    {providers.name}
+                                </Grid>
+                                <Grid item xs={4} md={4}>
+                                    {providers.email}
+                                </Grid>
+                                <Grid item xs={4} md={4}>
+                                    {providers.phone}
+                                </Grid>
+                                <Grid item xs={12} md={12}>
+                                    {console.log("providers", JSON.parse(providers.weekvalue))}
+                                    <Scheduler
+                                        height={200}
+                                        view="week"
+                                        week={{
+                                            weekDays: [0, 1, 2, 3],
+                                            weekStartOn: 0,
+                                            startHour: 13,
+                                            endHour: 23,
+                                            step: 60,
+                                            cellRenderer: ({ height, start, onClick }) => {
+                                                // Fake some condition up
+                                                const hour = start.getHours();
+                                                const disabled = hour === 11;
+                                                return (
+                                                    <Button
+                                                        style={{
+                                                            height: "100%",
+                                                            background: disabled ? "#eee" : "transparent"
+                                                        }}
+                                                        onClick={() => {
+                                                            if (true) {
+                                                                return console.log(start, height);
+                                                            }
+                                                            onClick();
+                                                        }}
+                                                        disableRipple={disabled}
+                                                    // disabled={disabled}
+                                                    ></Button>
+                                                );
+                                            }
+                                        }}
+
+                                    />
+                                </Grid>
+
+                            </Grid>
+
+                        ))
+                    }
+                </Box>
                 <TextField
                     name="name"
                     variant="outlined"
@@ -143,50 +299,6 @@ const BookingsForm = ({ classes, ...props }) => {
                     value={values.name}
                     onChange={handleInputChange}
                 />
-                <Select
-                    
-                    native
-                    variant="outlined"
-                    label="Services"
-                    name="service"
-                    value={values.service}
-                    // @ts-ignore Typings are not considering `native`
-                    onChange={handleInputChange}
-                    inputProps={{
-                        id: 'select-multiple-native',
-                    }}
-                    
-                >
-                    
-                    {props.businessServices && props.businessServices.map((service) => (
-                        
-                        <option key={service.id} value={service.id}>
-                            {service.serviceName}
-                            {businessIds.push(service.businessId)}
-                            {console.log("providersIds", businessIds)}
-                        </option>
-                    ))}
-                </Select>
-                <Select
-                    
-                    native
-                    variant="outlined"
-                    label="Service Provider"
-                    name="provider"
-                    value={values.provider}
-                    // @ts-ignore Typings are not considering `native`
-                    onChange={handleInputChange}
-                    inputProps={{
-                        id: 'select-multiple-native',
-                    }}
-                    {...(errors.weekvalue && { error: true, helperText: errors.weekvalue })}
-                >
-                    {props.businessProviders.map((provider) => (
-                        <option key={provider.id} value={provider.id}>
-                            {provider.name}
-                        </option>
-                    ))}
-                </Select>
 
 
 
@@ -194,19 +306,10 @@ const BookingsForm = ({ classes, ...props }) => {
             <Button
                 className={classes.smMargin}
                 variant="contained"
-                color="primary"
+                color="secondary"
                 type="submit"
             >
-                Submit
-            </Button>
-            <Button
-                variant="contained"
-                color="primary"
-                type="submit"
-                className={classes.smMargin}
-                onClick={resetForm}
-            >
-                Reset
+                Reserve a Service
             </Button>
         </form>
     )
@@ -219,7 +322,7 @@ const mapStateToProps = state => ({
 });
 
 
-const mapActionsToProps = {    
+const mapActionsToProps = {
     fetchAllProviders: providerActions.fetchAll,
     fetchAllBusinessServices: serviceActions.fetchAll,
 }

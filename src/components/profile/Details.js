@@ -5,7 +5,7 @@ import { accountService } from '../../services';
 
 function Details({ match }) {
     const { path } = match;
-    const user = accountService.userValue;
+    const user = JSON.parse(localStorage.getItem('user'))
 
     return (
         <div>

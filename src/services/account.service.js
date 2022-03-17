@@ -30,6 +30,7 @@ function login(email, password) {
             // publish user to subscribers and start timer to refresh token
             userSubject.next(user);
             startRefreshTokenTimer();
+            localStorage.setItem('user', JSON.stringify(user));
             return user;
         });
 }
@@ -38,6 +39,7 @@ function logout() {
     // revoke token, stop refresh timer, publish null to user subscribers and redirect to login page
     fetchWrapper.post(`${baseUrl}/revoke-token`, {});
     stopRefreshTokenTimer();
+    localStorage.removeItem('user');
     userSubject.next(null);
     history.push('/account/login');
 }
@@ -119,10 +121,12 @@ function startRefreshTokenTimer() {
 
     // set a timeout to refresh the token a minute before it expires
     const expires = new Date(jwtToken.exp * 1000);
-    const timeout = expires.getTime() - Date.now() - (60 * 1000);
+    const timeout = expires.getTime() - Date.now() - (60 * 10000);
     refreshTokenTimeout = setTimeout(refreshToken, timeout);
 }
 
 function stopRefreshTokenTimer() {
     clearTimeout(refreshTokenTimeout);
 }
+
+

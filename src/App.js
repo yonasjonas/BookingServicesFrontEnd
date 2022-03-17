@@ -1,7 +1,6 @@
 import './App.css';
-import { store } from "./actions/store";
 import React, { useEffect, useState } from "react";
-import { Provider } from "react-redux";
+import { connect } from 'react-redux';
 //import { Role } from '@/helpers';
 import { accountService } from './services';
 import { PrivateRoute, CustomAlert } from './components/account';
@@ -14,31 +13,34 @@ import Bookings from './Pages/Member/BusinessBookings';
 import BusinessInformation from './Pages/Member/BusinessInformation';
 import TopNavigation from "./components/navigation/TopNavigation";
 import MemberMenu from "./components/navigation/MemberMenu";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Router, Switch, Route } from "react-router-dom";
 import Home from "./Pages/Public/Home";
 import About from "./Pages/Public/About";
 import Contact from "./Pages/Public/Contact";
 import BookNow from "./Pages/Public/ListOfServices";
-import Login from "./Pages/Account/Login";
+import connectedLoginPage from "./Pages/Account/Login";
 import Register from "./Pages/Account/Register";
 import DashBoard from "./Pages/Member/Dashboard";
 import { ToastProvider } from "react-toast-notifications";
 import { Profile } from './components/profile';
 import { history } from './helpers';
+import { alertActions } from './actions/alert.actions';
+import { userActions } from './actions/user.actions';
 
-function App() {
+let user = null;
 
-    const [user, setUser] = useState({});
+function App(...props) {
 
-    useEffect(() => {
-        const subscription = accountService.user.subscribe(x => setUser(x));
-        console.log("user from app.js : ", user);
-        return subscription.unsubscribe;
-    }, []);
-
+    history.listen((location, action) => {
+        // clear alert on location change
+       // props.clearAlerts();
+    });
+    
     return (
-
-        <Provider store={store}>
+        <>
+            {alert.message &&
+                <div className={`alert ${alert.type}`}>{alert.message}</div>
+            }
             <Router history={history}>
                 <TopNavigation />
                 <CustomAlert />
@@ -58,14 +60,28 @@ function App() {
                         <PrivateRoute path="/profile" component={Profile} />
                         <PrivateRoute path="/business" component={Business} />
                         <PrivateRoute path="/bookings" component={Bookings} />
-                        <Route path="/login" component={Login} />
+                        <Route path="/login" component={connectedLoginPage} />
                         <Route path="/register" component={Register} />
                     </Switch>
                 </ToastProvider>
 
             </Router>
-        </Provider>
+        </>
     );
 }
 
-export default App;
+function mapStateToProps(state) {
+    const { alert } = state;
+
+    user = state.user;
+
+    return { alert };
+}
+
+const mapActionsToProps = {
+    clearAlerts: alertActions.clear,
+    userActions: userActions.refreshToken
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(App);
+

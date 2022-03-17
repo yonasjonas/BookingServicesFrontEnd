@@ -48,7 +48,7 @@ const BusinessServices = (props, classes) => {
     }
     let temp = [];
     let i = 0;
-    const user = accountService.userValue;
+    const user = JSON.parse(localStorage.getItem('user'))
 
 
 
@@ -101,7 +101,6 @@ const BusinessServices = (props, classes) => {
 }
 
 const mapStateToProps = state => ({
-
     businessServicesList: state.businessService.list,
     businessProviders: state.businessProvider.list
 });

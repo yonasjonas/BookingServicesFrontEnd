@@ -11,6 +11,7 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
 function ToggleButtonNotEmpty(props) {
     const [days, setDays] = React.useState(() => []);
+    
     const handleDays = (event, newDays) => {
         if (newDays.length) {
             setDays(newDays);
@@ -18,7 +19,7 @@ function ToggleButtonNotEmpty(props) {
         
     };
     useEffect(() => {
-        //setDays([1,2]);
+        setDays(days);
         console.log({ days });
     }, [days]);
 
@@ -29,26 +30,7 @@ function ToggleButtonNotEmpty(props) {
                 onChange={handleDays}
                 aria-label="day"
             >
-                 <ToggleButton value="1" aria-label="left aligned" aria-labelledby="1">
-                    Monday
-                </ToggleButton>
-                <ToggleButton value="2" aria-label="aligned" aria-labelledby="2">
-                    Tuesday
-                </ToggleButton>
-                <ToggleButton value="3" aria-label="aligned" aria-labelledby="3">
-                    Wednesday
-                </ToggleButton>
-                <ToggleButton value="4" aria-label="aligned" aria-labelledby="4">
-                    Thursday
-                </ToggleButton>
-                <ToggleButton value="5" aria-label="aligned" aria-labelledby="5">
-                    Friday
-                </ToggleButton>
-                <ToggleButton value="6" aria-label="aligned" aria-labelledby="6">
-                    Saturday
-                <ToggleButton value="7" aria-label="right aligned" aria-labelledby="7">
-                    Sunday
-                </ToggleButton></ToggleButton>
+                
                 
             </ToggleButtonGroup>
         </Stack>

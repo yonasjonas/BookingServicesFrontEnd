@@ -58,17 +58,13 @@ export default {
             delete: id => axios.delete(url + id)
         }
     },
-    fileInformation(url = baseURL + 'upload/') {
-        const requestOptions = {
-            method: 'GET',
-            headers: { ...authHeader(url) },
-            credentials: 'include'
-        };
+    fileInformation(url = baseURL + 'api/upload/') {
+        
         return {
-            fetchById: id=> axios.get(url+id),
+            fetchImageById: id => axios.get(url+id),
             //fetchByBusinessId: id=> axios.get(url + "business/" + id),
-            /* create: newRecord => axios.post(url, newRecord),
-            update: (id, updateRecord) => axios.put(url + id, updateRecord, requestOptions),
+            postImage: newRecord => axios.post(url, newRecord),
+            /*update: (id, updateRecord) => axios.put(url + id, updateRecord, requestOptions),
             delete: id => axios.delete(url + id) */
         }
     },

@@ -110,18 +110,18 @@ const BusinessInformationForm = ({ classes, ...props }) => {
 
     let alreadyExists = false;
 
-    /* const updateAfterSave = () => {
-        initialFieldValues.BusinessName = props.BusinessInformation.item[0].businessName;
-        initialFieldValues.Email = props.BusinessInformation.item[0].email;
-        initialFieldValues.Phone = props.BusinessInformation.item[0].phone;
-        initialFieldValues.Description = props.BusinessInformation.item[0].description;
-        initialFieldValues.Address1 = props.BusinessInformation.item[0].address1;
-        initialFieldValues.Address2 = props.BusinessInformation.item[0].address2;
-        initialFieldValues.County = props.BusinessInformation.item[0].county;
-        initialFieldValues.Country = props.BusinessInformation.item[0].country;
+    const updateAfterSave = () => {
+        initialFieldValues.BusinessName = user.businessName;
+        initialFieldValues.Email = user.email;
+        initialFieldValues.Phone = user.phone;
+        initialFieldValues.Description = user.description;
+        initialFieldValues.Address1 = user.address1;
+        initialFieldValues.Address2 = user.address2;
+        initialFieldValues.County = user.county;
+        initialFieldValues.Country = user.country;
         alreadyExists = true;
 
-    } */
+    }
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -135,15 +135,11 @@ const BusinessInformationForm = ({ classes, ...props }) => {
             if (user && !alreadyExists) props.updateBusinessInfo(user.id, values, onSuccess);
         }
     }
-
-
-
     useEffect(() => {
         props.fetchBusinessInfo(user.id);
-        console.log({ props });
-        onLoadPlease();
-        //if (user && !alreadyExists) updateAfterSave();
-
+        console.log("fetchBusinessInfo: ", { props });
+        //onLoadPlease();
+        if (user && !alreadyExists) updateAfterSave();
     }, [user.id])
 
     const onLoadPlease = () => {
@@ -155,38 +151,6 @@ const BusinessInformationForm = ({ classes, ...props }) => {
             }
         }, 1000);
     }
-
-
-
-
-
-
-
-    /* if (props.currentId !== 0) {
-        console.log()
-        let days = [];
-        let temp = props.providersList.find(x => x.id == props.currentId);
-        if (!!temp.weekvalue && temp.weekvalue !== "[object Object]") {
-            if (typeof temp.weekvalue === 'string') {
-                Object.keys(JSON.parse(temp.weekvalue)).map(i => {
-                    console.log("inside : ", i);
-                    days.push(i);
-                })
-            }
-            else {
-                Object.keys(temp.weekvalue).map(i => { console.log("showDays : ", i) })
-            }
-        }
-        setDays(days);
-        setValues({
-            ...temp
-        })
-        
-        setErrors({})
-     */
-
-
-
     return (
         <form onSubmit={handleSubmit} className={classes.root}>
             <Grid container>
@@ -198,9 +162,6 @@ const BusinessInformationForm = ({ classes, ...props }) => {
                 <TextField name="Address2" label="Address2" type="text" variant="outlined" value={values.Address2} onChange={handleInputChange} />
                 <TextField name="County" label="County" type="text" variant="outlined" value={values.County} onChange={handleInputChange} />
                 <TextField name="Country" label="Country" type="text" variant="outlined" value={values.Country} onChange={handleInputChange} />
-
-
-
             </Grid>
             <Button type="submit"
                 className={classes.smMargin}
@@ -212,16 +173,12 @@ const BusinessInformationForm = ({ classes, ...props }) => {
         </form >
     )
 }
-
 const mapStateToProps = state => ({
-    BusinessInformation: state.businessInformation
+    BusinessInformation: state.businessInformation,
+    
 });
-
-//console.log({ mapStateToProps });
-
 const mapActionsToProps = {
     fetchBusinessInfo: actions.fetchById,
     updateBusinessInfo: actions.update
 }
-
 export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(BusinessInformationForm));

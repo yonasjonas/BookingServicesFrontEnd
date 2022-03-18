@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import * as fileActions from '../../actions/file';
+import { connect } from "react-redux";
+import { fetchById } from '../../actions/businessInformation';
 
-export default function FileUpload(...props) {
+function FileUpload(...props) {
 	const [selectedFile, setSelectedFile] = useState();
 	const [isFilePicked, setIsFilePicked] = useState(false);
+	const user = JSON.parse(localStorage.getItem('user'))
+	const [loaded, setLoaded] = useState(false);
 
 	const changeHandler = (event) => {
 		setSelectedFile(event.target.files[0]);
@@ -10,36 +15,15 @@ export default function FileUpload(...props) {
 	};
 
 	const handleSubmission = () => {
-		const formData = new FormData();
-
-		formData.append('File', selectedFile);
-		formData.append('Type', "businessInformationCover");
-		formData.append('FileName', selectedFile.name);
-		console.log({ props })
-		formData.append('BusinessId', JSON.parse(localStorage.user).id);
-
-
-		fetch(
-			'http://localhost:4000/upload/image/file',
-			{
-				method: 'POST',
-				body: formData,
-			}
-		)
-			.then((response) => response.json())
-			.then((result) => {
-				console.log('Success:', result);
-			})
-			.catch((error) => {
-				console.error('Error:', error);
-			});
+		props[0].postImage(selectedFile);
 	};
+
 
 
 	return (
 		<div>
 			<input type="file" name="file" onChange={changeHandler} />
-			{isFilePicked ? (
+			{isFilePicked && !loaded ? (
 				<div>
 					<p>Filename: {selectedFile.name}</p>
 					<p>Filetype: {selectedFile.type}</p>
@@ -47,10 +31,13 @@ export default function FileUpload(...props) {
 					<p>
 						lastModifiedDate:{' '}
 						{selectedFile.lastModifiedDate.toLocaleDateString()}
+						
 					</p>
 				</div>
 			) : (
+				<>
 				<p>Select a file to show details</p>
+				</>
 			)}
 			<div>
 				<button onClick={handleSubmission}>Submit</button>
@@ -60,3 +47,15 @@ export default function FileUpload(...props) {
 }
 
 
+const mapStateToProps = state => ({
+	FileInformation: state.file
+});
+
+//console.log({ mapStateToProps });
+
+const mapActionsToProps = {
+	fetchImage: fileActions.fetchImageById,
+	postImage: fileActions.postImage
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(FileUpload);

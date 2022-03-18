@@ -14,7 +14,7 @@ const formatData = (data) => ({
     email: String(data.email ? data.email : ""),
     weekvalue: String(JSON.stringify(data.weekvalue) ? JSON.stringify(data.weekvalue) : ""),
     phone: String(data.phone ? data.phone : ""),
-    //businessId: Number(!isNaN(data.businessId) ? parseInt(data.businessId) : 1),
+    businessId: Number(!isNaN(data.businessId) ? parseInt(data.businessId) : 1),
 });
 
 export const fetchAll = () => dispatch => {

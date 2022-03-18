@@ -38,21 +38,6 @@ const BusinessProviders = (props, classes) => {
 
 
 
-    //const myObjectOfDays = props.providersList;
-
-    /* if (myObjectOfDays && currentId !== 0) {
-        myObjectOfDays.map(i => {
-
-            //i.weekvalue = JSON.parse(i.weekvalue);
-        })
-    } */
-
-
-
-    //console.log("showm e the props : ", props)
-
-
-
     const onDelete = id => {
         if (window.confirm('Are you sure?')) {
             props.deleteProvider(id, () => addToast("Submitted successfully", { appearance: 'info' }));
@@ -72,14 +57,15 @@ const BusinessProviders = (props, classes) => {
             if (typeof allDays === 'string') {
                 Object.keys(JSON.parse(allDays)).map(i => {
                     //console.log("inside : ", JSON.parse(allDays));
-                    days.push(JSON.parse(allDays)[i].dayIndex);
+                    //days.push(JSON.parse(allDays)[i].dayIndex);
                 })
             }
             else {
                 Object.keys(allDays).map(i => { console.log("showDays : ", i) })
             }
         }
-        return "" + days + "";
+        return "" + days + " ";
+        
     }
 
 

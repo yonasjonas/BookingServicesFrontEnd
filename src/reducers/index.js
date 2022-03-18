@@ -7,6 +7,7 @@ import { authentication } from './authentication.reducer';
 import { registration } from './registration.reducer';
 import { users } from './users.reducer';
 import { alert } from './alert.reducer';
+import { filesReducer } from './filesReducer';
 
 export const reducers = combineReducers({
     authentication,
@@ -17,6 +18,7 @@ export const reducers = combineReducers({
     registration,
     users,
     alert,
+    filesReducer,
 })
 
 

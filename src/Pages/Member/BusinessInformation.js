@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../actions/businessInformation";
+import * as fileActions from '../../actions/file';
 import { Grid, Paper, TableBody, TableCell, TableRow, TableContainer, Table, TableHead, withStyles, Container, ButtonGroup, Button } from '@material-ui/core';
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -10,6 +11,7 @@ import MembersMenu from '../../components/navigation/MemberMenu';
 import { accountService, alertService } from '../../services';
 import BusinessInformationForm from "../../components/Forms/BusinessInformationForm";
 import FileUpload from '../../components/FormElements/FileUpload';
+import HeroImage from '../../components/media/HeroImage';
 
 
 const style = theme => ({
@@ -25,39 +27,59 @@ const style = theme => ({
     }
 });
 
+
+
 const BusinessInformation = (props, classes) => {
     //const user = JSON.parse(localStorage.getItem('user'))
-    const { addToast } = useToasts();
+    const user = JSON.parse(localStorage.getItem('user'))
+    //const { addToast } = useToasts();
+
+    const loadImage = () => {
+        
+        console.log("image loaded")
+    }
+    
+    useEffect(() => {
+        //props.fetchImage(user.id);
+        //props.fetchBusinessInfo(user.id);
+        console.log({ props });
+    });
 
     const [currentId, setCurrentId] = useState(0);
 
     return (
-        <Container maxWidth={false}>
-            <FileUpload/>
-            <Paper>
-                <Grid container>
-                    <Grid item xs={3}>{<MembersMenu />}</Grid>
-                    <Grid item xs={9}>
-                        <BusinessInformationForm props={props}/>
+        <>
+            <HeroImage />
+            <Container maxWidth={1200}>
+                { 
+                <FileUpload />
+}
+                <Paper>
+                    <Grid container>
+                        <Grid item xs={3}>{<MembersMenu />}</Grid>
+                        <Grid item xs={9}>
+                            <BusinessInformationForm props={props} />
+                        </Grid>
                     </Grid>
-                </Grid>
-            </Paper>
-        </Container>
+                </Paper>
+            </Container>
+        </>
     )
 }
 
 const mapStateToProps = state => ({
-    BusinessInformation: state.businessInformation
+    BusinessInformation: state.businessInformation,
+    FileInformation: state.file
 });
 
 //console.log({ mapStateToProps });
 
 const mapActionsToProps = {
     fetchBusinessInfo: actions.fetchById,
-    deleteBusinessService: actions.deleteData
+    deleteBusinessService: actions.deleteData,  
+	fetchImage: fileActions.fetchImageById,
 }
 
 
 
 export default connect(mapStateToProps, mapActionsToProps)(withStyles(style)(BusinessInformation));
-

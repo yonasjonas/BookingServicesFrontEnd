@@ -1,5 +1,5 @@
 //import * as React from 'react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import Typography from '@mui/material/Typography';
@@ -58,81 +58,135 @@ const marks = [
 function valuetext(value) {
     return `${value}`;
 }
-const allInfo = {};
 
 
 
+let allInfo = {};
+let localDays = [];
+let startTime = null;
+let endTime = null;
+let isDirty = false;
 
-const incrementParentCounter = null;
+function RangeSlider(...props) {
 
+    //const [currentValue, setCurrentValue] = React.useState([0,0]);
+    let [currentValue, setCurrentValue] = React.useState([0, 0]);
+    const [days, setDays] = React.useState([]);
 
-function RangeSlider( ...props ) {
+    useEffect(() => {
 
-    const sortDaysHours = (value, day) => {
-        //console.log({value, day});
-        let startTime = value[0];
-        let endTime = value[1];
+        console.log("useEffect");
+        localDays = [];
 
-        marks.forEach(element => {
-            if (element.value == startTime) {
-                startTime = element.label;
+        if (!!allInfo === false) {
+            // only perform below if slider wasnt touched on the page already
+            if (!isDirty && props[0].daysObject !== '') {
+                if (typeof props[0].daysObject === 'object') {
+                    allInfo = props && props[0].daysObject !== '' ? props[0].daysObject : {};
+                }
+                else {
+                    allInfo = props && props[0].daysObject !== '' ? JSON.parse(props[0].daysObject) : {};
+                }
             }
-            if (element.value == endTime) {
-                endTime = element.label;
-            }
-        });
-        //!isNaN(props[0].spkey) ? parseInt(props[0].spkey) : console.log("not a number");
 
-        let dayIndex = 0;
+            if (!!allInfo && allInfo !== "[object Object]") {
+                if (typeof allInfo === 'string') {
+                    Object.keys(JSON.parse(allInfo)).map(i => {
+                        localDays.push(i);
+                    })
+                }
+                else {
+                    Object.keys(allInfo).map(i => {
+                        localDays.push(i);
+                        console.log("days to display:> ", allInfo[i]);
+                        marks.forEach(element => {
+                            if (element.label == allInfo[i].startTime) {
+                                startTime = element.value;
+                            }
+                            if (element.label == allInfo[i].endTime) {
+                                endTime = element.value;
+                            }
+                        });
+                    });
 
-        //console.log("bad code here!!!!!!")
-        /* if(!!allInfo){
-            if(typeof allInfo === 'string'){
-                Object.keys(JSON.parse(allInfo)).map(i => {dayIndex =+ 1})
-            }
-            else{
-                Object.keys(allInfo).map(i => {dayIndex =+ 1 })
+
+
+                }
+                if (localDays.length !== days.length) {
+                    setDays(localDays);
+                    setCurrentValue(prevTimes => ([...prevTimes, [startTime, endTime]]))
+                }
             }
         }
- */
-        // = allInfo ? allInfo.map(i => { dayIndex =+ 1}) : 0;
+    });
+
+    const sortDaysHours = (value, day, key) => {
+
+        startTime = null;
+        endTime = null;
+
+        if (typeof value[0] === 'number') {
+
+            startTime = value[0];
+            endTime = value[1];
+
+            let startTimeValue = null;
+            let endTimeValue = null;
 
 
-        //console.log("not a number: ", dayIndex);
-        let daysAsObjectKeys = {};
 
-        if(!!allInfo){
-            if(typeof allInfo === 'string'){
-                daysAsObjectKeys = Object.keys(JSON.parse(allInfo));
+            marks.forEach(element => {
+                if (element.value == startTime) {
+                    startTime = element.label;
+                    startTimeValue = element.value;
+                }
+                if (element.value == endTime) {
+                    endTime = element.label;
+                    endTimeValue = element.value;
+                }
+            });
+
+            if (startTime && endTime && day) {
+                allInfo[key] = {
+                    "dayIndex": day,
+                    "startTime": startTime,
+                    "endTime": endTime
+                }
             }
-            else{
-                daysAsObjectKeys  = Object.keys(allInfo);
+            setCurrentValue([startTimeValue, endTimeValue]);
+
+
+
+
+        }
+        else {
+
+            if (startTime && endTime && day) {
+                allInfo[key] = {
+                    "dayIndex": day,
+                    "startTime": startTime,
+                    "endTime": endTime
+                }
             }
-            dayIndex = daysAsObjectKeys.length;
-            
-            /* daysAsObjectKeys.map(i => {
-                console.log("boo boom", JSON.parse(allInfo)[i]);
-                if (JSON.parse(allInfo)[i].dayIndex !== day){
-    
-                } 
-            }) */
+
+            marks.forEach(element => {
+                if (element.label == startTime) {
+                    startTime = element.value;
+                }
+                if (element.label == endTime) {
+                    endTime = element.value;
+                }
+            });
+            setCurrentValue([startTime, endTime]);
+
         }
-
-        
-
-
-
-
-        allInfo[dayIndex] = {
-            "dayIndex": day,
-            "startTime": startTime,
-            "endTime": endTime
-        }
-
+        isDirty = true;
+        console.log("allInfo : ", allInfo);
         props[0].parentCallback(allInfo)
-        console.log({allInfo})
     }
-    
+
+
+
 
     return (
 
@@ -141,13 +195,13 @@ function RangeSlider( ...props ) {
                 Hours for {props[0].day}
             </Typography>
             <Slider
-                onChange={event => { sortDaysHours(event.target.value, props[0].day); }
+                onChange={event => { sortDaysHours(event.target.value, props[0].day, props[0].arrayKey); }
                 }
                 //onChangeCommitted={incrementParentCounter}
                 name={props.key}
                 aria-labelledby="track-inverted-range-slider"
                 getAriaValueText={valuetext}
-                defaultValue={[0, 10]}
+                value={currentValue}
                 marks={marks}
                 step={10}
             />
@@ -161,8 +215,9 @@ RangeSlider.propTypes = {
     //updateProviderWorkinghours: React.propTypes.func,
 };
 
-const mapStateToProps = (state) => ({
-    workinghours: state.providerWorkingHours,
+const mapStateToProps = state => ({
+    providersList: state.businessProvider.list,
+
 });
 
 const mapActionsToProps = {

@@ -5,15 +5,9 @@ import { history } from '../helpers/history';
 import api from "./api";
 
 
+export function fetchImageById (dispatch)  { 
 
-export const fileActions = {
-    postImage,
-    fetchById
-};
-
-function fetchById(dispatch) { 
-
-    api.fileInformation().fetchById(JSON.parse(localStorage.user).id)
+    api.fileInformation().fetchImageById(JSON.parse(2))
     .then(response => {
         let dataLocal = Object.assign({}, response)
         //dataLocal.weekvalue = dataLocal.weekvalue.split(',');
@@ -29,7 +23,7 @@ function fetchById(dispatch) {
     });    
 };
 
-function postImage(selectedFile) {
+export const postImage = (selectedFile)  =>{
 
     const formData = new FormData();
 
@@ -40,7 +34,7 @@ function postImage(selectedFile) {
 
 
     fetch(
-        'http://localhost:4000/upload/image/file',
+        'http://localhost:4000/api/upload/image/file',
         {
             method: 'POST',
             body: formData,

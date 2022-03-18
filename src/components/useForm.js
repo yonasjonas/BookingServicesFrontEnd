@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const useForm = (initialFieldValues, validate, setCurrentId, workingDays) => {
+const useForm = (initialFieldValues, validate, setCurrentId, setDays) => {
 	const [values, setValues] = useState(initialFieldValues);
 	const [errors, setErrors] = useState({});
 
@@ -41,6 +41,9 @@ const useForm = (initialFieldValues, validate, setCurrentId, workingDays) => {
 			})
 			//setErrors({})
 			setCurrentId(0);
+			setDays([]);
+			values.weekvalue = {};
+
 		}
 
 		return {

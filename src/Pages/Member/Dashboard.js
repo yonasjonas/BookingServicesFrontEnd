@@ -15,14 +15,14 @@ import { experimentalStyled as styled } from '@mui/material/styles';
 
 
 const Item = styled(Paper)(({ theme }) => ({
-  ...theme.typography.body2,
-  padding: theme.spacing(4),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-  fontSize: '2.5rem',
-  height: '300px',
-  lineHeight : '200px',
-  margin: '30px',
+    ...theme.typography.body2,
+    padding: theme.spacing(4),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+    fontSize: '2.5rem',
+    height: '300px',
+    lineHeight: '200px',
+    margin: '30px',
 
 }));
 //import Dashboard from "./DashBoardSideMenu";
@@ -69,31 +69,31 @@ const BusinessServices = (props, classes) => {
 
     return (
         <Container maxWidth={false}>
-            <TableContainer> 
-            <Grid container>               
-                <Grid item xs={3}>                
-                    {<MembersMenu />}</Grid>
-                <Grid item xs={9}>
-                    <h1>Dashboard</h1>
-                    <Box sx={{ flexGrow: 1 }}>
-      <Grid container spacing={{ xl:4, xs: 4, md: 4 }} columns={{ xs: 2, sm: 2, md: 1 }}>
-      <Grid item xs={2} sm={4} md={6} key="1">
-            <Item>Services</Item>
-          </Grid>
-          <Grid item xs={2} sm={4} md={6} key="2">
-            <Item>Providers</Item>
-          </Grid>
-          <Grid item xs={2} sm={4} md={6} key="3">
-            <Item>Bookings</Item>
-          </Grid>
-          <Grid item xs={2} sm={4} md={6} key="4">
-            <Item>Widget Settings</Item>
-          </Grid>
-          
-      </Grid>
-    </Box>
-                </Grid>                    
-            </Grid>
+            <TableContainer>
+                <Grid container>
+                    <Grid item xs={3}>
+                        {<MembersMenu />}</Grid>
+                    <Grid item xs={9}>
+                        <h1>Dashboard</h1>
+                        <Box sx={{ flexGrow: 1 }}>
+                            <Grid container columns={{ xs: 2, sm: 2, md: 1 }}>
+                                <Grid item xs={2} sm={4} md={6} key="1">
+                                    <Item>Services</Item>
+                                </Grid>
+                                <Grid item xs={2} sm={4} md={6} key="2">
+                                    <Item>Providers</Item>
+                                </Grid>
+                                <Grid item xs={2} sm={4} md={6} key="3">
+                                    <Item>Bookings</Item>
+                                </Grid>
+                                <Grid item xs={2} sm={4} md={6} key="4">
+                                    <Item>Widget Settings</Item>
+                                </Grid>
+
+                            </Grid>
+                        </Box>
+                    </Grid>
+                </Grid>
             </TableContainer>
         </Container>
     )

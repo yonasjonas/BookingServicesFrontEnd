@@ -9,7 +9,6 @@ import useForm from '../useForm';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import { useToasts } from "react-toast-notifications";
-import BusinessBookings from "../../Pages/Member/BusinessBookings";
 import { Scheduler } from "@aldabil/react-scheduler";
 
 
@@ -55,8 +54,6 @@ const initialFieldValues = {
     timeDate: "",
 }
 
-
-
 const BookingsForm = ({ classes, ...props }) => {
 
     const { addToast } = useToasts();
@@ -92,22 +89,18 @@ const BookingsForm = ({ classes, ...props }) => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        //console.log("works", values);
         if (validate()) {
             const onSuccess = () => {
                 addToast("Submitted successfully", { appearance: 'success' });
                 resetForm();
             }
-
             if (props.currentId == 0) {
                 props.createBooking(values, onSuccess);
             }
             else {
                 props.updateBooking(props.currentId, values, onSuccess);
             }
-
         }
-
     }
 
     useEffect(() => {
@@ -116,17 +109,13 @@ const BookingsForm = ({ classes, ...props }) => {
         props.fetchAllBusinessServices();
         if (props.currentId !== 0) {
             let temp = props.providersList.find(x => x.id == props.currentId);
-
             setValues({
                 ...temp
             })
             setErrors({})
         }
-        console.log("props", props);
     }, [props.currentId])
-
     const renderProviders = (providerId) => {
-
         console.log({ providerId })
 
         const currentProv = props.businessProviders.filter(x => x.id == providerId);
@@ -187,19 +176,22 @@ const BookingsForm = ({ classes, ...props }) => {
                     }}
                     {...(errors.weekvalue && { error: true, helperText: errors.weekvalue })}
                 >
-                    {currentProvider ?
+
+                    {currentProvider < -99 ?
                         <Grid container spacing={2}>
-                            <Grid item xs={4} md={4}>
+                            <Grid item xs={6} md={3}>
                                 {currentProvider[0].name}
                             </Grid>
-                            <Grid item xs={4} md={4}>
+                            <Grid item xs={6} md={3}>
                                 {currentProvider[0].email}
                             </Grid>
-                            <Grid item xs={4} md={4}>
+                            <Grid item xs={6} md={3}>
+                                {currentProvider[0].phone}
+                            </Grid>
+                            <Grid item xs={6} md={3}>
                                 {currentProvider[0].phone}
                             </Grid>
                             <Grid item xs={12} md={12}>
-                                {console.log("providers", JSON.parse(currentProvider[0].weekvalue))}
                                 <Scheduler
                                     height={200}
                                     view="month"

@@ -59,18 +59,160 @@ const initialFieldValues = {
     businessId: "",
 }
 
-
+let oldNewDaysLength = 0;
 
 const ProvidersForm = ({ classes, ...props }) => {
 
-console.log({ props });
+    const user = JSON.parse(localStorage.getItem('user'));
+    
+
+    const handleSubmit = e => {
+        e.preventDefault();
+        values.weekvalue = values.weekvalue ? values.weekvalue : "";
+        values.businessId = user ? user.id : "11";
+        
+        console.log("works:", values);
+        if (validate()) {
+            const onSuccess = () => {
+                addToast("Submitted successfully", { appearance: 'success' });
+                resetForm();
+                setDays([])
+            }
+            if (props.currentId == 0) {
+                props.createProvider(values, onSuccess);
+            }
+            else {
+                props.updateProvider(props.currentId, values, onSuccess);
+            }
+        }
+    }
+
+    let localDays = [];
+
+    useEffect(() => {
+        oldNewDaysLength = 0;
+        //props.providersList();
+        //resetForm();
+        if (props.currentId !== 0) {
+            console.log("props.currentId: ", props.currentId)
+            localDays = [];
+            values.weekvalue = JSON.parse(props.providersList.find(x => x.id == props.currentId).weekvalue);
+            //console.log({ values });
+            if (!!values.weekvalue && values.weekvalue !== "[object Object]") {
+                if (typeof values.weekvalue === 'string') {
+                    Object.keys(JSON.parse(values.weekvalue)).map(i => {
+
+                        localDays.push(i);
+                        setDays(localDays);
+                        console.log("babrabim!", values.weekvalue[i])  
+                        //setDays(prevTimes => ([...prevTimes, localDays]))
+                        //values.weekvalue = JSON.parse(correctProvider.weekvalue);
+                        //console.log("values.weekvalue : ", values.weekvalue);
+                        //days.push(i);
+                        //console.log("daysdaysdaysdaysdaysdays : ",days);
+                    })
+                }
+                else {
+                    Object.keys(values.weekvalue).map(i => { 
+                        localDays.push(i);
+                        setDays(localDays);
+                        console.log("babrabim!", values.weekvalue[i]);
+                        //console.log("goandof: ", TimeSlider.marks)
+                        //console.log("goandof: ", callbackFunction())
+                    });
+                    
+                }
+            }
+            
+            setDays(localDays);
+            //handleDays(localDays)
+            setValues({
+                ...values
+            })
+            //values.weekvalue = JSON.parse(values.weekvalue);
+            
+            
+            setErrors({})
+        }
+
+    }, [props.currentId])
+
+
+    //console.log({ props });
     const [days, setDays] = useState(() => []);
-    const handleDays = (event, newDays) => {
+
+    const handleDays = (value, newDays) => {
+        
+        let touched = false;
+
+        if (!newDays) {
+            newDays = value;
+            touched = true;            
+        }
         
         if (newDays.length) {
             setDays(newDays);
+            //setDays(prevDays => ([...prevDays, newDays]))
         }
-        console.log({ days });
+        
+        console.log("newDays : ", newDays);
+
+        if (newDays.length < oldNewDaysLength) {
+            if (!!values.weekvalue && values.weekvalue !== "[object Object]") {
+                if (typeof values.weekvalue === 'string') {
+                    values.weekvalue = JSON.parse(values.weekvalue);
+                    Object.keys(values.weekvalue).map(i => {
+    
+                        if (newDays.includes(i)) {
+                            values.weekvalue[i] = null;
+                            //const { key, ...profilesWithoutKey } = profiles;
+                            console.log({ values });
+                        }
+                        
+                    })
+                }
+                else {
+                    
+                    Object.keys(values.weekvalue).map(i => { 
+
+                        if (newDays.includes(i)) {
+                            values.weekvalue[i] = null;
+                            //const { key, ...profilesWithoutKey } = profiles;
+                            console.log("removed", i);
+                        }
+                    });
+                    
+                }
+            }
+        }
+        else if (touched) {
+            if (!!values.weekvalue && values.weekvalue !== "[object Object]") {
+                if (typeof values.weekvalue === 'string') {
+                    values.weekvalue = JSON.parse(values.weekvalue);
+                    Object.keys(values.weekvalue).map(i => {
+                        localDays.push(i);
+                        setDays(localDays);  
+                        console.log("babrabim!", values.weekvalue[i])                
+                    })
+                }
+                else {
+                    
+                    Object.keys(values.weekvalue).map(i => { 
+                        localDays.push(i);
+                        setDays(localDays);
+
+
+                    });
+                    
+                }
+            }
+
+        }
+
+        oldNewDaysLength = newDays.length > 0 ? newDays.length : 0;
+
+       
+
     };
 
     const { addToast } = useToasts();
@@ -100,55 +242,8 @@ console.log({ props });
         weekvalue,
         setErrors,
         handleInputChange,
-        resetForm
-    } = useForm(initialFieldValues, validate, props.setCurrentId,)
-
-
-    const handleSubmit = e => {
-        e.preventDefault();
-        values.weekvalue = values.weekvalue ? values.weekvalue : "";
-        console.log("works:", values);
-        if (validate()) {
-            const onSuccess = () => {
-                addToast("Submitted successfully", { appearance: 'success' });
-                resetForm();
-            }
-            if (props.currentId == 0) {
-                props.createProvider(values, onSuccess);
-            }
-            else {
-                props.updateProvider(props.currentId, values, onSuccess);
-            }
-        }
-    }
-
-    useEffect(() => {
-
-        //props.providersList();
-        if (props.currentId !== 0) {
-            console.log()
-            let days = [];
-            let temp = props.providersList.find(x => x.id == props.currentId);
-            if (!!temp.weekvalue && temp.weekvalue !== "[object Object]") {
-                if (typeof temp.weekvalue === 'string') {
-                    Object.keys(JSON.parse(temp.weekvalue)).map(i => {
-                        console.log("inside : ", i);
-                        days.push(i);
-                    })
-                }
-                else {
-                    Object.keys(temp.weekvalue).map(i => { console.log("showDays : ", i) })
-                }
-            }
-            setDays(days);
-            setValues({
-                ...temp
-            })
-            
-            setErrors({})
-        }
-
-    }, [props.currentId])
+        resetForm,
+    } = useForm(initialFieldValues, validate, props.setCurrentId, setDays);    
 
 
     //
@@ -231,18 +326,18 @@ console.log({ props });
                 </Stack>
 
 
-                {days.length > 0 &&
+                {days.length > 0 || localDays.length !== days.length &&
 
-                    console.log(days)}
+                    1+1}
 
 
-                {days.find(x => x == "1") && <TimeSlider parentCallback={callbackFunction} spkey="1" day="Monday" />}
-                {days.find(x => x == "2") && <TimeSlider parentCallback={callbackFunction} spkey="2" day="Tuesday" />}
-                {days.find(x => x == "3") && <TimeSlider parentCallback={callbackFunction} spkey="3" day="Wednesday" />}
-                {days.find(x => x == "4") && <TimeSlider parentCallback={callbackFunction} spkey="4" day="Thursday" />}
-                {days.find(x => x == "5") && <TimeSlider parentCallback={callbackFunction} spkey="5" day="Friday" />}
-                {days.find(x => x == "6") && <TimeSlider parentCallback={callbackFunction} spkey="6" day="Saturday" />}
-                {days.find(x => x == "7") && <TimeSlider parentCallback={callbackFunction} spkey="7" day="Sunday" />}
+                {days.find(x => x == "0") && <TimeSlider parentCallback={callbackFunction} currentId={props.currentId} daysObject={values.weekvalue} arrayKey={0} day="Monday" />}
+                {days.find(x => x == "1") && <TimeSlider parentCallback={callbackFunction} currentId={props.currentId} daysObject={values.weekvalue} arrayKey={1} day="Tuesday" />}
+                {days.find(x => x == "2") && <TimeSlider parentCallback={callbackFunction} currentId={props.currentId} daysObject={values.weekvalue} arrayKey={2} day="Wednesday" />}
+                {days.find(x => x == "3") && <TimeSlider parentCallback={callbackFunction} currentId={props.currentId} daysObject={values.weekvalue} arrayKey={3} day="Thursday" />}
+                {days.find(x => x == "4") && <TimeSlider parentCallback={callbackFunction} currentId={props.currentId} daysObject={values.weekvalue} arrayKey={4} day="Friday" />}
+                {days.find(x => x == "5") && <TimeSlider parentCallback={callbackFunction} currentId={props.currentId} daysObject={values.weekvalue} arrayKey={5} day="Saturday" />}
+                {days.find(x => x == "6") && <TimeSlider parentCallback={callbackFunction} currentId={props.currentId} daysObject={values.weekvalue} arrayKey={6} day="Sunday" />}
                 <br />
                 <FormControl variant="outlined" className={classes.formControl} >
 
@@ -260,7 +355,6 @@ console.log({ props });
             <Button
                 variant="contained"
                 color="primary"
-                type="submit"
                 className={classes.smMargin}
                 onClick={resetForm}
             >

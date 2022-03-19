@@ -66,6 +66,7 @@ let localDays = [];
 let startTime = null;
 let endTime = null;
 let isDirty = false;
+let notUpdated = true;
 
 function RangeSlider(...props) {
 
@@ -77,6 +78,9 @@ function RangeSlider(...props) {
 
         console.log("useEffect");
         localDays = [];
+
+
+        console.log("currentID", props[0].currentId);
 
         if (!!allInfo === false) {
             // only perform below if slider wasnt touched on the page already
@@ -97,28 +101,76 @@ function RangeSlider(...props) {
                 }
                 else {
                     Object.keys(allInfo).map(i => {
+                        i = !isNaN(i) ? parseInt(i) : 0;
                         localDays.push(i);
-                        console.log("days to display:> ", allInfo[i]);
-                        marks.forEach(element => {
-                            if (element.label == allInfo[i].startTime) {
-                                startTime = element.value;
-                            }
-                            if (element.label == allInfo[i].endTime) {
-                                endTime = element.value;
-                            }
-                        });
+
+                        //setCorrectHours(localDays, [startTime, endTime])
+
+
                     });
-
-
-
+                    //console.log("days to display:<> ", [startTime, endTime]);
                 }
-                if (localDays.length !== days.length) {
-                    setDays(localDays);
-                    setCurrentValue(prevTimes => ([...prevTimes, [startTime, endTime]]))
-                }
+
             }
         }
+        else if (!!allInfo && props[0].currentId > 0 && notUpdated) {
+
+
+            Object.keys(allInfo).map(i => {
+                marks.forEach(element => {
+                    if (element.label == allInfo[i].startTime) {
+                        startTime = element.value;
+                    }
+                    if (element.label == allInfo[i].endTime) {
+                        endTime = element.value;
+                    }
+                });
+            });
+
+        }
+        /* else if (props[0].currentId > 0){
+            allInfo = props[0].daysObject;
+            if (typeof allInfo === 'string') {
+                Object.keys(JSON.parse(allInfo)).map(i => {
+                    localDays.push(i);
+                })
+            }
+            else {
+                Object.keys(allInfo).map(i => {
+                    localDays.push(i);
+                    console.log("days to display:> ", allInfo[i]);
+                    marks.forEach(element => {
+                        if (element.label == allInfo[i].startTime) {
+                            startTime = element.value;
+                        }
+                        if (element.label == allInfo[i].endTime) {
+                            endTime = element.value;
+                        }
+                    });
+                });
+
+
+
+            }
+            if (localDays.length !== days.length) {
+                //setDays(localDays);
+                setCurrentValue([startTime, endTime]);
+
+            }
+
+        } */
     });
+
+    const setCorrectHours = (localDays, hours) => {
+        if (!!localDays) {
+            setDays(localDays);
+        }
+        if (!!hours) {
+            setCurrentValue(hours);
+        }
+        //setDays(localDays);
+        //setCurrentValue(prevTimes => ([...prevTimes, hours]));
+    }
 
     const sortDaysHours = (value, day, key) => {
 
@@ -182,7 +234,8 @@ function RangeSlider(...props) {
         }
         isDirty = true;
         console.log("allInfo : ", allInfo);
-        props[0].parentCallback(allInfo)
+        props[0].parentCallback(allInfo);
+        notUpdated = false;
     }
 
 
@@ -216,12 +269,12 @@ RangeSlider.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    providersList: state.businessProvider.list,
+    //providersList: state.businessProvider.list,
 
 });
 
 const mapActionsToProps = {
-    updateProviderWorkinghours: actions.addProviderWorkingDays
+    //updateProviderWorkinghours: actions.addProviderWorkingDays
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(RangeSlider); 

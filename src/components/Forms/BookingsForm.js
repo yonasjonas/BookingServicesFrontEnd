@@ -58,6 +58,7 @@ const BookingsForm = ({ classes, ...props }) => {
 
     const { addToast } = useToasts();
     const [currentProvider, setCurrentProvider] = useState(null);
+    const [serviceId, setServiceId] = useState(null);
 
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
@@ -115,14 +116,28 @@ const BookingsForm = ({ classes, ...props }) => {
             setErrors({})
         }
     }, [props.currentId])
+
+
     const renderProviders = (providerId) => {
         console.log({ providerId })
 
         const currentProv = props.businessProviders.filter(x => x.id == providerId);
+        
+        const currentService = props.businessServices.filter(x => x.id == providerId);
         setCurrentProvider(currentProv);
 
+        setServiceId(serviceId);
+
         console.log({ currentProvider });
+        console.log({ serviceId });
     }
+
+    const getProviderNames = (providerId) => {
+        const providerNames = !!props.businessProviders.filter(x => x.id == providerId).map(x => x.name) 
+            ? props.businessProviders.filter(x => x.id == providerId).map(x => x.name) : "";
+
+        return providerNames;
+    };
 
     return (
         <form
@@ -132,10 +147,34 @@ const BookingsForm = ({ classes, ...props }) => {
             onSubmit={handleSubmit}
         >
             <Grid container>
-
-
                 <div className="services-bookform">
-                    {props.businessServices && props.businessServices.map((service) => (
+                    <Box
+                        sx={{
+                            minWidth: '1200px',
+                            height: 80,
+                        }}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={2} md={2}>
+
+                            </Grid>
+                            <Grid item xs={2} md={2}>
+                                Service Name
+                            </Grid>
+                            <Grid item xs={2} md={2}>
+                                Price
+                            </Grid>
+                            <Grid item xs={2} md={2}>
+                                Provider unique id
+                            </Grid>
+                            <Grid item xs={2} md={2}>
+                                Service Duration
+                            </Grid>
+                            <Grid item xs={2} md={2}>
+                                <strong>Select Service to Proceed</strong>
+                            </Grid>
+                        </Grid>
+                    </Box>
+                    {props.businessServices.length > 0 && props.businessServices.map((service) => (
                         <Box key={service.id} value={service.id}
                             sx={{
                                 minWidth: '1200px',
@@ -144,18 +183,23 @@ const BookingsForm = ({ classes, ...props }) => {
                             }}
                         >
                             <Grid container spacing={2}>
-                                <Grid item xs={4} md={4}>
+                                <Grid item xs={2} md={2}>
+                                    <img height="50px" src="serviceImage.png" />
+                                </Grid>
+                                <Grid item xs={2} md={2}>
                                     {service.serviceName}
                                 </Grid>
                                 <Grid item xs={2} md={2}>
                                     {service.price}
                                 </Grid>
                                 <Grid item xs={2} md={2}>
-                                    {service.timeSlotDuration}
-                                    {service.providerId}
+                                {getProviderNames(service.providerId)}
                                 </Grid>
-                                <Grid item xs={4} md={4}>
-                                    <Button onClick={() => { renderProviders(service.providerId) }} className="bookButton" color="secondary" >Select</Button>
+                                <Grid item xs={2} md={2}>
+                                    {service.timeSlotDuration} minutes
+                                </Grid>
+                                <Grid item xs={2} md={2}>
+                                    <Button onClick={() => { service.providerId > 0 ? renderProviders(service.providerId) : console.log("id of provider is null!") }} className="bookButton" color="primary" size="large">Select</Button>
                                 </Grid>
                             </Grid>
                         </Box>
@@ -177,42 +221,12 @@ const BookingsForm = ({ classes, ...props }) => {
                     {...(errors.weekvalue && { error: true, helperText: errors.weekvalue })}
                 >
 
-                    {currentProvider < -99 ?
-                        <Grid container spacing={2}>
-                            <Grid item xs={6} md={3}>
-                                {currentProvider[0].name}
-                            </Grid>
-                            <Grid item xs={6} md={3}>
-                                {currentProvider[0].email}
-                            </Grid>
-                            <Grid item xs={6} md={3}>
-                                {currentProvider[0].phone}
-                            </Grid>
-                            <Grid item xs={6} md={3}>
-                                {currentProvider[0].phone}
-                            </Grid>
-                            <Grid item xs={12} md={12}>
-                                <Scheduler
-                                    height={200}
-                                    view="month"
-                                    events={[
-                                        {
-                                            event_id: 1,
-                                            title: "Event 1",
-                                            start: new Date("2021 5 2 09:30"),
-                                            end: new Date("2022 5 2 10:30"),
-                                        },
-                                        {
-                                            event_id: 2,
-                                            title: "Event 2",
-                                            start: new Date("2022 1 4 10:00"),
-                                            end: new Date("2022 9 4 11:00"),
-                                        },
-                                    ]}
-                                />
-                            </Grid>
-
-                        </Grid>
+                    {props.currentId !== 0 ?
+                    
+                        <div>
+                            {console.log(props.currentId)}
+                            learn to love
+                        </div>
 
                         :
 
@@ -220,16 +234,15 @@ const BookingsForm = ({ classes, ...props }) => {
 
                             <Grid container key={providers.id} spacing={2}>
                                 <Grid item xs={4} md={4}>
-                                    {providers.name}
+                                    <h5>{providers.name}</h5>
                                 </Grid>
                                 <Grid item xs={4} md={4}>
-                                    {providers.email}
+                                    <strong>{providers.email}</strong>
                                 </Grid>
                                 <Grid item xs={4} md={4}>
-                                    {providers.phone}
+                                    <strong>{providers.phone}</strong>
                                 </Grid>
                                 <Grid item xs={12} md={12}>
-                                    {console.log("providers", JSON.parse(providers.weekvalue))}
                                     <Scheduler
                                         height={200}
                                         view="week"
@@ -303,7 +316,7 @@ const BookingsForm = ({ classes, ...props }) => {
             >
                 Reserve a Service
             </Button>
-        </form>
+        </form >
     )
 }
 

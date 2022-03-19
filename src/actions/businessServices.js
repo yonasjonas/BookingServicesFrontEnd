@@ -9,9 +9,10 @@ export const ACTION_TYPES = {
 
 const formatData = (data) => ({
     serviceName: String(data.serviceName ? data.serviceName : "" ),
-    timeSlotDuration: parseInt(data.timeSlotDuration ? data.timeSlotDuration:0),    
-    weekvalue: data.weekvalue.toString(),
+    timeSlotDuration: parseInt(data.timeSlotDuration ? data.timeSlotDuration:0),
     price: parseInt(data.price ? data.price:0),
+    providerId: String(data.providerId ? data.providerId : ""),
+    businessId: Number(!isNaN(data.businessId) ? parseInt(data.businessId) : 0),
 
 });
 

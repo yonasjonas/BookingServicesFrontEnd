@@ -15,46 +15,64 @@ const useForm = (initialFieldValues, validate, setCurrentId, setDays) => {
 			}
 		}
 		//validate(thevalue);
-		//initialFieldValues.weekvalue = thevalue;
-		//values.weekvalue = thevalue;
+		//initialFieldValues.providers = thevalue;
+		values.providerId = thevalue;
+		if (values.providerId && values.providerId.values !== thevalue.values){
+			
+		}
+		
 		//setWeekvalue(thevalue);
 		//eekDays.value = weekvalue;
 	};
 
 	const handleInputChange = (event) => {
+		const weekLocal = values.providerId;
 		const { name, value } = event.target;
-		const fieldValue = { [name]: value }
+		let providers = [];
 
-		console.log("handleInputChange2 : ", values);	
-			setValues({
-				...values,
-				...fieldValue,
-				[name]: value,
-			})
-			validate(fieldValue);
-			}
-		
 
-		const resetForm = () => {
-			setValues({
-				...initialFieldValues
-			})
-			//setErrors({})
-			setCurrentId(0);
-			setDays([]);
-			values.weekvalue = {};
+		let fieldValue = { [name]: value }
 
+		if (name == 'providerId') {
+			providers.push(value)
 		}
 
-		return {
-			values,
-			setValues,
-			errors,
-			setErrors,
-			handleInputChange,
-			handleChangeMultiple,
-			resetForm
-		};
-	};
 
-	export default useForm;
+
+		console.log("handleInputChange2 : ", values);
+		setValues({
+			...values,
+			...fieldValue,
+			[name]: value,
+		})
+		values.providerId = weekLocal;
+		validate(fieldValue);
+	}
+
+	const resetForm = () => {
+		setValues({
+			...initialFieldValues
+		})
+		//setErrors({})
+		setCurrentId(0);
+		if (!!initialFieldValues.weekvalue) {
+			setDays([]);
+			values.weekvalue = {};
+		}
+		values.providerId = [];
+
+
+	}
+
+	return {
+		values,
+		setValues,
+		errors,
+		setErrors,
+		handleInputChange,
+		handleChangeMultiple,
+		resetForm
+	};
+};
+
+export default useForm;

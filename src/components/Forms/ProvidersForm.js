@@ -56,7 +56,7 @@ const initialFieldValues = {
     email: "",
     phone: "",
     weekvalue: "",
-    businessId: "",
+    businessId: null,
 }
 
 let oldNewDaysLength = 0;
@@ -64,13 +64,13 @@ let oldNewDaysLength = 0;
 const ProvidersForm = ({ classes, ...props }) => {
 
     const user = JSON.parse(localStorage.getItem('user'));
-    
+
 
     const handleSubmit = e => {
         e.preventDefault();
         values.weekvalue = values.weekvalue ? values.weekvalue : "";
-        values.businessId = user ? user.id : "11";
-        
+        values.businessId = user ? user.id : 11;
+
         console.log("works:", values);
         if (validate()) {
             const onSuccess = () => {
@@ -96,7 +96,12 @@ const ProvidersForm = ({ classes, ...props }) => {
         if (props.currentId !== 0) {
             console.log("props.currentId: ", props.currentId)
             localDays = [];
+            setValues(props.providersList.find(x => x.id == props.currentId));
+
+            const localValues = props.providersList.find(x => x.id == props.currentId);
+
             values.weekvalue = JSON.parse(props.providersList.find(x => x.id == props.currentId).weekvalue);
+
             //console.log({ values });
             if (!!values.weekvalue && values.weekvalue !== "[object Object]") {
                 if (typeof values.weekvalue === 'string') {
@@ -104,7 +109,7 @@ const ProvidersForm = ({ classes, ...props }) => {
 
                         localDays.push(i);
                         setDays(localDays);
-                        console.log("babrabim!", values.weekvalue[i])  
+                        console.log("babrabim!", values.weekvalue[i])
                         //setDays(prevTimes => ([...prevTimes, localDays]))
                         //values.weekvalue = JSON.parse(correctProvider.weekvalue);
                         //console.log("values.weekvalue : ", values.weekvalue);
@@ -113,25 +118,27 @@ const ProvidersForm = ({ classes, ...props }) => {
                     })
                 }
                 else {
-                    Object.keys(values.weekvalue).map(i => { 
+                    Object.keys(values.weekvalue).map(i => {
                         localDays.push(i);
                         setDays(localDays);
                         console.log("babrabim!", values.weekvalue[i]);
                         //console.log("goandof: ", TimeSlider.marks)
                         //console.log("goandof: ", callbackFunction())
                     });
-                    
+
                 }
             }
-            
+
             setDays(localDays);
             //handleDays(localDays)
-            setValues({
-                ...values
-            })
+            if (props.currentId !== 0) {
+                setValues({
+                    ...values
+                })
+            }
             //values.weekvalue = JSON.parse(values.weekvalue);
-            
-            
+
+
             setErrors({})
         }
 
@@ -142,19 +149,19 @@ const ProvidersForm = ({ classes, ...props }) => {
     const [days, setDays] = useState(() => []);
 
     const handleDays = (value, newDays) => {
-        
+
         let touched = false;
 
         if (!newDays) {
             newDays = value;
-            touched = true;            
+            touched = true;
         }
-        
+
         if (newDays.length) {
             setDays(newDays);
             //setDays(prevDays => ([...prevDays, newDays]))
         }
-        
+
         console.log("newDays : ", newDays);
 
         if (newDays.length < oldNewDaysLength) {
@@ -162,18 +169,18 @@ const ProvidersForm = ({ classes, ...props }) => {
                 if (typeof values.weekvalue === 'string') {
                     values.weekvalue = JSON.parse(values.weekvalue);
                     Object.keys(values.weekvalue).map(i => {
-    
+
                         if (newDays.includes(i)) {
                             values.weekvalue[i] = null;
                             //const { key, ...profilesWithoutKey } = profiles;
                             console.log({ values });
                         }
-                        
+
                     })
                 }
                 else {
-                    
-                    Object.keys(values.weekvalue).map(i => { 
+
+                    Object.keys(values.weekvalue).map(i => {
 
                         if (newDays.includes(i)) {
                             values.weekvalue[i] = null;
@@ -181,7 +188,7 @@ const ProvidersForm = ({ classes, ...props }) => {
                             console.log("removed", i);
                         }
                     });
-                    
+
                 }
             }
         }
@@ -191,19 +198,19 @@ const ProvidersForm = ({ classes, ...props }) => {
                     values.weekvalue = JSON.parse(values.weekvalue);
                     Object.keys(values.weekvalue).map(i => {
                         localDays.push(i);
-                        setDays(localDays);  
-                        console.log("babrabim!", values.weekvalue[i])                
+                        setDays(localDays);
+                        console.log("babrabim!", values.weekvalue[i])
                     })
                 }
                 else {
-                    
-                    Object.keys(values.weekvalue).map(i => { 
+
+                    Object.keys(values.weekvalue).map(i => {
                         localDays.push(i);
                         setDays(localDays);
 
 
                     });
-                    
+
                 }
             }
 
@@ -211,7 +218,7 @@ const ProvidersForm = ({ classes, ...props }) => {
 
         oldNewDaysLength = newDays.length > 0 ? newDays.length : 0;
 
-       
+
 
     };
 
@@ -243,7 +250,7 @@ const ProvidersForm = ({ classes, ...props }) => {
         setErrors,
         handleInputChange,
         resetForm,
-    } = useForm(initialFieldValues, validate, props.setCurrentId, setDays);    
+    } = useForm(initialFieldValues, validate, props.setCurrentId, setDays);
 
 
     //
@@ -328,7 +335,7 @@ const ProvidersForm = ({ classes, ...props }) => {
 
                 {days.length > 0 || localDays.length !== days.length &&
 
-                    1+1}
+                    1 + 1}
 
 
                 {days.find(x => x == "0") && <TimeSlider parentCallback={callbackFunction} currentId={props.currentId} daysObject={values.weekvalue} arrayKey={0} day="Monday" />}

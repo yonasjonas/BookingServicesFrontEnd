@@ -36,12 +36,13 @@ const initialFieldValues = {
     serviceName: "",
     price: "",
     timeSlotDuration: "",
-    providers: [],
+    providerId: [],
+    businessId: "",
 }
 
 
 
-const BusinessServicesForm = ({ classes, ...props }) => {
+const BusinessServicesForm = ({ classes, state,  ...props }) => {
 
     const { addToast } = useToasts();
 
@@ -68,13 +69,17 @@ const BusinessServicesForm = ({ classes, ...props }) => {
         weekvalue,
         setErrors,
         handleInputChange,
+        handleChangeMultiple,
         resetForm
     } = useForm(initialFieldValues, validate, props.setCurrentId)
 
+    const user = JSON.parse(localStorage.getItem('user'));
 
     const handleSubmit = e => {
         e.preventDefault();
-        //console.log("works", values);
+        console.log("works", state);
+        values.providerId = values.providerId ? values.providerId.join(',') : "";
+        values.businessId = user.id;
         if (validate()) {
             const onSuccess = () => {
                 addToast("Submitted successfully", { appearance: 'success' });
@@ -161,14 +166,13 @@ const BusinessServicesForm = ({ classes, ...props }) => {
                         native
                         variant="outlined"
                         label="Days of service"
-                        name="weekvalue"
-                        value={values.weekvalue}
+                        name="providerId"
+                        value={values.providerId}
                         // @ts-ignore Typings are not considering `native`
-                        onChange={handleInputChange}
+                        onChange={handleChangeMultiple}
                         inputProps={{
                             id: 'select-multiple-native',
                         }}
-                        {...(errors.weekvalue && { error: true, helperText: errors.weekvalue })}
                     >
                         {props.businessProviders.map((provider) => (
                             <option key={provider.id} value={provider.id}>
@@ -201,7 +205,8 @@ const BusinessServicesForm = ({ classes, ...props }) => {
 
 const mapStateToProps = state => ({
     businessServicesList: state.businessService.list,
-    businessProviders: state.businessProvider.list
+    businessProviders: state.businessProvider.list,
+    businessInformation: state.businessInformation,
 });
 
 const mapActionsToProps = {

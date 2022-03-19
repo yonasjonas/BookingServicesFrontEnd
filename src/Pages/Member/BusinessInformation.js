@@ -35,10 +35,10 @@ const BusinessInformation = (props, classes) => {
     //const { addToast } = useToasts();
 
     const loadImage = () => {
-        
+
         console.log("image loaded")
     }
-    
+
     useEffect(() => {
         //props.fetchImage(user.id);
         //props.fetchBusinessInfo(user.id);
@@ -50,10 +50,11 @@ const BusinessInformation = (props, classes) => {
     return (
         <>
             <HeroImage />
-            <Container maxWidth={1200}>
-                { 
-                <FileUpload />
-}
+            <Container maxWidth="lg">
+
+                {9 == 7 ?
+
+                    <FileUpload /> : null}
                 <Paper>
                     <Grid container>
                         <Grid item xs={3}>{<MembersMenu />}</Grid>
@@ -76,8 +77,8 @@ const mapStateToProps = state => ({
 
 const mapActionsToProps = {
     fetchBusinessInfo: actions.fetchById,
-    deleteBusinessService: actions.deleteData,  
-	fetchImage: fileActions.fetchImageById,
+    deleteBusinessService: actions.deleteData,
+    fetchImage: fileActions.fetchImageById,
 }
 
 

@@ -53,7 +53,7 @@ const BusinessServices = (props, classes) => {
 
 
     return (
-        <Container maxWidth="false">
+        <Container maxWidth={false}>
             <TableContainer> 
             <Grid container>               
                 <Grid item xs={3}>{<MembersMenu />}</Grid>
@@ -66,7 +66,7 @@ const BusinessServices = (props, classes) => {
                             <TableRow>
                                 <TableCell>Service Name</TableCell>
                                 <TableCell>Time Slot</TableCell>
-                                <TableCell>Weekdays</TableCell>
+                                <TableCell>Providers</TableCell>
                                 <TableCell>Price</TableCell>
                             </TableRow>
                         </TableHead>
@@ -78,7 +78,13 @@ const BusinessServices = (props, classes) => {
                                     return (<TableRow key={index}>
                                         <TableCell>{record.serviceName}</TableCell>
                                         <TableCell>{record.timeSlotDuration}</TableCell>
-                                        <TableCell></TableCell>
+                                        <TableCell>{record.providerId.split(',').map(i => {
+                                            return (props.businessProviders.find(j => j.id == i) ? props.businessProviders.find(j => j.id == i).name + " " : "")
+                                        }
+
+
+
+                                        )}</TableCell>
                                         <TableCell>{record.price}</TableCell>
                                         <TableCell>
                                             <ButtonGroup>

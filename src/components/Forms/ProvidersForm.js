@@ -96,11 +96,11 @@ const ProvidersForm = ({ classes, ...props }) => {
         if (props.currentId !== 0) {
             console.log("props.currentId: ", props.currentId)
             localDays = [];
-            setValues(props.providersList.find(x => x.id == props.currentId));
+            //setValues(props.providersList.find(x => x.id == props.currentId));
 
-            const localValues = props.providersList.find(x => x.id == props.currentId);
+            let localValues = props.providersList.find(x => x.id == props.currentId);
+            localValues.weekvalue = localValues.weekvalue ? JSON.parse(localValues.weekvalue) : {};
 
-            values.weekvalue = JSON.parse(props.providersList.find(x => x.id == props.currentId).weekvalue);
 
             //console.log({ values });
             if (!!values.weekvalue && values.weekvalue !== "[object Object]") {
@@ -131,10 +131,10 @@ const ProvidersForm = ({ classes, ...props }) => {
 
             setDays(localDays);
             //handleDays(localDays)
-            if (props.currentId !== 0) {
+            if (localValues.weekvalue) {
                 setValues({
-                    ...values
-                })
+                    ...localValues
+                });
             }
             //values.weekvalue = JSON.parse(values.weekvalue);
 

@@ -136,10 +136,16 @@ const BusinessInformationForm = ({ classes, ...props }) => {
         }
     }
     useEffect(() => {
-        props.fetchBusinessInfo(user.id);
-        console.log("fetchBusinessInfo: ", { props });
-        //onLoadPlease();
-        if (user && !alreadyExists) updateAfterSave();
+        if (props) {
+            props.fetchBusinessInfo(user.id);
+            console.log("fetchBusinessInfo: ", { props });
+            //onLoadPlease();
+            if (user && !alreadyExists) updateAfterSave();
+        }
+        else {
+            console.log("no props")
+        }
+
     }, [user.id])
 
     const onLoadPlease = () => {
@@ -175,7 +181,7 @@ const BusinessInformationForm = ({ classes, ...props }) => {
 }
 const mapStateToProps = state => ({
     BusinessInformation: state.businessInformation,
-    
+
 });
 const mapActionsToProps = {
     fetchBusinessInfo: actions.fetchById,

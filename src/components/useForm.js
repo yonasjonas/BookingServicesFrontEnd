@@ -16,26 +16,23 @@ const useForm = (initialFieldValues, validate, setCurrentId, setDays) => {
 		}
 		//validate(thevalue);
 		//initialFieldValues.providers = thevalue;
-		values.providerId = thevalue;
-		if (values.providerId && values.providerId.values !== thevalue.values){
-			
-		}
+		
+
+		setValues({
+			...values,
+			"providerId": thevalue,
+		})
 		
 		//setWeekvalue(thevalue);
 		//eekDays.value = weekvalue;
 	};
 
 	const handleInputChange = (event) => {
-		const weekLocal = values.providerId;
+		const providerId = values.providerId;
 		const { name, value } = event.target;
-		let providers = [];
 
 
 		let fieldValue = { [name]: value }
-
-		if (name == 'providerId') {
-			providers.push(value)
-		}
 
 
 
@@ -45,7 +42,6 @@ const useForm = (initialFieldValues, validate, setCurrentId, setDays) => {
 			...fieldValue,
 			[name]: value,
 		})
-		values.providerId = weekLocal;
 		validate(fieldValue);
 	}
 
@@ -59,7 +55,9 @@ const useForm = (initialFieldValues, validate, setCurrentId, setDays) => {
 			setDays([]);
 			values.weekvalue = {};
 		}
-		values.providerId = [];
+		setValues({
+			"providerId": [],
+		})
 
 
 	}

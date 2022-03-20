@@ -57,7 +57,7 @@ const initialFieldValues = {
 const BookingsForm = ({ classes, ...props }) => {
 
     const { addToast } = useToasts();
-    const [currentProvider, setCurrentProvider] = useState(null);
+    const [currentProvider, setCurrentProvider] = useState(props.businessProviders);
     const [serviceId, setServiceId] = useState(null);
 
     const validate = (fieldValues = values) => {
@@ -108,7 +108,9 @@ const BookingsForm = ({ classes, ...props }) => {
         //console.log("props.currentId", props.currentId);
         props.fetchAllProviders();
         props.fetchAllBusinessServices();
+        //setCurrentProvider(props.businessProviders);
         if (props.currentId !== 0) {
+
             let temp = props.providersList.find(x => x.id == props.currentId);
             setValues({
                 ...temp
@@ -121,22 +123,34 @@ const BookingsForm = ({ classes, ...props }) => {
     const renderProviders = (providerId) => {
         console.log({ providerId })
 
-        const currentProv = props.businessProviders.filter(x => x.id == providerId);
-        
-        const currentService = props.businessServices.filter(x => x.id == providerId);
-        setCurrentProvider(currentProv);
+        //providerId = providerId ? providerId.split(",") : [];
 
-        setServiceId(serviceId);
+        let currentProv = {};
 
-        console.log({ currentProvider });
-        console.log({ serviceId });
+
+        currentProv = props.businessProviders.filter(x => providerId.includes(x.id.toString()));
+
+
+        if (providerId.length > 0) {
+            setCurrentProvider(currentProv);
+        }
+
+        //setServiceId(serviceId);
+
+
     }
 
     const getProviderNames = (providerId) => {
-        const providerNames = !!props.businessProviders.filter(x => x.id == providerId).map(x => x.name) 
-            ? props.businessProviders.filter(x => x.id == providerId).map(x => x.name) : "";
+        const providerIdList = typeof providerId === 'string' ? providerId.split(',') : providerId;
+        let lproNames = [];
 
-        return providerNames;
+        providerIdList.map(pId => {
+            const providerName = !!props.businessProviders.filter(x => x.id == pId).map(x => x.name)
+                ? props.businessProviders.filter(x => x.id == pId).map(x => x.name) : "";
+            lproNames.push(providerName);
+
+        });
+        return lproNames;
     };
 
     return (
@@ -193,47 +207,49 @@ const BookingsForm = ({ classes, ...props }) => {
                                     {service.price}
                                 </Grid>
                                 <Grid item xs={2} md={2}>
-                                {getProviderNames(service.providerId)}
+                                    {getProviderNames(service.providerId)}
                                 </Grid>
                                 <Grid item xs={2} md={2}>
                                     {service.timeSlotDuration} minutes
                                 </Grid>
                                 <Grid item xs={2} md={2}>
-                                    <Button onClick={() => { service.providerId > 0 ? renderProviders(service.providerId) : console.log("id of provider is null!") }} className="bookButton" color="primary" size="large">Select</Button>
+                                    <Button onClick={() => { renderProviders(service.providerId.split(",")) }} className="bookButton" color="primary" size="large">Select</Button>
                                 </Grid>
                             </Grid>
                         </Box>
 
                     ))}
                 </div>
-                <Box
-                    className="providers-bookform"
-                    native
-                    variant="outlined"
-                    label="Service Provider"
-                    name="provider"
-                    value={values.provider}
-                    // @ts-ignore Typings are not considering `native`
-                    onChange={handleInputChange}
-                    inputProps={{
-                        id: 'select-multiple-native',
-                    }}
-                    {...(errors.weekvalue && { error: true, helperText: errors.weekvalue })}
-                >
+                {currentProvider.length > 1 ?
+                    <h6> Please Select a provider: </h6>
 
-                    {props.currentId !== 0 ?
-                    
-                        <div>
-                            {console.log(props.currentId)}
-                            learn to love
-                        </div>
+                    : <h6> Only one provider available: </h6>
+                }
 
-                        :
+                {currentProvider ? currentProvider.map((providers) => (
+                    <div className="services-bookform">
 
-                        props.businessProviders.map((providers) => (
+                        <Box
+                            sx={{
+                                minWidth: '1200px',
+                                border: '1px solid lightgrey',
+                                height: 100,
+                                position: 'relative',
+                            }}
+                            label="Service Provider"
+                            name="provider"
+                            value={values.provider}
+                            // @ts-ignore Typings are not considering `native`
+                            onChange={handleInputChange}
+
+                        >
+
 
                             <Grid container key={providers.id} spacing={2}>
-                                <Grid item xs={4} md={4}>
+                                <Grid item xs={2} md={2}>
+                                    <img height="50px" src="serviceImage.png" />
+                                </Grid>
+                                <Grid item xs={2} md={2}>
                                     <h5>{providers.name}</h5>
                                 </Grid>
                                 <Grid item xs={4} md={4}>
@@ -243,7 +259,8 @@ const BookingsForm = ({ classes, ...props }) => {
                                     <strong>{providers.phone}</strong>
                                 </Grid>
                                 <Grid item xs={12} md={12}>
-                                    <Scheduler
+
+                                    {1 == 0 && <Scheduler
                                         height={200}
                                         view="week"
                                         week={{
@@ -275,35 +292,38 @@ const BookingsForm = ({ classes, ...props }) => {
                                             }
                                         }}
 
-                                    />
+                                    />}
                                 </Grid>
 
                             </Grid>
+                        </Box>
+                    </div>
 
-                        ))
-                    }
-                </Box>
-                <TextField
-                    name="name"
-                    variant="outlined"
-                    label="Full Name"
-                    value={values.name}
-                    onChange={handleInputChange}
-                />
-                <TextField
-                    name="email"
-                    variant="outlined"
-                    label="Email"
-                    value={values.name}
-                    onChange={handleInputChange}
-                />
-                <TextField
-                    name="phone"
-                    variant="outlined"
-                    label="Phone Number"
-                    value={values.name}
-                    onChange={handleInputChange}
-                />
+                )) : <h6> No provider available </h6>
+                }
+
+                {
+                    0 == 1 ? <><TextField
+                        name="name"
+                        variant="outlined"
+                        label="Full Name"
+                        value={values.name}
+                        onChange={handleInputChange}
+                    />
+                        <TextField
+                            name="email"
+                            variant="outlined"
+                            label="Email"
+                            value={values.name}
+                            onChange={handleInputChange}
+                        />
+                        <TextField
+                            name="phone"
+                            variant="outlined"
+                            label="Phone Number"
+                            value={values.name}
+                            onChange={handleInputChange}
+                        /></> : <></>}
 
 
 

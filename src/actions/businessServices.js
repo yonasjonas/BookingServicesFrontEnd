@@ -13,7 +13,6 @@ const formatData = (data) => ({
     price: parseInt(data.price ? data.price:0),
     providerId: String(data.providerId ? data.providerId : ""),
     businessId: Number(!isNaN(data.businessId) ? parseInt(data.businessId) : 0),
-
 });
 
 export const fetchAll = () => dispatch => { 
@@ -48,7 +47,6 @@ export const update = (id, data, onSuccess) => dispatch => {
     //var dataLocal = data;
     
     let dataLocal = Object.assign({}, data)
-    dataLocal.weekvalue = dataLocal.weekvalue.split(',');
    
     api.businessService().update(id, data)
     .then(response => {

@@ -42,7 +42,7 @@ const initialFieldValues = {
 
 
 
-const BusinessServicesForm = ({ classes, state,  ...props }) => {
+const BusinessServicesForm = ({ classes, state, ...props }) => {
 
     const { addToast } = useToasts();
 
@@ -79,6 +79,9 @@ const BusinessServicesForm = ({ classes, state,  ...props }) => {
         e.preventDefault();
         console.log("works", state);
         values.providerId = values.providerId ? values.providerId.join(',') : "";
+        setValues({
+			"providerId": values.providerId,
+		})
         values.businessId = user.id;
         if (validate()) {
             const onSuccess = () => {
@@ -93,18 +96,25 @@ const BusinessServicesForm = ({ classes, state,  ...props }) => {
                 props.updateBusinessService(props.currentId, values, onSuccess);
             }
         }
+        
     }
 
     useEffect(() => {
         props.fetchAllProviders();
-        if (props.currentId !== 0) {
-            let temp = props.businessServicesList.find(x => x.id == props.currentId);           
-            
+        if (props.currentId !== 0 && props.currentId !== "") {
+            let temp = props.businessServicesList.find(x => x.id == props.currentId);
+
             setValues({
                 ...temp
             })
+            /* values.providerId = temp.providerId ? temp.providerId.split(',') : [];
+            setValues({
+                "providerId": values.providerId,
+            }) */
             setErrors({})
+
         }
+        
     }, [props.currentId])
 
     return (
@@ -160,6 +170,7 @@ const BusinessServicesForm = ({ classes, state,  ...props }) => {
                     </Select>
                 </FormControl> */}
                 <FormControl variant="outlined" className={classes.formControl}>
+                    {console.log("values", values)}
 
                     <Select
                         multiple
@@ -167,7 +178,7 @@ const BusinessServicesForm = ({ classes, state,  ...props }) => {
                         variant="outlined"
                         label="Days of service"
                         name="providerId"
-                        value={values.providerId}
+                        value={typeof values.providerId === 'string' ? values.providerId.split(',') : values.providerId}
                         // @ts-ignore Typings are not considering `native`
                         onChange={handleChangeMultiple}
                         inputProps={{
@@ -193,7 +204,6 @@ const BusinessServicesForm = ({ classes, state,  ...props }) => {
             <Button
                 variant="contained"
                 color="primary"
-                type="submit"
                 className={classes.smMargin}
                 onClick={resetForm}
             >

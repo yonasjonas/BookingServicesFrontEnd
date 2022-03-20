@@ -50,7 +50,7 @@ const BusinessProviders = (props, classes) => {
     let days = [];
 
     let showDays = (allDays) => {
-        days = [];
+        /* days = [];
         if (!!allDays && allDays !== "[object Object]") {
             console.log("inside : ", JSON.parse(allDays));
             if (typeof allDays === 'string') {
@@ -63,7 +63,7 @@ const BusinessProviders = (props, classes) => {
                 Object.keys(allDays).map(i => { console.log("showDays : ", i) })
             }
         }
-        return "" + days + " ";
+        return "" + days + " "; */
         
     }
 

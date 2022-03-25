@@ -4,14 +4,19 @@ export const ACTION_TYPES = {
     CREATE : 'CREATE',
     UPDATE:'UPDATE',
     DELETE:'DELETE',
-    FETCH_ALL:'FETCH_ALL'
+    FETCH_ALLBOOKINGS:'FETCH_ALLBOOKINGS'
 }
 
 const formatData = (data) => ({
+    
     name: String(data.name ? data.name : "" ),
     email: String(data.email ? data.email : "" ),
-    weekvalue: data.weekvalue.toString(),
     phone: String(data.phone ? data.phone : "" ),
+    providerId: Number(!isNaN(data.providerId) ? data.providerId : 0 ),
+    serviceId: Number(!isNaN(data.serviceId) ? data.serviceId : 0 ),
+    bookingStartTime: String(data.bookingStartTime ? data.bookingStartTime : "" ),
+    bookingDuration: Number(data.bookingDuration ? data.bookingDuration : 0 ),
+    BusinessId: Number(!isNaN(data.BusinessId) ? data.BusinessId : 0 ),
 
 });
 
@@ -27,7 +32,7 @@ export const fetchAll = () => dispatch => {
         }
 
         dispatch({
-            type:ACTION_TYPES.FETCH_ALL,
+            type:ACTION_TYPES.FETCH_ALLBOOKINGS,
             payload: dataLocal.data
         })
     });    

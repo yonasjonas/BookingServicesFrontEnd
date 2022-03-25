@@ -5,6 +5,10 @@ import { Grid, InputLabel, Select, MenuItem, withStyles, FormControl, Button, Te
 import useForm from '../useForm';
 import { useToasts } from "react-toast-notifications";
 import "react-datetime/css/react-datetime.css";
+import FileUpload from '../FormElements/FileUpload';
+import Box from '@mui/material/Box';
+
+
 
 
 
@@ -160,6 +164,13 @@ const BusinessInformationForm = ({ classes, ...props }) => {
     return (
         <form onSubmit={handleSubmit} className={classes.root}>
             <Grid container>
+                {1 == 1 && <>
+                <h2> Upload Business Logo    </h2>
+                <p><FileUpload /></p>
+                <Box className="profileLogo">
+                    <img src="logo192.png" alt="logo" />
+                </Box>
+                </>}
                 <TextField name="BusinessName" label="BusinessName" type="text" variant="outlined" value={values.BusinessName} onChange={handleInputChange} />
                 <TextField name="Email" label="Email" type="text" variant="outlined" value={values.Email} onChange={handleInputChange} />
                 <TextField name="Phone" label="Phone" type="text" value={values.Phone} onChange={handleInputChange} />

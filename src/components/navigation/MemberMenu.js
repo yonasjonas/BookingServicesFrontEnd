@@ -98,14 +98,8 @@ export default function TypographyMenu() {
                     px: [1],
                 }}
             >
-                <IconButton onClick={toggleDrawer}>
-                    <ChevronLeftIcon />
-                </IconButton>
+               
             </Toolbar>
-            <Divider />
-
-
-            <Divider />
 
             <Paper sx={{ width: 230, height: 1 }}>
                 <MenuList>

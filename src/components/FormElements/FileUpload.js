@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import * as fileActions from '../../actions/file';
 import { connect } from "react-redux";
-import { fetchById } from '../../actions/businessInformation';
+import { fetchAll } from '../../actions/businessServices';
 
-function FileUpload(...props) {
+function FileUpload(props) {
 	const [selectedFile, setSelectedFile] = useState();
 	const [isFilePicked, setIsFilePicked] = useState(false);
 	const user = JSON.parse(localStorage.getItem('user'))
@@ -15,8 +15,13 @@ function FileUpload(...props) {
 	};
 
 	const handleSubmission = () => {
-		props[0].postImage(selectedFile);
+		props.postImage(selectedFile);
 	};
+
+	useEffect(() => {
+		console.log({props})
+		fetchAll();
+	});
 
 
 
@@ -48,13 +53,14 @@ function FileUpload(...props) {
 
 
 const mapStateToProps = state => ({
-	FileInformation: state.file
+	file: state.fileReducer
+
 });
 
 //console.log({ mapStateToProps });
 
 const mapActionsToProps = {
-	fetchImage: fileActions.fetchImageById,
+	fetchAll: fileActions.fetchAll,
 	postImage: fileActions.postImage
 }
 

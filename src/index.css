@@ -50,4 +50,12 @@ label.MuiFormLabel-root.MuiFormLabel-colorPrimary.css-u4tvz2-MuiFormLabel-root {
   color: #ffffff!important;
   background: rgb(105, 2, 62)!important;
 }
+.profileLogo.MuiBox-root.css-0 {
+  position: absolute;
+  margin-top: -244px;
+  background: black;
+  padding: 10px;
+  margin-left: -300px;
+  border: 3px solid white;
+}
 

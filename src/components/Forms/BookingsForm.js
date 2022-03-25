@@ -1,4 +1,4 @@
-import * as actions from "../../actions/businessServices";
+import * as bookingActions from "../../actions/businessBookings";
 import * as providerActions from "../../actions/businessProvidersActions";
 import * as serviceActions from "../../actions/businessServices";
 import { connect } from "react-redux";
@@ -45,20 +45,60 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary,
 }));
 
+const weekdays = [
+    {
+        value: 0,
+        label: 'Monday',
+    },
+    {
+        value: 1,
+        label: 'Tuesday',
+    },
+    {
+        value: 2,
+        label: 'Wednesday',
+    },
+    {
+        value: 3,
+        label: 'Thursday',
+    },
+    {
+        value: 4,
+        label: 'Friday',
+    },
+    {
+        value: 5,
+        label: 'Saturday',
+    },
+    {
+        value: 6,
+        label: 'Sunday',
+    }
+]
+
 const initialFieldValues = {
     name: "",
     email: "",
     phone: "",
-    provider: "",
-    service: "",
-    timeDate: "",
+    providerId: "",
+    serviceId: "",
+    bookingStartTime: "",
+    bookingDuration: 0,
 }
 
 const BookingsForm = ({ classes, ...props }) => {
 
     const { addToast } = useToasts();
     const [currentProvider, setCurrentProvider] = useState(props.businessProviders);
-    const [serviceId, setServiceId] = useState(null);
+    const [providerTimes, setProviderTimes] = useState(null);
+    const [calendarDays, setCalendarDays] = useState([]);
+    const [selectedBookingTime, setSelectedBookingTime] = useState(new Date());
+    const [calendarHours, setCalendarHours] = useState([0, 23]);
+    const [timeSlotDuration, setTimeSlotDuration] = useState(0);
+    const [serviceId, setServiceId] = useState(0);
+    const [businessServices, setBusinessServices] = useState(props.businessServices);
+
+
 
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
@@ -90,10 +130,14 @@ const BookingsForm = ({ classes, ...props }) => {
 
     const handleSubmit = e => {
         e.preventDefault();
+        values.BusinessId = props.authentication && props.authentication.id
+
         if (validate()) {
             const onSuccess = () => {
                 addToast("Submitted successfully", { appearance: 'success' });
                 resetForm();
+                setValues({ ...initialFieldValues });
+                setServiceId(0);
             }
             if (props.currentId == 0) {
                 props.createBooking(values, onSuccess);
@@ -108,6 +152,7 @@ const BookingsForm = ({ classes, ...props }) => {
         //console.log("props.currentId", props.currentId);
         props.fetchAllProviders();
         props.fetchAllBusinessServices();
+        setBusinessServices(props.businessServices);
         //setCurrentProvider(props.businessProviders);
         if (props.currentId !== 0) {
 
@@ -120,26 +165,62 @@ const BookingsForm = ({ classes, ...props }) => {
     }, [props.currentId])
 
 
-    const renderProviders = (providerId) => {
-        console.log({ providerId })
-
-        //providerId = providerId ? providerId.split(",") : [];
+    const showBookingSummary = (start, duration) => {
+        setValues({
+            ...values,
+            "bookingStartTime": JSON.stringify(start),
+            "bookingDuration": duration,
+        })
+    };
+    const renderProviders = (providerId, serviceId) => {
+        businessServices.filter(x => x.id == serviceId)[0].timeSlotDuration
+            ? setTimeSlotDuration(businessServices.filter(x => x.id == serviceId)[0].timeSlotDuration)
+            : setTimeSlotDuration(0);
+        setServiceId(serviceId);
+        setValues({
+            ...values,
+            "serviceId": serviceId
+        })
 
         let currentProv = {};
-
-
         currentProv = props.businessProviders.filter(x => providerId.includes(x.id.toString()));
-
-
         if (providerId.length > 0) {
             setCurrentProvider(currentProv);
         }
+    };
+    const renderProviderTimes = (providerId) => {
 
-        //setServiceId(serviceId);
+        let currentProv = {};
+        let currentService = {};
+        let days = [];
+        let hours = [];
+        setValues({
+            ...values,
+            "providerId": providerId
+        })
+
+        currentProv = currentProvider.filter(x => x.id == providerId).length > 0 ? JSON.parse(currentProvider.filter(x => x.id == providerId)[0].weekvalue) : {};
+
+        if (currentProv) {
+            Object.keys(currentProv).map(i => {
+                weekdays.forEach(element => {
+                    if (element.label == currentProv[parseInt(i)].dayIndex) {
+                        days.push(element.value);
+                    }
+                });
+                if (hours.length < 3) {
+                    hours.push(
+                        parseInt(currentProv[parseInt(i)].startTime.substring(0, currentProv[parseInt(i)].startTime.search(":"))),
+                        parseInt(currentProv[parseInt(i)].endTime.substring(0, currentProv[parseInt(i)].endTime.search(":"))));
+                }
+            })
+            setProviderTimes(currentProv);
+            setCalendarDays(days);
+            setCalendarHours(hours);
 
 
-    }
-
+        }
+    };
     const getProviderNames = (providerId) => {
         const providerIdList = typeof providerId === 'string' ? providerId.split(',') : providerId;
         let lproNames = [];
@@ -164,7 +245,7 @@ const BookingsForm = ({ classes, ...props }) => {
                 <div className="services-bookform">
                     <Box
                         sx={{
-                            minWidth: '1200px',
+                            minWidth: '800px',
                             height: 80,
                         }}>
                         <Grid container spacing={2}>
@@ -188,10 +269,10 @@ const BookingsForm = ({ classes, ...props }) => {
                             </Grid>
                         </Grid>
                     </Box>
-                    {props.businessServices.length > 0 && props.businessServices.map((service) => (
+                    {businessServices.length > 0 && businessServices.map((service) => (
                         <Box key={service.id} value={service.id}
                             sx={{
-                                minWidth: '1200px',
+                                minWidth: '800px',
                                 border: '1px solid lightgrey',
                                 height: 100,
                             }}
@@ -213,25 +294,24 @@ const BookingsForm = ({ classes, ...props }) => {
                                     {service.timeSlotDuration} minutes
                                 </Grid>
                                 <Grid item xs={2} md={2}>
-                                    <Button onClick={() => { renderProviders(service.providerId.split(",")) }} className="bookButton" color="primary" size="large">Select</Button>
+                                    <Button onClick={() => { renderProviders(service.providerId.split(","), service.id) }} className="bookButton" color="primary" size="large">Select</Button>
                                 </Grid>
                             </Grid>
                         </Box>
 
                     ))}
                 </div>
-                {currentProvider.length > 1 ?
-                    <h6> Please Select a provider: </h6>
-
-                    : <h6> Only one provider available: </h6>
+                {currentProvider.length > 1 && serviceId ?
+                    <h2> Please Select a service above to see available providers: </h2>
+                    : <h2> {serviceId && <>One provider available: </>}</h2>
                 }
 
-                {currentProvider ? currentProvider.map((providers) => (
+                {currentProvider && serviceId ? currentProvider.map((providers) => (
                     <div className="services-bookform">
 
                         <Box
                             sx={{
-                                minWidth: '1200px',
+                                minWidth: '800px',
                                 border: '1px solid lightgrey',
                                 height: 100,
                                 position: 'relative',
@@ -243,8 +323,6 @@ const BookingsForm = ({ classes, ...props }) => {
                             onChange={handleInputChange}
 
                         >
-
-
                             <Grid container key={providers.id} spacing={2}>
                                 <Grid item xs={2} md={2}>
                                     <img height="50px" src="serviceImage.png" />
@@ -252,76 +330,122 @@ const BookingsForm = ({ classes, ...props }) => {
                                 <Grid item xs={2} md={2}>
                                     <h5>{providers.name}</h5>
                                 </Grid>
-                                <Grid item xs={4} md={4}>
+                                <Grid item xs={2} md={2}>
                                     <strong>{providers.email}</strong>
                                 </Grid>
-                                <Grid item xs={4} md={4}>
+                                <Grid item xs={3} md={3}>
                                     <strong>{providers.phone}</strong>
                                 </Grid>
-                                <Grid item xs={12} md={12}>
-
-                                    {1 == 0 && <Scheduler
-                                        height={200}
-                                        view="week"
-                                        week={{
-                                            weekDays: [0, 1, 2, 3],
-                                            weekStartOn: 0,
-                                            startHour: 13,
-                                            endHour: 23,
-                                            step: 60,
-                                            cellRenderer: ({ height, start, onClick }) => {
-                                                // Fake some condition up
-                                                const hour = start.getHours();
-                                                const disabled = hour === 11;
-                                                return (
-                                                    <Button
-                                                        style={{
-                                                            height: "100%",
-                                                            background: disabled ? "#eee" : "transparent"
-                                                        }}
-                                                        onClick={() => {
-                                                            if (true) {
-                                                                return console.log(start, height);
-                                                            }
-                                                            onClick();
-                                                        }}
-                                                        disableRipple={disabled}
-                                                    // disabled={disabled}
-                                                    ></Button>
-                                                );
-                                            }
-                                        }}
-
-                                    />}
+                                <Grid item xs={3} md={3}>
+                                    <Button onClick={() => { renderProviderTimes(providers.id) }} className="bookButton" color="primary" size="large">See Times</Button>
                                 </Grid>
-
                             </Grid>
                         </Box>
                     </div>
 
-                )) : <h6> No provider available </h6>
+                )) : <h6> </h6>
+                }
+
+
+                {
+                    providerTimes !== null && serviceId &&
+
+                    <Box
+                        sx={{
+                            minWidth: '800px',
+                            padding: '10px',
+                            position: 'relative',
+                        }}
+                        label="Select Time"
+                        name="provider"
+                        value={values.provider}
+                        onChange={handleInputChange}
+                    >
+
+
+                        <Grid className="times_container" item xs={12} md={12}>
+
+                            <h2> Below you can pick timeslot for your booking</h2>
+                            <Scheduler
+                                view="week"
+                                selectedDate={selectedBookingTime ? selectedBookingTime : new Date()}
+
+                                week={{
+                                    weekDays: calendarDays,
+                                    weekStartOn: 1,
+                                    startHour: calendarHours[0],
+                                    endHour: calendarHours[1],
+                                    step: timeSlotDuration,
+
+                                    cellRenderer: ({ height, start, onClick }) => {
+                                        // Fake some condition up
+                                        const hour = start.getHours();
+                                        const minutes = start.getHours();
+                                        let disabled = hour <= calendarHours[0] || hour >= calendarHours[1];
+                                        let selected = false;
+
+                                        disabled = new Date() > start ? true : disabled;
+
+
+                                        if (hour === selectedBookingTime.getHours() && minutes === selectedBookingTime.getMinutes()) {
+                                            selected = true;
+                                        }
+
+
+                                        return (
+                                            <Button
+                                                style={{
+                                                    height: "100%",
+                                                    background: disabled ? "pink" : "lightgreen",
+                                                    border: selected ? "1px solid grey" : ""
+
+                                                }}
+                                                onClick={() => {
+                                                    if (true) {
+                                                        //setTimeSlotDuration(height)
+                                                        
+                                                        setSelectedBookingTime(new Date(start));
+                                                        showBookingSummary(start, timeSlotDuration);
+
+                                                        return console.log(start, timeSlotDuration);
+                                                    }
+                                                    onClick();
+                                                }}
+                                                disableRipple={disabled}
+                                            // disabled={disabled}
+                                            > {!disabled ? <p>Available - Select</p> : ""}</Button>
+                                        );
+                                    }
+                                }}
+
+                            />
+                        </Grid>
+                    </Box>
+
                 }
 
                 {
-                    0 == 1 ? <><TextField
-                        name="name"
-                        variant="outlined"
-                        label="Full Name"
-                        value={values.name}
-                        onChange={handleInputChange}
-                    />
+                    providerTimes && serviceId ? <>
+                        <h2> Enter personal details</h2>
+                        <TextField
+                            name="name"
+                            variant="outlined"
+                            label="Full Name"
+                            value={values.name}
+                            onChange={handleInputChange}
+                        />
                         <TextField
                             name="email"
                             variant="outlined"
                             label="Email"
-                            value={values.name}
+                            value={values.email}
                             onChange={handleInputChange}
                         />
                         <TextField
                             name="phone"
                             variant="outlined"
                             label="Phone Number"
-                            value={values.name}
+                            value={values.phone}
                             onChange={handleInputChange}
                         /></> : <></>}
 
@@ -343,13 +467,16 @@ const BookingsForm = ({ classes, ...props }) => {
 const mapStateToProps = state => ({
     businessServices: state.businessService.list,
     businessProviders: state.businessProvider.list,
-    businessBookings: state.businessBooking.list
+    businessBookings: state.businessBooking.list,
+    authentication: state.authentication.loggedIn ? state.authentication.user : null,
 });
 
 
 const mapActionsToProps = {
     fetchAllProviders: providerActions.fetchAll,
     fetchAllBusinessServices: serviceActions.fetchAll,
+    createBooking: bookingActions.create,
+    //fetchAuth: authenticationActions.fetchAuth,
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(BookingsForm));

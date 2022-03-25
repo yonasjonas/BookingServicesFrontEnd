@@ -68,7 +68,7 @@ const BusinessServices = (props, classes) => {
 
 
     return (
-        <Container maxWidth={false}>
+        <Container maxWidth="lg">
             <TableContainer>
                 <Grid container>
                     <Grid item xs={3}>

@@ -36,7 +36,7 @@ const BusinessServices = (props, classes) => {
   
 
     return (
-        <Container maxWidth={false}>
+        <Container maxWidth="lg">
             <Paper>
                 <Grid container>
                     <Grid item xs={3}>{<MembersMenu />}</Grid>

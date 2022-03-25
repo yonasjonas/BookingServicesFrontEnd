@@ -61,8 +61,8 @@ export default {
     fileInformation(url = baseURL + 'api/upload/') {
         
         return {
-            fetchImageById: id => axios.get(url+id),
-            //fetchByBusinessId: id=> axios.get(url + "business/" + id),
+            //fetchImageById: id => axios.get(url+id),
+            fetchAll: () => axios.get(url),
             postImage: newRecord => axios.post(url, newRecord),
             /*update: (id, updateRecord) => axios.put(url + id, updateRecord, requestOptions),
             delete: id => axios.delete(url + id) */

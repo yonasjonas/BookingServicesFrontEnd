@@ -53,7 +53,7 @@ const TopNavigation = () => {
             <CssBaseline />
             <Toolbar>
                 <Typography variant="h4" className={classes.logo}>
-                    Booking Services
+                    My Nixer
                 </Typography>
                 {isMobile ? (
                     <DrawerComponent />

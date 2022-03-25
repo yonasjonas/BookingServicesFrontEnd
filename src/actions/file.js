@@ -1,25 +1,18 @@
-import { userConstants } from '../constants';
-import { accountService } from '../services/account.service';
-import { alertActions } from './alert.actions';
-import { history } from '../helpers/history';
 import api from "./api";
 
+export const ACTION_TYPES = {
+    CREATE_IMAGE : 'CREATE_IMAGE',
+    FETCH_ALL_IMAGES:'FETCH_ALL_IMAGES'
+}
 
-export function fetchImageById (dispatch)  { 
+export function fetchAll(dispatch)  { 
 
-    api.fileInformation().fetchImageById(JSON.parse(2))
+    api.fileInformation().fetchAll()
     .then(response => {
-        let dataLocal = Object.assign({}, response)
-        //dataLocal.weekvalue = dataLocal.weekvalue.split(',');
-        //console.log("from actions:", response.data);
-        for (let i = 0; i < response.data.length; i++) {
-            //dataLocal.data[i].weekvalue  = response.data[i].weekvalue.split(',');            
-        }
-
-        /* dispatch({
-            type:ACTION_TYPES.FETCH_ONE,
-            payload: dataLocal.data
-        }) */
+        dispatch({
+            type:ACTION_TYPES.FETCH_ALL_IMAGES,
+            payload: response.data
+        })
     });    
 };
 

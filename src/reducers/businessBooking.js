@@ -6,7 +6,7 @@ const initialState = {
 
 export const businessBooking = (state = initialState, action) => {    
     switch (action.type) {        
-        case ACTION_TYPES.FETCH_ALL:
+        case ACTION_TYPES.FETCH_ALLBOOKINGS:
             return {
                 ...state,
                 list: [...action.payload]

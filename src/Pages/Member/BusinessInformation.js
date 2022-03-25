@@ -40,7 +40,7 @@ const BusinessInformation = (props, classes) => {
     }
 
     useEffect(() => {
-        //props.fetchImage(user.id);
+        //props.fetchImage();
         //props.fetchBusinessInfo(user.id);
         console.log({ props });
     });
@@ -70,7 +70,7 @@ const BusinessInformation = (props, classes) => {
 
 const mapStateToProps = state => ({
     BusinessInformation: state.businessInformation,
-    FileInformation: state.file
+    FileInformation: state.fileReducer,
 });
 
 //console.log({ mapStateToProps });
@@ -78,7 +78,7 @@ const mapStateToProps = state => ({
 const mapActionsToProps = {
     fetchBusinessInfo: actions.fetchById,
     deleteBusinessService: actions.deleteData,
-    fetchImage: fileActions.fetchImageById,
+    //fetchImage: fileActions.fetchAll,
 }
 
 

@@ -39,7 +39,7 @@ const BusinessServices = (props, classes) => {
     useEffect(() => {
         props.authentication.user.id && props.fetchAllBusinessServices(props.authentication.user.id);
         setServices(props.businessServicesList);
-        console.log({ props });
+        //console.log({ props });
     }, [])
 
     const onDelete = id => {
@@ -75,7 +75,7 @@ const BusinessServices = (props, classes) => {
                                     {
 
                                         props.businessServicesList && props.businessServicesList.map((record, index) => {
-                                            console.log("record", record)
+                                            //console.log("record", record)
                                             return (<TableRow key={index}>
                                                 <TableCell>{record.serviceName}</TableCell>
                                                 <TableCell>{record.timeSlotDuration}</TableCell>

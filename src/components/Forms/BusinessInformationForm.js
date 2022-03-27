@@ -69,14 +69,14 @@ const BusinessInformationForm = ({ classes, ...props }) => {
 
     const [currentId, setCurrentId] = useState(0);
 
-    console.log({ props });
+    //console.log({ props });
     const [days, setDays] = useState(() => []);
     const handleDays = (event, newDays) => {
 
         if (newDays.length) {
             setDays(newDays);
         }
-        console.log({ days });
+        //console.log({ days });
     };
 
     const { addToast } = useToasts();
@@ -126,7 +126,7 @@ const BusinessInformationForm = ({ classes, ...props }) => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        console.log("works:", values);
+        //console.log("works:", values);
         if (validate()) {
             const onSuccess = () => {
                 addToast("Submitted successfully", { appearance: 'success' });
@@ -139,7 +139,7 @@ const BusinessInformationForm = ({ classes, ...props }) => {
     useEffect(() => {
         if (props) {
             props.fetchBusinessInfo(user.id);
-            console.log({ props });
+            //console.log({ props });
             setValues({
                 BusinessName: props.user.businessName,
                 Email: props.user.email,
@@ -152,12 +152,12 @@ const BusinessInformationForm = ({ classes, ...props }) => {
 
             });
 
-            console.log("fetchBusinessInfo: ", { props });
+            //console.log("fetchBusinessInfo: ", { props });
             //onLoadPlease();
             if (user && !alreadyExists) updateAfterSave();
         }
         else {
-            console.log("no props")
+            //console.log("no props")
         }
 
     }, [user.id])
@@ -166,7 +166,7 @@ const BusinessInformationForm = ({ classes, ...props }) => {
         let interval = setInterval(() => {
             if (user) {
                 //updateAfterSave();
-                console.log("updated");
+                //console.log("updated");
                 clearInterval(interval);
             }
         }, 1000);

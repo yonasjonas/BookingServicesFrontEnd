@@ -48,12 +48,12 @@ export default function MainImages(props) {
             {coverImage === null ? <FileUpload type="Upload Cover image" /> :
                 <>
                     <HeroImage image={coverImage} />
-                    <FileUpload class="coverImage" type="Change" />
+                    <FileUpload class="coverImage" type="businessInformationCover" frontEnd={props.frontEnd}/>
                 </>}
             {profileImage === null ? <FileUpload type="Upload Profile image" /> :
                 <>
                     <ProfileImage image={profileImage} />
-                    <FileUpload class="profileImage" type="Change" />
+                    <FileUpload class="profileImage" type="businessInformationProfile" frontEnd={props.frontEnd}/>
                 </>}
 
         </>

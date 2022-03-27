@@ -20,7 +20,7 @@ function login(username, password) {
         accountService.login(username, password)
             .then(
                 user => {
-                    console.log("from dispatchitip", {user});
+                    //console.log("from dispatchitip", {user});
                     dispatch(success(user));
                     history.push('/dashboard');
 

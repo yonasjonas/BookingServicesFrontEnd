@@ -76,11 +76,11 @@ function RangeSlider(...props) {
 
     useEffect(() => {
 
-        console.log("useEffect");
+        //console.log("useEffect");
         localDays = [];
 
 
-        console.log("currentID", props[0].currentId);
+        //console.log("currentID", props[0].currentId);
 
         if (!!allInfo === false) {
             // only perform below if slider wasnt touched on the page already
@@ -233,7 +233,7 @@ function RangeSlider(...props) {
 
         }
         isDirty = true;
-        console.log("allInfo : ", allInfo);
+        //console.log("allInfo : ", allInfo);
         props[0].parentCallback(allInfo);
         notUpdated = false;
     }

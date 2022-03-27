@@ -151,8 +151,11 @@ const BookingsForm = ({ classes, ...props }) => {
 
     useEffect(() => {
         //console.log("props.currentId", props.currentId);
-        props.fetchAllProviders();
-        props.id && props.fetchAllBusinessServices(props.id);
+
+        props.id &&
+            props.fetchAllBusinessServices(props.id);
+        props.fetchAllProviders(props.id);
+
         setBusinessServices(props.businessServices);
         //setCurrentProvider(props.businessProviders);
         if (props.currentId !== 0 && props.currentId !== undefined) {
@@ -164,7 +167,7 @@ const BookingsForm = ({ classes, ...props }) => {
             setErrors({})
         }
         if (props.id) {
-            console.log("props.id", props.id);
+            //console.log("props.id", props.id);
         }
     }, [props.currentId])
 
@@ -177,7 +180,7 @@ const BookingsForm = ({ classes, ...props }) => {
         })
     };
     const renderProviders = (providerId, serviceId) => {
-        const curService = businessServices.filter(x => x.id == serviceId)[0];
+        const curService = props.businessServices.filter(x => x.id == serviceId)[0];
         curService.timeSlotDuration
             ? setTimeSlotDuration(curService.timeSlotDuration)
             : setTimeSlotDuration(0);
@@ -191,7 +194,7 @@ const BookingsForm = ({ classes, ...props }) => {
         let currentProv = {};
         currentProv = props.businessProviders.filter(x => providerId.includes(x.id.toString()));
         if (providerId.length > 0) {
-            console.log("provide rid is: ", providerId);
+            //console.log("provide rid is: ", providerId);
             setCurrentProvider(currentProv);
         }
     };
@@ -249,38 +252,19 @@ const BookingsForm = ({ classes, ...props }) => {
         >
             <Grid container>
                 <div className="services-bookform">
+                    <h2>Services</h2>
                     <Box
                         sx={{
-                            minWidth: '800px',
+                            minWidth: '1200px',
                             height: 80,
                         }}>
-                        <Grid container spacing={2}>
-                            <Grid item xs={2} md={2}>
-
-                            </Grid>
-                            <Grid item xs={2} md={2}>
-                                Service Name
-                            </Grid>
-                            <Grid item xs={2} md={2}>
-                                Price
-                            </Grid>
-                            <Grid item xs={2} md={2}>
-                                Provider unique id
-                            </Grid>
-                            <Grid item xs={2} md={2}>
-                                Service Duration
-                            </Grid>
-                            <Grid item xs={2} md={2}>
-                                <strong>Select Service to Proceed</strong>
-                            </Grid>
-                        </Grid>
                     </Box>
                     {props.businessServices.length > 0 && props.businessServices.map((service) => (
                         <Box key={service.id} value={service.id}
                             sx={{
-                                minWidth: '800px',
+                                minWidth: '600px',
                                 border: '1px solid lightgrey',
-                                height: 100,
+                                height: 80,
                             }}
                         >
                             <Grid container spacing={2}>
@@ -307,159 +291,172 @@ const BookingsForm = ({ classes, ...props }) => {
 
                     ))}
                 </div>
-                {currentProvider.length > 1 && serviceId ?
-                    <h2> Please Select a service above to see available providers: </h2>
-                    : <h2> {serviceId && <>One provider available: </>}</h2>
-                }
-
-                {currentProvider && serviceId ? currentProvider.map((providers) => (
-                    <div className="services-bookform">
-
-                        <Box
-                            sx={{
-                                minWidth: '800px',
-                                border: '1px solid lightgrey',
-                                height: 100,
-                                position: 'relative',
-                            }}
-                            label="Service Provider"
-                            name="provider"
-                            value={values.provider}
-                            // @ts-ignore Typings are not considering `native`
-                            onChange={handleInputChange}
-
-                        >
-                            <Grid container key={providers.id} spacing={2}>
-                                <Grid item xs={2} md={2}>
-                                    <img height="50px" src="serviceImage.png" />
-                                </Grid>
-                                <Grid item xs={2} md={2}>
-                                    <h5>{providers.name}</h5>
-                                </Grid>
-                                <Grid item xs={2} md={2}>
-                                    <strong>{providers.email}</strong>
-                                </Grid>
-                                <Grid item xs={3} md={3}>
-                                    <strong>{providers.phone}</strong>
-                                </Grid>
-                                <Grid item xs={3} md={3}>
-                                    <Button onClick={() => { renderProviderTimes(providers.id) }} className="bookButton" color="primary" size="large">See Times</Button>
-                                </Grid>
-                            </Grid>
-                        </Box>
-                    </div>
-
-                )) : <h6> </h6>
-                }
-
-
-                {
-                    providerTimes !== null && serviceId &&
-
-                    <Box
-                        sx={{
-                            minWidth: '800px',
-                            padding: '10px',
-                            position: 'relative',
-                        }}
-                        label="Select Time"
-                        name="provider"
-                        value={values.provider}
-                        onChange={handleInputChange}
-                    >
-
-
-                        <Grid className="times_container" item xs={12} md={12}>
-
-                            <h2> Below you can pick timeslot for your booking</h2>
-                            <Scheduler
-                                view="week"
-                                selectedDate={selectedBookingTime ? selectedBookingTime : new Date()}
-
-                                week={{
-                                    weekDays: calendarDays,
-                                    weekStartOn: 1,
-                                    startHour: calendarHours[0],
-                                    endHour: calendarHours[1],
-                                    step: timeSlotDuration,
-
-                                    cellRenderer: ({ height, start, onClick }) => {
-                                        // Fake some condition up
-                                        const hour = start.getHours();
-                                        const minutes = start.getHours();
-                                        let disabled = hour <= calendarHours[0] || hour >= calendarHours[1];
-                                        let selected = false;
-
-                                        disabled = new Date() > start ? true : disabled;
-
-
-                                        if (hour === selectedBookingTime.getHours() && minutes === selectedBookingTime.getMinutes()) {
-                                            selected = true;
-                                        }
-
-
-                                        return (
-                                            <Button
-                                                style={{
-                                                    height: "100%",
-                                                    background: disabled ? "pink" : "lightgreen",
-                                                    border: selected ? "1px solid grey" : ""
-
-                                                }}
-                                                onClick={() => {
-                                                    if (true) {
-                                                        //setTimeSlotDuration(height)
-
-                                                        setSelectedBookingTime(new Date(start));
-                                                        showBookingSummary(start, timeSlotDuration);
-
-                                                        return console.log(start, timeSlotDuration);
-                                                    }
-                                                    onClick();
-                                                }}
-                                                disableRipple={disabled}
-                                            // disabled={disabled}
-                                            > {!disabled ? <p>Available - Select</p> : ""}</Button>
-                                        );
-                                    }
-                                }}
-
-                            />
-                        </Grid>
-                    </Box>
-
-                }
-
-                {
-                    providerTimes && serviceId ? <>
-                        <h2> Enter personal details</h2>
-                        <TextField
-                            name="name"
-                            variant="outlined"
-                            label="Full Name"
-                            value={values.name}
-                            onChange={handleInputChange}
-                        />
-                        <TextField
-                            name="email"
-                            variant="outlined"
-                            label="Email"
-                            value={values.email}
-                            onChange={handleInputChange}
-                        />
-                        <TextField
-                            name="phone"
-                            variant="outlined"
-                            label="Phone Number"
-                            value={values.phone}
-                            onChange={handleInputChange}
-                        /></> : <></>}
-
-
-
-
-
             </Grid>
+            <Grid container>
+                <div className="providers-block services-bookform">
+                    {currentProvider.length > 1 && serviceId ?
+                        <h2> Please Select a service above to see available providers: </h2>
+                        : <h2> {serviceId && <>One provider available: </>}</h2>
+                    }
+                    <Grid item xs={6} md={6}>
+
+                    {currentProvider && serviceId ? currentProvider.map((providers) => (
+
+                       
+                            <Box
+                                sx={{
+                                    minWidth: '550px',
+                                    border: '1px solid lightgrey',
+                                    height: 100,
+                                    position: 'relative',
+                                }}
+                                label="Service Provider"
+                                name="provider"
+                                value={values.provider}
+                                // @ts-ignore Typings are not considering `native`
+                                onChange={handleInputChange}
+
+                            >
+                                <Grid container key={providers.id} spacing={2}>
+                                    <Grid item xs={2} md={2}>
+                                        <img height="50px" src="../../serviceImage.png" />
+                                    </Grid>
+                                    <Grid item xs={2} md={2}>
+                                        <h5>{providers.name}</h5>
+                                    </Grid>
+                                    <Grid item xs={2} md={2}>
+                                        <strong>{providers.email}</strong>
+                                    </Grid>
+                                    <Grid item xs={3} md={3}>
+                                        <strong>{providers.phone}</strong>
+                                    </Grid>
+                                    <Grid item xs={3} md={3}>
+                                        <Button onClick={() => { renderProviderTimes(providers.id) }} className="bookButton" color="primary" size="large">See Times</Button>
+                                    </Grid>
+                                </Grid>
+                            </Box>
+                        
+
+
+                    )) : <h6> </h6>
+                    }
+                    </Grid>
+
+
+                    {
+                        providerTimes !== null && serviceId &&
+                        <Grid item xs={6} md={6} >
+                            <Box
+                                sx={{
+                                    minWidth: '300px',
+                                    padding: '10px',
+                                    position: 'relative',
+                                }}
+                                label="Select Time"
+                                name="provider"
+                                value={values.provider}
+                                onChange={handleInputChange}
+                            >
+
+
+
+                                <h2> Below you can pick timeslot for your booking</h2>
+                                <Scheduler
+                                    view="day"
+                                    selectedDate={selectedBookingTime ? selectedBookingTime : new Date()}
+                                    sx={{
+                                        height: '10px',
+                                        padding: '10px',
+                                        position: 'relative',
+                                    }}
+
+                                    day={{
+                                        //weekDays: calendarDays,
+                                        //weekStartOn: 1,
+                                        startHour: calendarHours[0],
+                                        endHour: calendarHours[1],
+                                        step: timeSlotDuration,
+
+                                        cellRenderer: ({ height, start, onClick }) => {
+                                            // Fake some condition up
+                                            const hour = start.getHours();
+                                            //console.log({ hour })
+                                            const minutes = start.getHours();
+                                            let disabled = hour <= calendarHours[0] || hour >= calendarHours[1];
+                                            let selected = false;
+
+                                            disabled = new Date() > start ? true : disabled;
+
+
+                                            if (hour === selectedBookingTime.getHours() && minutes === selectedBookingTime.getMinutes()) {
+                                                selected = true;
+                                            }
+
+
+                                            return (
+                                                <Button
+                                                    style={{
+                                                        height: "100%",
+                                                        background: disabled ? "pink" : "lightgreen",
+                                                        border: selected ? "1px solid grey" : ""
+
+                                                    }}
+                                                    onClick={() => {
+                                                        if (true) {
+                                                            //setTimeSlotDuration(height)
+
+                                                            setSelectedBookingTime(new Date(start));
+                                                            showBookingSummary(start, timeSlotDuration);
+
+                                                            return console.log(start, timeSlotDuration);
+                                                        }
+                                                        onClick();
+                                                    }}
+                                                    disableRipple={disabled}
+                                                // disabled={disabled}
+                                                > {!disabled ? <p>Available - Select</p> : "Not Available"}</Button>
+                                            );
+                                        }
+                                    }}
+
+                                />
+
+                            </Box>
+                        </Grid>
+
+                    }
+
+                </div>
+            </Grid>
+            {
+                providerTimes && serviceId ? <>
+                    <h2> Enter personal details</h2>
+                    <TextField
+                        name="name"
+                        variant="outlined"
+                        label="Full Name"
+                        value={values.name}
+                        onChange={handleInputChange}
+                    />
+                    <TextField
+                        name="email"
+                        variant="outlined"
+                        label="Email"
+                        value={values.email}
+                        onChange={handleInputChange}
+                    />
+                    <TextField
+                        name="phone"
+                        variant="outlined"
+                        label="Phone Number"
+                        value={values.phone}
+                        onChange={handleInputChange}
+                    /></> : <></>}
+
+
+
+
+
             {serviceId &&
                 <Box
                     sx={{

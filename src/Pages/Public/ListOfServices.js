@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../actions/businesses";
-import { Grid, Paper, TableBody, TableCell, TableRow, TableContainer, Table, TableHead, withStyles, Container, ButtonGroup, Button } from '@material-ui/core';
+import { Grid, Paper, TableBody, TableCell, TableRow, TableContainer, Table, TableHead, withStyles, Container, ButtonGroup, Button, Link } from '@material-ui/core';
 import EditIcon from "@material-ui/icons/Edit";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -56,8 +56,7 @@ const Businesses = (props, classes) => {
 
                             <Table>
                                 <TableBody>
-                                    {console.log({ services })}
-                                    {console.log(props.businesses)}
+                                   
                                     {
 
                                         props.businesses && props.businesses.map((record, index) => {
@@ -66,11 +65,17 @@ const Businesses = (props, classes) => {
                                                 <TableCell><strong>{record.businessName}</strong></TableCell>
                                                 <TableCell>{record.description}</TableCell>
                                                 <TableCell>{record.county}</TableCell>
-                                                <TableCell><Button
-                                                    color="secondary"
-                                                    className={classes.smMargin}
-                                                    variant="contained"
-                                                >Business Info and Book</Button></TableCell>
+                                                <TableCell>
+                                                    <Button
+                                                        color="secondary"
+                                                        className={classes.smMargin}
+                                                        variant="contained"
+
+                                                    >
+                                                        <Link href={"single-business/" + record.id} color="inherit">
+                                                            Business Info and Book
+                                                        </Link>
+                                                    </Button></TableCell>
 
                                             </TableRow>
                                             )

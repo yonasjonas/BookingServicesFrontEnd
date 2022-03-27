@@ -36,7 +36,7 @@ const useForm = (initialFieldValues, validate, setCurrentId, setDays) => {
 
 
 
-		console.log("handleInputChange2 : ", values);
+		//console.log("handleInputChange2 : ", values);
 		setValues({
 			...values,
 			...fieldValue,

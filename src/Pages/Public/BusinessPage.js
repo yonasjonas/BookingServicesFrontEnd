@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import * as bookingActions from "../../actions/businessBookings";
 import * as providerActions from "../../actions/businessProvidersActions";
 import * as serviceActions from "../../actions/businessServices";
-import { Grid, Paper, TableBody, TableCell, TableRow, TableContainer, Table, TableHead, withStyles, Container, ButtonGroup, Button } from '@material-ui/core';
+import { Box, Grid, Paper, TableBody, TableCell, TableRow, TableContainer, Table, TableHead, withStyles, Container, ButtonGroup, Button } from '@material-ui/core';
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
@@ -36,8 +36,13 @@ const BusinessPage = (props, classes) => {
 
     return (
         <>
-            <MainImages />
+            <MainImages frontEnd={true}/>
             <Container maxWidth="lg">
+                <Box className="pagetitle" ><h1><strong>{props.authentication.user.businessName}</strong></h1>
+                1671 Reviews 5 out of 5 <img src="../../5stars.png" alt="reviews" />
+                </Box>
+                <Box className="pagetitle businessinfo" ><h3>Business Information</h3><p>{props.authentication.user.description}</p>
+                </Box>
                 <BookingsForm id={id}/>                        
             </Container>
         </>

@@ -8,7 +8,6 @@ import { Button } from '@material-ui/core';
 function FileUpload(props) {
 	const [selectedFile, setSelectedFile] = useState();
 	const [isFilePicked, setIsFilePicked] = useState(false);
-	const user = JSON.parse(localStorage.getItem('user'))
 	const [loaded, setLoaded] = useState(false);
 
 	const changeHandler = (event) => {
@@ -17,54 +16,60 @@ function FileUpload(props) {
 		
 	};
 
-	const handleSubmission = () => {
-		props.postImage(selectedFile);
+	const handleSubmission = (e) => {
+		//e.preventDefault();
+		props.user.id && props.postImage(selectedFile, props.type, props.user.id, props.providerId);
 	};
 
 	useEffect(() => {
-		console.log({ props })
+		//console.log({ props })
 		fetchAll();
+		if (isFilePicked && !loaded) {
+			handleSubmission();
+		}
 	});
 
 
 
 	return (
 		<div className={'filePicker ' + props.class}>
+			{console.log({props})}
+			{ !props.frontEnd &&
 			<Button
 				variant="contained"
 				component="label"
 			>
-				{props.type}
+				Change
 				<input
 					type="file"
 					name="file"
 					hidden
 					onChange={changeHandler}
 				/>
-			</Button>
+			</Button>}
 			
 			{isFilePicked && !loaded ? (
 				<div>
-					<p>Filetype: {props.type}</p>
+					{/* <p>Filetype: {props.type}</p>
 					<p>
 						lastModifiedDate:{' '}
 						{selectedFile.lastModifiedDate.toLocaleDateString()}
 
-					</p>
+					</p> */}
+					{}
 				</div>
 			) : (
 				<></>
 			)}
-			<div>
-				<button onClick={handleSubmission}>Submit</button>
-			</div>
+			
 		</div>
 	)
 }
 
 
 const mapStateToProps = state => ({
-	file: state.fileReducer
+	file: state.fileReducer,
+	user: state.authentication.user,
 
 });
 

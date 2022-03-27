@@ -37,11 +37,11 @@ function login(email, password) {
 
 function logout() {
     // revoke token, stop refresh timer, publish null to user subscribers and redirect to login page
-    fetchWrapper.post(`${baseUrl}/revoke-token`, {});
-    stopRefreshTokenTimer();
-    localStorage.removeItem('user');
+    //fetchWrapper.post(`${baseUrl}/revoke-token`, {});
+    //stopRefreshTokenTimer();
+    //localStorage.removeItem('user');
     userSubject.next(null);
-    history.push('/account/login');
+    history.push('/login');
 }
 
 function refreshToken() {

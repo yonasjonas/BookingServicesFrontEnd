@@ -75,7 +75,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
 );
 
-export default function TypographyMenu() {
+export default function TypographyMenu(props) {
     const [open, setOpen] = React.useState(true);
     const toggleDrawer = () => {
         setOpen(!open);
@@ -97,8 +97,7 @@ export default function TypographyMenu() {
                     justifyContent: 'flex-end',
                     px: [1],
                 }}
-            >
-               
+            >               
             </Toolbar>
 
             <Paper sx={{ width: 230, height: 1 }}>

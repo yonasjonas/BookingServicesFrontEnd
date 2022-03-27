@@ -16,14 +16,18 @@ export function fetchAll(dispatch)  {
     });    
 };
 
-export const postImage = (selectedFile)  =>{
+export const postImage = (selectedFile, type, userId, providerId)  =>{
 
     const formData = new FormData();
 
+    if (providerId) {
+        formData.append('ProviderId', providerId);
+    }
+
     formData.append('File', selectedFile);
-    formData.append('Type', "businessInformationCover");
+    formData.append('Type', type);
     formData.append('FileName', selectedFile.name);
-    formData.append('BusinessId', JSON.parse(localStorage.user).id);
+    formData.append('BusinessId', userId);
 
 
     fetch(

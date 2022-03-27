@@ -45,6 +45,7 @@ const initialFieldValues = {
 const BusinessServicesForm = ({ classes, state, ...props }) => {
 
     const { addToast } = useToasts();
+    const [editing, setEditing] = useState(false);
 
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
@@ -77,11 +78,11 @@ const BusinessServicesForm = ({ classes, state, ...props }) => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        console.log("works", state);
+        //console.log("works", state);
         values.providerId = values.providerId ? values.providerId.join(',') : "";
         setValues({
-			"providerId": values.providerId,
-		})
+            "providerId": values.providerId,
+        })
         values.businessId = user.id;
         if (validate()) {
             const onSuccess = () => {
@@ -96,12 +97,23 @@ const BusinessServicesForm = ({ classes, state, ...props }) => {
                 props.updateBusinessService(props.currentId, values, onSuccess);
             }
         }
-        
+
+    }
+
+    const showForm = () => {
+        setEditing(true)
+    }
+    const hideForm = () => {
+        setEditing(false)
+        resetForm();
+        props.currentId = 0;
+        console.log(props.currentId)
     }
 
     useEffect(() => {
-        props.fetchAllProviders();
+        props.fetchAllProviders(props.user.id);
         if (props.currentId !== 0 && props.currentId !== "") {
+            setEditing(true)
             let temp = props.businessServicesList.find(x => x.id == props.currentId);
 
             setValues({
@@ -114,10 +126,14 @@ const BusinessServicesForm = ({ classes, state, ...props }) => {
             setErrors({})
 
         }
-        
+
     }, [props.currentId])
 
     return (
+        <>
+        {console.log({editing})}
+        {editing ?
+
         <form
             autoComplete="off"
             noValidate
@@ -149,28 +165,8 @@ const BusinessServicesForm = ({ classes, state, ...props }) => {
                     onChange={handleInputChange}
                     {...(errors.timeSlotDuration && { error: true, helperText: errors.timeSlotDuration })}
                 />
-                {/* <FormControl variant="outlined" className={classes.formControl}>
-                    <InputLabel id="demo-multiple-checkbox-label">Tag</InputLabel>
-                    <Select
-                        name="weekvalue"
-                        variant="outlined"
-                        value={values.weekvalue}
-                        className={classes.formControl}
-                        onChange={handleInputChange}
-                        defaultValue="Please Select"
-                        {...(errors.weekvalue && { error: true, helperText: errors.weekvalue })}
-                    >
-                        <MenuItem value={allWeekdays[0]}>{allWeekdays[0]}</MenuItem>
-                        <MenuItem value={allWeekdays[1]}>{allWeekdays[1]}</MenuItem>
-                        <MenuItem value={allWeekdays[2]}>{allWeekdays[2]}</MenuItem>
-                        <MenuItem value={allWeekdays[3]}>{allWeekdays[3]}</MenuItem>
-                        <MenuItem value={allWeekdays[4]}>{allWeekdays[4]}</MenuItem>
-                        <MenuItem value={allWeekdays[5]}>{allWeekdays[5]}</MenuItem>
-                        <MenuItem value={allWeekdays[6]}>{allWeekdays[6]}</MenuItem>
-                    </Select>
-                </FormControl> */}
                 <FormControl variant="outlined" className={classes.formControl}>
-                    {console.log("values", values)}
+
 
                     <Select
                         multiple
@@ -209,7 +205,13 @@ const BusinessServicesForm = ({ classes, state, ...props }) => {
             >
                 Reset
             </Button>
-        </form>
+            <Button variant="contained" color="primary" className={classes.smMargin} onClick={hideForm}>Hide Form</Button>
+        </form> : 
+        
+        <Button variant="contained" color="primary" className={classes.smMargin} onClick={showForm}>Add new</Button>
+       
+        }
+         </>
     )
 }
 
@@ -217,6 +219,7 @@ const mapStateToProps = state => ({
     businessServicesList: state.businessService.list,
     businessProviders: state.businessProvider.list,
     businessInformation: state.businessInformation,
+    user: state.authentication.user
 });
 
 const mapActionsToProps = {

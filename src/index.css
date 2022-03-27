@@ -57,10 +57,12 @@ label.MuiFormLabel-root.MuiFormLabel-colorPrimary.css-u4tvz2-MuiFormLabel-root {
   /* padding: 10px; */
   margin-left: 0px;
   border: 3px solid white;
-  width: 209px;
-  margin-left: auto;
-  margin-right: auto;
   bottom: -32px;
+  left: 20.1%;
+  min-width: 209px;
+  max-width: 209px;
+  min-height: 209px;
+  max-height: 209px;
 }
 .coverImage {
   max-height: 320px;
@@ -75,17 +77,63 @@ label.MuiFormLabel-root.MuiFormLabel-colorPrimary.css-u4tvz2-MuiFormLabel-root {
 
 .filePicker.profileImage {
   width: 100px;
-  margin: auto;
   bottom: -29px;
   position: relative;
-  left: 58px;
+  left: 26%;
 }
 
 .booking_summary {
-  background: orange;
+  background: orange!important;
   position: fixed;
   bottom: 0;
   width: 100%;
   left:0;
 }
+
+.topBar div {
+  line-height: 20px;
+  padding: 2px 10px;
+  color: black!important;
+  float: right;
+  font-weight: 400;
+}
+
+.topBar {
+  background: #ff6a00!important;
+}
+
+.topBar a {
+  font-weight: 600;
+}
+
+.profileImage .MuiButton-contained {
+  background-color: #fe6a0045;
+}
+.profileImage .MuiButton-label { 
+  font-weight: 600;
+}
+
+.coverImage .MuiButton-contained {
+  color: rgba(0, 0, 0, 0.87);
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+  background-color: #e0e0e0;
+  background: transparent!important;
+  color: black;
+  font-weight: 600;
+}
+.pagetitle {
+  margin: auto;
+  margin-left: 26%;
+}
+.pagetitle img {
+  max-width: 144px;
+  margin-bottom: -10px;
+}
+img.providerImage {
+  max-width: 60px;
+  max-height: 60px;
+  height: 60px;
+  width: 60px;
+}
+
 

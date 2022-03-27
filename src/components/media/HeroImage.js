@@ -9,7 +9,8 @@ import Typography from '@mui/material/Typography';
 export default function HeroImage(props) {
     return (
         <>
-        {console.log("image:", props.image)}
+        {//console.log("image:", props.image)
+        }
             <CardMedia
                 component="img"
                 className="coverImage"

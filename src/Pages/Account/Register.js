@@ -146,7 +146,7 @@ function Register(history, classes, ...props) {
     const handleSubmit = e => {
         e.preventDefault();
         //values.weekvalue = values.weekvalue ? values.weekvalue : "";
-        console.log("works from register:", values);
+        //console.log("works from register:", values);
         accountService.register(values)
             .then(() => {
                 alertService.success('Registration successful, please check your email for verification instructions', { keepAfterRouteChange: true });

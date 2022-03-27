@@ -12,6 +12,7 @@ import TimeSlider from "../FormElements/TimeSlider";
 import Stack from '@mui/material/Stack';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import FileUpload from "../FormElements/FileUpload";
 
 
 
@@ -71,7 +72,7 @@ const ProvidersForm = ({ classes, ...props }) => {
         values.weekvalue = values.weekvalue ? values.weekvalue : "";
         values.businessId = user ? user.id : 11;
 
-        console.log("works:", values);
+        //console.log("works:", values);
         if (validate()) {
             const onSuccess = () => {
                 addToast("Submitted successfully", { appearance: 'success' });
@@ -90,19 +91,15 @@ const ProvidersForm = ({ classes, ...props }) => {
     let localDays = [];
 
     useEffect(() => {
-        oldNewDaysLength = 0;
+        oldNewDaysLength = 0;        
         //props.providersList();
         //resetForm();
         if (props.currentId !== 0) {
-            console.log("props.currentId: ", props.currentId)
+            setEditing(true)            
             localDays = [];
-            //setValues(props.providersList.find(x => x.id == props.currentId));
-
             let localValues = props.providersList.find(x => x.id == props.currentId);
             localValues.weekvalue = localValues.weekvalue ? JSON.parse(localValues.weekvalue) : {};
 
-
-            //console.log({ values });
             if (!!values.weekvalue && values.weekvalue !== "[object Object]") {
                 if (typeof values.weekvalue === 'string') {
                     Object.keys(JSON.parse(values.weekvalue)).map(i => {
@@ -121,7 +118,7 @@ const ProvidersForm = ({ classes, ...props }) => {
                     Object.keys(values.weekvalue).map(i => {
                         localDays.push(i);
                         setDays(localDays);
-                        console.log("babrabim!", values.weekvalue[i]);
+                        //console.log("babrabim!", values.weekvalue[i]);
                         //console.log("goandof: ", TimeSlider.marks)
                         //console.log("goandof: ", callbackFunction())
                     });
@@ -162,7 +159,7 @@ const ProvidersForm = ({ classes, ...props }) => {
             //setDays(prevDays => ([...prevDays, newDays]))
         }
 
-        console.log("newDays : ", newDays);
+        //console.log("newDays : ", newDays);
 
         if (newDays.length < oldNewDaysLength) {
             if (!!values.weekvalue && values.weekvalue !== "[object Object]") {
@@ -173,7 +170,7 @@ const ProvidersForm = ({ classes, ...props }) => {
                         if (newDays.includes(i)) {
                             values.weekvalue[i] = null;
                             //const { key, ...profilesWithoutKey } = profiles;
-                            console.log({ values });
+                            //console.log({ values });
                         }
 
                     })
@@ -185,7 +182,7 @@ const ProvidersForm = ({ classes, ...props }) => {
                         if (newDays.includes(i)) {
                             values.weekvalue[i] = null;
                             //const { key, ...profilesWithoutKey } = profiles;
-                            console.log("removed", i);
+                            //console.log("removed", i);
                         }
                     });
 
@@ -199,7 +196,7 @@ const ProvidersForm = ({ classes, ...props }) => {
                     Object.keys(values.weekvalue).map(i => {
                         localDays.push(i);
                         setDays(localDays);
-                        console.log("babrabim!", values.weekvalue[i])
+                        //console.log("babrabim!", values.weekvalue[i])
                     })
                 }
                 else {
@@ -223,6 +220,8 @@ const ProvidersForm = ({ classes, ...props }) => {
     };
 
     const { addToast } = useToasts();
+    const [editing, setEditing] = useState(false);
+
     var daysSelected = [];
     //const state = this.state;
 
@@ -257,8 +256,20 @@ const ProvidersForm = ({ classes, ...props }) => {
     const callbackFunction = (childData) => {
         values.weekvalue = childData;
     }
+    const showForm = () => {
+        setEditing(true)
+    }
+    const hideForm = () => {
+        setEditing(false)
+        resetForm();
+        props.currentId = 0;
+        console.log(props.currentId)
+    }
 
     return (
+        <>
+        {console.log({editing})}
+        {editing ?
         <form
             autoComplete="off"
             noValidate
@@ -266,6 +277,10 @@ const ProvidersForm = ({ classes, ...props }) => {
             onSubmit={handleSubmit}
         >
             <Grid container>
+                
+                {props.currentId !== 0 ? <>
+                <strong>Upload image</strong><br/>
+                <FileUpload class="providerImage" type="providerImage" providerId={props.currentId}/></>: "Save Provider to upload image"}
                 <TextField
                     name="name"
                     variant="outlined"
@@ -367,7 +382,13 @@ const ProvidersForm = ({ classes, ...props }) => {
             >
                 Reset
             </Button>
-        </form>
+            <Button variant="contained" color="primary" className={classes.smMargin} onClick={hideForm}>Hide Form</Button>
+        </form>: 
+        
+        <Button variant="contained" color="primary" className={classes.smMargin} onClick={showForm}>Add new</Button>
+       
+        }
+         </>
     )
 }
 

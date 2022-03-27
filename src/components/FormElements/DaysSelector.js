@@ -20,7 +20,7 @@ function ToggleButtonNotEmpty(props) {
     };
     useEffect(() => {
         setDays(days);
-        console.log({ days });
+        //console.log({ days });
     }, [days]);
 
     return (

@@ -11,9 +11,10 @@ import Widget from './Pages/Member/Widget';
 import BusinessProviders from './Pages/Member/BusinessProvidersContainer';
 import Bookings from './Pages/Member/BusinessBookings';
 import BusinessInformation from './Pages/Member/BusinessInformation';
+import MainNavigation from "./components/navigation/MainNavigation";
 import TopNavigation from "./components/navigation/TopNavigation";
 import MemberMenu from "./components/navigation/MemberMenu";
-import { Router, Switch, Route, useParams } from "react-router-dom";
+import { Router, Switch, Route, Link } from "react-router-dom";
 import Home from "./Pages/Public/Home";
 import About from "./Pages/Public/About";
 import Contact from "./Pages/Public/Contact";
@@ -28,16 +29,9 @@ import { history } from './helpers';
 import { alertActions } from './actions/alert.actions';
 import { userActions } from './actions/user.actions';
 
-let user = null;
 
 function App(...props) {
 
-    history.listen((location, action) => {
-        // clear alert on location change
-       // props.clearAlerts();
-    });
-
-    //let { id } = useParams();
     
     return (
         <>
@@ -45,7 +39,9 @@ function App(...props) {
                 <div className={`alert ${alert.type}`}>{alert.message}</div>
             }
             <Router history={history}>
-                <TopNavigation />
+            
+                <TopNavigation user={props[0]}/>
+                <MainNavigation loggedIn={props[0].user.loggedIn}/>
                 <CustomAlert />
                 <ToastProvider autoDismiss={true}>
                     <Switch>
@@ -68,23 +64,26 @@ function App(...props) {
                         <Route exact path="/single-business/:id" component={BusinessPage} />
                     </Switch>
                 </ToastProvider>
-
             </Router>
         </>
     );
 }
 
-function mapStateToProps(state) {
-    const { alert } = state;
+const mapStateToProps = state =>({
+    //const { alert } = state;
+    user: state.authentication
 
-    user = state.user;
 
-    return { alert };
-}
+    //user: state.authentication.loggedIn;
+
+    //return { alert };
+});
 
 const mapActionsToProps = {
     clearAlerts: alertActions.clear,
-    userActions: userActions.refreshToken
+    userActions: userActions.refreshToken,
+    logout: userActions.logout
+
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(App);

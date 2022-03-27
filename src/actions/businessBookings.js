@@ -20,9 +20,9 @@ const formatData = (data) => ({
 
 });
 
-export const fetchAll = () => dispatch => { 
+export const fetchAll = (businessId) => dispatch => { 
 
-    api.businessBooking().fetchAll()
+    api.businessBooking().fetchAll(businessId)
     .then(response => {
         let dataLocal = Object.assign({}, response)
         //dataLocal.weekvalue = dataLocal.weekvalue.split(',');

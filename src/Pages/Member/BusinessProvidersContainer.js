@@ -7,8 +7,8 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import ProvidersForm from '../../components/Forms/ProvidersForm';
 import { useToasts } from "react-toast-notifications";
 import MembersMenu from '../../components/navigation/MemberMenu';
+import MainImages from "../../components/media/MainImages";
 
-import { accountService, alertService } from '../../services';
 
 
 const style = theme => ({
@@ -28,11 +28,13 @@ const BusinessProviders = (props, classes) => {
 
     const { addToast } = useToasts();
     const [currentId, setCurrentId] = useState(0);
+    const [providers, setProviders] = useState(props.providersList);
 
     //setCurrentId(null)
 
     useEffect(() => {
-        props.fetchAllProviders()
+        props.authentication.user.id && props.fetchAllProviders(props.authentication.user.id)
+        setProviders(props.providersList);        
     }, [])
 
 
@@ -64,73 +66,75 @@ const BusinessProviders = (props, classes) => {
             }
         }
         return "" + days + " "; */
-        
+
     }
 
 
 
     return (
-        <Container maxWidth="lg">
-            <Paper>
-                <Grid container>
-                    <Grid item xs={3}>{<MembersMenu />}</Grid>
-                    <Grid item xs={9}>
-                        <TableContainer>
-                            <h1> Providers</h1>
-                            <Grid container><ProvidersForm {...({ currentId, setCurrentId })} /></Grid>
-                            <Table>
-                                <TableHead className={classes.root}>
-                                    <TableRow>
-                                        <TableCell>Name</TableCell>
-                                        <TableCell>Email</TableCell>
-                                        <TableCell>Weekdays</TableCell>
-                                        <TableCell>Working Hours</TableCell>
-                                        <TableCell>Description</TableCell>
-                                        <TableCell>Image</TableCell>
-                                        <TableCell>Phone</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {
-                                        props.providersList.map((record, index) => {
-                                            return (
+        <><MainImages />
+            <Container maxWidth="lg">
+                <Paper>
+                    <Grid container>
+                        <Grid item xs={3}>{<MembersMenu />}</Grid>
+                        <Grid item xs={9}>
+                            <TableContainer>
+                                <h1> Providers</h1>
+                                <Grid container><ProvidersForm {...({ currentId, setCurrentId })} /></Grid>
+                                <Table>
+                                    <TableHead className={classes.root}>
+                                        <TableRow>
+                                            <TableCell>Name</TableCell>
+                                            <TableCell>Email</TableCell>
+                                            <TableCell>Weekdays</TableCell>
+                                            <TableCell>Working Hours</TableCell>
+                                            <TableCell>Description</TableCell>
+                                            <TableCell>Image</TableCell>
+                                            <TableCell>Phone</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {
+                                            props.providersList && props.providersList.map((record, index) => {
+                                                return (
                                                     <TableRow key={index}>
-                                                    <TableCell>{record.name}</TableCell>
-                                                    <TableCell>{record.email}</TableCell>
-                                                    <TableCell className="weekdaysClass">{showDays(record.weekvalue)}</TableCell>
-                                                    <TableCell>{record.phone}</TableCell>
-                                                    <TableCell>{record.phone}</TableCell>
-                                                    <TableCell>{record.phone}</TableCell>
-                                                    <TableCell>{record.phone}</TableCell>
-                                                    <TableCell>
-                                                        <ButtonGroup>
-                                                            <Button><EditIcon color="primary" onClick={() => { setCurrentId(record.id) }} /></Button>
-                                                            <Button><DeleteIcon color="secondary" onClick={() => { onDelete(record.id) }} /></Button>
-                                                        </ButtonGroup>
-                                                    </TableCell>
-                                                </TableRow>
-                                            )
-                                        })
-                                    }
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                                                        <TableCell>{record.name}</TableCell>
+                                                        <TableCell>{record.email}</TableCell>
+                                                        <TableCell className="weekdaysClass">{showDays(record.weekvalue)}</TableCell>
+                                                        <TableCell>{record.phone}</TableCell>
+                                                        <TableCell>{record.phone}</TableCell>
+                                                        <TableCell>{record.phone}</TableCell>
+                                                        <TableCell>{record.phone}</TableCell>
+                                                        <TableCell>
+                                                            <ButtonGroup>
+                                                                <Button><EditIcon color="primary" onClick={() => { setCurrentId(record.id) }} /></Button>
+                                                                <Button><DeleteIcon color="secondary" onClick={() => { onDelete(record.id) }} /></Button>
+                                                            </ButtonGroup>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                )
+                                            })
+                                        }
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Grid>
                     </Grid>
-                </Grid>
-            </Paper>
-        </Container>
+                </Paper>
+            </Container>
+        </>
     )
 }
 
 const mapStateToProps = state => ({
-    providersList: state.businessProvider.list
+    providersList: state.businessProvider.list,
+    authentication: state.authentication
+
 });
 
 const mapActionsToProps = {
     fetchAllProviders: actions.fetchAll,
     deleteProvider: actions.deleteData,
-    updateProviderWorkinghours: actions.addProviderWorkingDays
-
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(withStyles(style)(BusinessProviders));

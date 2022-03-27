@@ -90,6 +90,7 @@ const BookingsForm = ({ classes, ...props }) => {
 
     const { addToast } = useToasts();
     const [currentProvider, setCurrentProvider] = useState(props.businessProviders);
+    const [currentService, setCurrentService] = useState(props.businessServices);
     const [providerTimes, setProviderTimes] = useState(null);
     const [calendarDays, setCalendarDays] = useState([]);
     const [selectedBookingTime, setSelectedBookingTime] = useState(new Date());
@@ -151,16 +152,19 @@ const BookingsForm = ({ classes, ...props }) => {
     useEffect(() => {
         //console.log("props.currentId", props.currentId);
         props.fetchAllProviders();
-        props.fetchAllBusinessServices();
+        props.id && props.fetchAllBusinessServices(props.id);
         setBusinessServices(props.businessServices);
         //setCurrentProvider(props.businessProviders);
-        if (props.currentId !== 0) {
+        if (props.currentId !== 0 && props.currentId !== undefined) {
 
             let temp = props.providersList.find(x => x.id == props.currentId);
             setValues({
                 ...temp
             })
             setErrors({})
+        }
+        if (props.id) {
+            console.log("props.id", props.id);
         }
     }, [props.currentId])
 
@@ -173,10 +177,12 @@ const BookingsForm = ({ classes, ...props }) => {
         })
     };
     const renderProviders = (providerId, serviceId) => {
-        businessServices.filter(x => x.id == serviceId)[0].timeSlotDuration
-            ? setTimeSlotDuration(businessServices.filter(x => x.id == serviceId)[0].timeSlotDuration)
+        const curService = businessServices.filter(x => x.id == serviceId)[0];
+        curService.timeSlotDuration
+            ? setTimeSlotDuration(curService.timeSlotDuration)
             : setTimeSlotDuration(0);
         setServiceId(serviceId);
+        setCurrentService(curService)
         setValues({
             ...values,
             "serviceId": serviceId
@@ -185,13 +191,13 @@ const BookingsForm = ({ classes, ...props }) => {
         let currentProv = {};
         currentProv = props.businessProviders.filter(x => providerId.includes(x.id.toString()));
         if (providerId.length > 0) {
+            console.log("provide rid is: ", providerId);
             setCurrentProvider(currentProv);
         }
     };
     const renderProviderTimes = (providerId) => {
 
         let currentProv = {};
-        let currentService = {};
         let days = [];
         let hours = [];
         setValues({
@@ -269,7 +275,7 @@ const BookingsForm = ({ classes, ...props }) => {
                             </Grid>
                         </Grid>
                     </Box>
-                    {businessServices.length > 0 && businessServices.map((service) => (
+                    {props.businessServices.length > 0 && props.businessServices.map((service) => (
                         <Box key={service.id} value={service.id}
                             sx={{
                                 minWidth: '800px',
@@ -279,7 +285,7 @@ const BookingsForm = ({ classes, ...props }) => {
                         >
                             <Grid container spacing={2}>
                                 <Grid item xs={2} md={2}>
-                                    <img height="50px" src="serviceImage.png" />
+                                    <img height="50px" src="../../serviceImage.png" />
                                 </Grid>
                                 <Grid item xs={2} md={2}>
                                     {service.serviceName}
@@ -403,7 +409,7 @@ const BookingsForm = ({ classes, ...props }) => {
                                                 onClick={() => {
                                                     if (true) {
                                                         //setTimeSlotDuration(height)
-                                                        
+
                                                         setSelectedBookingTime(new Date(start));
                                                         showBookingSummary(start, timeSlotDuration);
 
@@ -451,15 +457,76 @@ const BookingsForm = ({ classes, ...props }) => {
 
 
 
+
+
             </Grid>
-            <Button
-                className={classes.smMargin}
-                variant="contained"
-                color="secondary"
-                type="submit"
-            >
-                Reserve a Service
-            </Button>
+            {serviceId &&
+                <Box
+                    sx={{
+                        minWidth: '100%',
+                        padding: '10px',
+                        position: 'relative',
+                    }}>
+
+                    <Grid
+                        sx={{
+                            minWidth: '100%',
+                            padding: '10px',
+                            position: 'relative',
+                        }}
+                        container className="booking_summary" item xs={12} md={12}>
+                        <Grid item xs={1} md={1}>
+                            <img height="35px" src="serviceImage.png" />
+                        </Grid>
+                        <Grid item xs={2} md={1}>
+                            <strong>Service Name: <br />{currentService.serviceName}</strong>
+                            <br />
+                            <strong>Price: <br /> €{currentService.price}.00</strong>
+                        </Grid>
+                        <Grid item xs={2} md={1}>
+                            <strong>Service Duration: {currentService.timeSlotDuration} </strong> minutes
+                        </Grid>
+                        <Grid item xs={2} md={1}>
+                            <strong>Provider: {providerTimes !== null ? currentProvider[0].name : "Provider not selected"}</strong>
+                        </Grid>
+                        <Grid item xs={2} md={2}>
+                            <strong>Booking Date:</strong><br /> {values.bookingStartTime !== "" ? values.bookingStartTime : "Time not selected"}
+
+                        </Grid>
+                        <Grid item xs={2} md={2}>
+                            {values.name &&
+                                <>
+                                    <strong>Your Details: </strong>
+                                    <div>
+                                        <strong>Name:</strong> {values.name ? values.name : "Name not entered"} <br />
+                                        <strong>Email:</strong> {values.email ? values.email : "Email not entered"}<br />
+                                        <strong>Phone:</strong> {values.phone ? values.phone : "Phone not entered"}
+                                    </div>
+                                </>
+
+                            }
+
+                        </Grid>
+                        <Grid item xs={2} md={2}>
+                            {values.phone &&
+                                <>
+                                    <Button
+                                        className={classes.smMargin}
+                                        variant="contained"
+                                        color="secondary"
+                                        type="submit"
+                                    >
+                                        Reserve a Service
+                                    </Button>
+                                </>}
+                        </Grid>
+                        <Grid item xs={2} md={1}>
+                            <strong>Booking Date:</strong><br /> {values.bookingStartTime !== "" ? values.bookingStartTime : "Time not selected"}
+
+                        </Grid>
+                    </Grid>
+                </Box>}
+
         </form >
     )
 }

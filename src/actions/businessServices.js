@@ -15,12 +15,9 @@ const formatData = (data) => ({
     businessId: Number(!isNaN(data.businessId) ? parseInt(data.businessId) : 0),
 });
 
-export const fetchAll = () => dispatch => { 
-    api.businessService().fetchAll()
+export const fetchAll = (businessId) => dispatch => { 
+    businessId && api.businessService().fetchAll(businessId)
     .then(response => {
-        for (let i = 0; i < response.data.length; i++) {
-            //response.data[i].weekvalue  = response.data[i].weekvalue.split(',');            
-        }
         dispatch({
             type:ACTION_TYPES.FETCH_ALL,
             payload: response.data

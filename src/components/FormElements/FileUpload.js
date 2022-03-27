@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import * as fileActions from '../../actions/file';
 import { connect } from "react-redux";
 import { fetchAll } from '../../actions/businessServices';
+import { Button } from '@material-ui/core';
+
 
 function FileUpload(props) {
 	const [selectedFile, setSelectedFile] = useState();
@@ -12,6 +14,7 @@ function FileUpload(props) {
 	const changeHandler = (event) => {
 		setSelectedFile(event.target.files[0]);
 		setIsFilePicked(true);
+		
 	};
 
 	const handleSubmission = () => {
@@ -19,30 +22,38 @@ function FileUpload(props) {
 	};
 
 	useEffect(() => {
-		console.log({props})
+		console.log({ props })
 		fetchAll();
 	});
 
 
 
 	return (
-		<div>
-			<input type="file" name="file" onChange={changeHandler} />
+		<div className={'filePicker ' + props.class}>
+			<Button
+				variant="contained"
+				component="label"
+			>
+				{props.type}
+				<input
+					type="file"
+					name="file"
+					hidden
+					onChange={changeHandler}
+				/>
+			</Button>
+			
 			{isFilePicked && !loaded ? (
 				<div>
-					<p>Filename: {selectedFile.name}</p>
-					<p>Filetype: {selectedFile.type}</p>
-					<p>Size in bytes: {selectedFile.size}</p>
+					<p>Filetype: {props.type}</p>
 					<p>
 						lastModifiedDate:{' '}
 						{selectedFile.lastModifiedDate.toLocaleDateString()}
-						
+
 					</p>
 				</div>
 			) : (
-				<>
-				<p>Select a file to show details</p>
-				</>
+				<></>
 			)}
 			<div>
 				<button onClick={handleSubmission}>Submit</button>

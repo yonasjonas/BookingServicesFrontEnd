@@ -6,12 +6,16 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-export default function HeroImage() {
+export default function HeroImage(props) {
     return (
-        <CardMedia
+        <>
+        {console.log("image:", props.image)}
+            <CardMedia
                 component="img"
+                className="coverImage"
                 alt="business cover image"
-                image="business1.png"
-        />        
+                image={props.image}
+            />
+        </>
     );
 }

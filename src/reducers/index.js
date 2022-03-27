@@ -3,6 +3,7 @@ import { businessService } from "./businessService";
 import { businessProvider } from "./businessProviderReducer";
 import { businessBooking } from "./businessBooking";
 import { businessInformation } from "./businessInformation";
+import { businesses } from "./businesses";
 import { authentication } from './authentication.reducer';
 import { registration } from './registration.reducer';
 import { users } from './users.reducer';
@@ -15,6 +16,7 @@ export const reducers = combineReducers({
     businessProvider,
     businessBooking,
     businessInformation,
+    businesses,
     registration,
     users,
     alert,

@@ -13,10 +13,11 @@ import Bookings from './Pages/Member/BusinessBookings';
 import BusinessInformation from './Pages/Member/BusinessInformation';
 import TopNavigation from "./components/navigation/TopNavigation";
 import MemberMenu from "./components/navigation/MemberMenu";
-import { Router, Switch, Route } from "react-router-dom";
+import { Router, Switch, Route, useParams } from "react-router-dom";
 import Home from "./Pages/Public/Home";
 import About from "./Pages/Public/About";
 import Contact from "./Pages/Public/Contact";
+import BusinessPage from "./Pages/Public/BusinessPage";
 import BookNow from "./Pages/Public/ListOfServices";
 import connectedLoginPage from "./Pages/Account/Login";
 import Register from "./Pages/Account/Register";
@@ -35,6 +36,8 @@ function App(...props) {
         // clear alert on location change
        // props.clearAlerts();
     });
+
+    //let { id } = useParams();
     
     return (
         <>
@@ -53,7 +56,7 @@ function App(...props) {
                         <PrivateRoute exact path="/bookings" component={BusinessBookings} />
                         <PrivateRoute exact path="/dashboard" component={DashBoard} />
                         <PrivateRoute exact path="/business-details" component={BusinessInformation} />
-                        <Route path="/book-services" component={BookNow} />
+                        <Route path={"/book-services"} component={BookNow} />
                         {/* <Route path="/services" component={BusinessServices} /> */}
                         <Route path="/providers" component={BusinessProviders} />
                         <Route path="/widget" component={Widget} />
@@ -62,6 +65,7 @@ function App(...props) {
                         <PrivateRoute path="/bookings" component={Bookings} />
                         <Route path="/login" component={connectedLoginPage} />
                         <Route path="/register" component={Register} />
+                        <Route exact path="/single-business/:id" component={BusinessPage} />
                     </Switch>
                 </ToastProvider>
 

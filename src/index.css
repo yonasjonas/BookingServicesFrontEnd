@@ -51,11 +51,41 @@ label.MuiFormLabel-root.MuiFormLabel-colorPrimary.css-u4tvz2-MuiFormLabel-root {
   background: rgb(105, 2, 62)!important;
 }
 .profileLogo.MuiBox-root.css-0 {
-  position: absolute;
-  margin-top: -244px;
-  background: black;
-  padding: 10px;
-  margin-left: -300px;
+  position: relative;
+  margin-top: -183px;
+  background: #030c73;
+  /* padding: 10px; */
+  margin-left: 0px;
   border: 3px solid white;
+  width: 209px;
+  margin-left: auto;
+  margin-right: auto;
+  bottom: -32px;
+}
+.coverImage {
+  max-height: 320px;
+  max-width: 100%;
+}
+.filePicker.coverImage {
+  width: 100px;
+  margin: auto;
+  bottom: 199px;
+  position: relative;
+}
+
+.filePicker.profileImage {
+  width: 100px;
+  margin: auto;
+  bottom: -29px;
+  position: relative;
+  left: 58px;
+}
+
+.booking_summary {
+  background: orange;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  left:0;
 }
 

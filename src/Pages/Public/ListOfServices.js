@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import * as actions from "../../actions/businessServices";
+import * as actions from "../../actions/businesses";
 import { Grid, Paper, TableBody, TableCell, TableRow, TableContainer, Table, TableHead, withStyles, Container, ButtonGroup, Button } from '@material-ui/core';
 import EditIcon from "@material-ui/icons/Edit";
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -8,6 +8,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import BusinessServicesForm from '../../components/Forms/BusinessServicesForm';
 import { useToasts } from "react-toast-notifications";
 import Nav from '../../components/navigation/MemberMenu';
+
 
 
 const style = theme => ({
@@ -25,57 +26,51 @@ const style = theme => ({
 
 const Businesses = (props, classes) => {
 
-    const {addToast} = useToasts();
-
-    //const [currentId, setCurrentId] = useState(0);
+    const { addToast } = useToasts();
+    const [services, setServices] = useState(null);
 
     useEffect(() => {
-        //props.fetchAllBusinessServices()
+        props.fetchAllBusinesses();
+        setServices(props.businesses);
     }, [])
 
     const onDelete = id => {
-        if(window.confirm('Are you sure?')){
-            props.deleteBusinessService(id, () => addToast("Submitted successfully", {appearance:'info'}));
+        if (window.confirm('Are you sure?')) {
+            props.deleteBusinessService(id, () => addToast("Submitted successfully", { appearance: 'info' }));
         }
     }
 
     // create a function to handle the form submit
 
-    function calculateDaysBetweenDates(begin, end) {}   
-    
+    function calculateDaysBetweenDates(begin, end) { }
+
 
     return (
-        <Container>
+        <Container maxWidth={false}>
             <Paper>
                 <Grid container>
-                    
+
                     <Grid item xs={12}>
                         <TableContainer>
-                            <h1> Find Services </h1>
-                            
+                            <h1> Here you can find services offers by various businesses. You can filter by category. But for now just pick the business</h1>
+
                             <Table>
-                                <TableHead className={classes.root}>
-                                    <TableRow>
-                                        <TableCell>Business Name</TableCell>
-                                        <TableCell>Service Type</TableCell>
-                                        <TableCell>Location</TableCell>
-                                        <TableCell>Price Range</TableCell>
-                                    </TableRow>
-                                </TableHead>
                                 <TableBody>
+                                    {console.log({ services })}
+                                    {console.log(props.businesses)}
                                     {
-                                        props.businessesList.map((record, index) => {
+
+                                        props.businesses && props.businesses.map((record, index) => {
                                             return (<TableRow key={index}>
-                                                <TableCell>{record.businessName}</TableCell>
-                                                <TableCell>{record.type}</TableCell>
-                                                <TableCell>{record.location}</TableCell>
-                                                <TableCell>{record.priceRange}</TableCell>
-                                                <TableCell>
-                                                    <ButtonGroup>
-                                                        <Button><VisibilityIcon color="primary" /* onClick={()=>{setCurrentId(record.id)}} *//></Button>
-                                                        
-                                                    </ButtonGroup>
-                                                </TableCell>
+                                                <TableCell><img height="50px" src="serviceImage.png" /></TableCell>
+                                                <TableCell><strong>{record.businessName}</strong></TableCell>
+                                                <TableCell>{record.description}</TableCell>
+                                                <TableCell>{record.county}</TableCell>
+                                                <TableCell><Button
+                                                    color="secondary"
+                                                    className={classes.smMargin}
+                                                    variant="contained"
+                                                >Business Info and Book</Button></TableCell>
 
                                             </TableRow>
                                             )
@@ -92,7 +87,7 @@ const Businesses = (props, classes) => {
 }
 
 const mapStateToProps = state => ({
-  businessesList: state.businessesList.list
+    businesses: state.businesses.list
 });
 
 const mapActionsToProps = {

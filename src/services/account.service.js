@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { fetchWrapper, history } from '../helpers';
 
 const userSubject = new BehaviorSubject(null);
-const baseUrl = `http://localhost:4000/accounts`;
+const baseUrl = `http://localhost:4000/api/accounts`;
 
 export const accountService = {
     login,

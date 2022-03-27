@@ -1,4 +1,4 @@
-import { ACTION_TYPES } from "../actions/businessProvidersActions";
+import { ACTION_TYPES } from "../actions/businesses";
 
 const initialState = {
     list:[]

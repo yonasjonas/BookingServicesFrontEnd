@@ -5,9 +5,6 @@ import { Grid, InputLabel, Select, MenuItem, withStyles, FormControl, Button, Te
 import useForm from '../useForm';
 import { useToasts } from "react-toast-notifications";
 import "react-datetime/css/react-datetime.css";
-import FileUpload from '../FormElements/FileUpload';
-import Box from '@mui/material/Box';
-
 
 
 
@@ -142,6 +139,19 @@ const BusinessInformationForm = ({ classes, ...props }) => {
     useEffect(() => {
         if (props) {
             props.fetchBusinessInfo(user.id);
+            console.log({ props });
+            setValues({
+                BusinessName: props.user.businessName,
+                Email: props.user.email,
+                Phone: props.user.phone,
+                Description: props.user.description,
+                Address1: props.user.address1,
+                Address2: props.user.address2,
+                County: props.user.county,
+                Country: props.user.country,
+
+            });
+
             console.log("fetchBusinessInfo: ", { props });
             //onLoadPlease();
             if (user && !alreadyExists) updateAfterSave();
@@ -164,13 +174,6 @@ const BusinessInformationForm = ({ classes, ...props }) => {
     return (
         <form onSubmit={handleSubmit} className={classes.root}>
             <Grid container>
-                {1 == 1 && <>
-                <h2> Upload Business Logo    </h2>
-                <p><FileUpload /></p>
-                <Box className="profileLogo">
-                    <img src="logo192.png" alt="logo" />
-                </Box>
-                </>}
                 <TextField name="BusinessName" label="BusinessName" type="text" variant="outlined" value={values.BusinessName} onChange={handleInputChange} />
                 <TextField name="Email" label="Email" type="text" variant="outlined" value={values.Email} onChange={handleInputChange} />
                 <TextField name="Phone" label="Phone" type="text" value={values.Phone} onChange={handleInputChange} />
@@ -192,6 +195,7 @@ const BusinessInformationForm = ({ classes, ...props }) => {
 }
 const mapStateToProps = state => ({
     BusinessInformation: state.businessInformation,
+    user: state.authentication.user
 
 });
 const mapActionsToProps = {

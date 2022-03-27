@@ -4,7 +4,7 @@ export const ACTION_TYPES = {
     CREATE2 : 'CREATE2',
     UPDATE2:'UPDATE2',
     DELETE2:'DELETE2',
-    FETCH_ALL2:'FETCH_ALL2'
+    FETCH_ALL:'FETCH_ALL'
 }
 
 const formatData = (data) => ({
@@ -20,14 +20,9 @@ export const fetchAll = () => dispatch => {
     api.businesses().fetchAll()
     .then(response => {
         let dataLocal = Object.assign({}, response)
-        //dataLocal.weekvalue = dataLocal.weekvalue.split(',');
-        //console.log("from actions:", response.data);
-        for (let i = 0; i < response.data.length; i++) {
-            //dataLocal.data[i].weekvalue  = response.data[i].weekvalue.split(',');            
-        }
 
         dispatch({
-            type:ACTION_TYPES.FETCH_ALL2,
+            type:ACTION_TYPES.FETCH_ALL,
             payload: dataLocal.data
         })
     });    

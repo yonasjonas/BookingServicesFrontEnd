@@ -90,14 +90,17 @@ const BookingsForm = ({ classes, ...props }) => {
 
     const { addToast } = useToasts();
     const [currentProvider, setCurrentProvider] = useState(props.businessProviders);
-    const [currentService, setCurrentService] = useState(props.businessServices);
+    const [currentService, setCurrentService] = useState(null);
     const [providerTimes, setProviderTimes] = useState(null);
+    const [providerWeekDays, setProviderWeekDays] = useState(null);
     const [calendarDays, setCalendarDays] = useState([]);
     const [selectedBookingTime, setSelectedBookingTime] = useState(new Date());
     const [calendarHours, setCalendarHours] = useState([0, 23]);
     const [timeSlotDuration, setTimeSlotDuration] = useState(0);
     const [serviceId, setServiceId] = useState(0);
     const [businessServices, setBusinessServices] = useState(props.businessServices);
+    const [isLoading, setIsLoading] = useState(false);
+    const [booked, setBooked] = useState(false);
 
 
 
@@ -131,21 +134,28 @@ const BookingsForm = ({ classes, ...props }) => {
 
     const handleSubmit = e => {
         e.preventDefault();
+        setIsLoading(true);
         values.BusinessId = props.authentication && props.authentication.id
 
         if (validate()) {
             const onSuccess = () => {
                 addToast("Submitted successfully", { appearance: 'success' });
-                resetForm();
                 setValues({ ...initialFieldValues });
-                setServiceId(0);
+                setServiceId(0);                
+                setCurrentService(null);
+                setProviderTimes(null);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setBooked(true);
+                resetForm();
+                setIsLoading(false);
             }
-            if (props.currentId == 0) {
-                props.createBooking(values, onSuccess);
-            }
+            
+            props.createBooking(values, onSuccess);
+            
+            /* }
             else {
                 props.updateBooking(props.currentId, values, onSuccess);
-            }
+            } */
         }
     }
 
@@ -155,6 +165,8 @@ const BookingsForm = ({ classes, ...props }) => {
         props.id &&
             props.fetchAllBusinessServices(props.id);
         props.fetchAllProviders(props.id);
+
+        
 
         setBusinessServices(props.businessServices);
         //setCurrentProvider(props.businessProviders);
@@ -180,6 +192,8 @@ const BookingsForm = ({ classes, ...props }) => {
         })
     };
     const renderProviders = (providerId, serviceId) => {
+        setProviderTimes(null);
+        {window.scrollTo(0, document.body.scrollHeight)}
         const curService = props.businessServices.filter(x => x.id == serviceId)[0];
         curService.timeSlotDuration
             ? setTimeSlotDuration(curService.timeSlotDuration)
@@ -198,7 +212,15 @@ const BookingsForm = ({ classes, ...props }) => {
             setCurrentProvider(currentProv);
         }
     };
-    const renderProviderTimes = (providerId) => {
+    let oldId
+    const renderProviderTimes = (providerId) => {  
+
+        if (oldId !== providerId) {
+            //setCurrentProvider( props.businessProviders.filter(x => x.id == providerId[0]));
+            showWeekDays(currentProvider[0].weekvalue);  
+        }
+        oldId = providerId;
+        if (providerTimes === null) window.scrollTo(0, document.body.scrollHeight)
 
         let currentProv = {};
         let days = [];
@@ -226,11 +248,32 @@ const BookingsForm = ({ classes, ...props }) => {
             setProviderTimes(currentProv);
             setCalendarDays(days);
             setCalendarHours(hours);
-
-
         }
     };
-    const getProviderNames = (providerId) => {
+
+    const showWeekDays = (obj) => {
+
+        let currentPro = convertStringToObject(obj);
+        let days = [];
+
+        Object.keys(currentPro).map(x => {
+            days.push(currentPro[x].dayIndex);
+        });
+
+        if (providerWeekDays === null) setProviderWeekDays(days.join(", "));
+
+    }
+    const convertStringToObject = (arr) => {
+
+        if (typeof arr === "string") {
+            return JSON.parse(arr);
+        }
+        else{
+            return arr;
+        }
+
+    }
+    const getProviderNames = (providerId) => {    
         const providerIdList = typeof providerId === 'string' ? providerId.split(',') : providerId;
         let lproNames = [];
 
@@ -244,287 +287,261 @@ const BookingsForm = ({ classes, ...props }) => {
     };
 
     return (
-        <form
-            autoComplete="off"
-            noValidate
-            className={classes.root}
-            onSubmit={handleSubmit}
-        >
-            <Grid container>
-                <div className="services-bookform">
-                    <h2>Services</h2>
-                    <Box
-                        sx={{
-                            minWidth: '1200px',
-                            height: 80,
-                        }}>
-                    </Box>
-                    {props.businessServices.length > 0 && props.businessServices.map((service) => (
-                        <Box key={service.id} value={service.id}
+        <div>
+
+            {!booked ? <form
+                autoComplete="off"
+                noValidate
+                className={classes.root}
+                onSubmit={handleSubmit}
+            >
+                <Grid container>
+                    <div className="services-bookform">
+                        <h2>Services</h2>
+                        <Box
                             sx={{
-                                minWidth: '600px',
-                                border: '1px solid lightgrey',
+                                minWidth: '1200px',
                                 height: 80,
-                            }}
-                        >
-                            <Grid container spacing={2}>
-                                <Grid item xs={2} md={2}>
-                                    <img height="50px" src="../../serviceImage.png" />
-                                </Grid>
-                                <Grid item xs={2} md={2}>
-                                    {service.serviceName}
-                                </Grid>
-                                <Grid item xs={2} md={2}>
-                                    {service.price}
-                                </Grid>
-                                <Grid item xs={2} md={2}>
-                                    {getProviderNames(service.providerId)}
-                                </Grid>
-                                <Grid item xs={2} md={2}>
-                                    {service.timeSlotDuration} minutes
-                                </Grid>
-                                <Grid item xs={2} md={2}>
-                                    <Button onClick={() => { renderProviders(service.providerId.split(","), service.id) }} className="bookButton" color="primary" size="large">Select</Button>
-                                </Grid>
-                            </Grid>
+                            }}>
                         </Box>
-
-                    ))}
-                </div>
-            </Grid>
-            <Grid container>
-                <div className="providers-block services-bookform">
-                    {currentProvider.length > 1 && serviceId ?
-                        <h2> Please Select a service above to see available providers: </h2>
-                        : <h2> {serviceId && <>One provider available: </>}</h2>
-                    }
-                    <Grid item xs={6} md={6}>
-
-                    {currentProvider && serviceId ? currentProvider.map((providers) => (
-
-                       
-                            <Box
+                        {props.businessServices.length > 0 && props.businessServices.map((service) => (
+                            <Box key={service.id} value={service.id}
                                 sx={{
-                                    minWidth: '550px',
+                                    minWidth: '600px',
                                     border: '1px solid lightgrey',
-                                    height: 100,
-                                    position: 'relative',
+                                    height: 80,
                                 }}
-                                label="Service Provider"
-                                name="provider"
-                                value={values.provider}
-                                // @ts-ignore Typings are not considering `native`
-                                onChange={handleInputChange}
-
                             >
-                                <Grid container key={providers.id} spacing={2}>
+                                <Grid container spacing={2}>
                                     <Grid item xs={2} md={2}>
                                         <img height="50px" src="../../serviceImage.png" />
                                     </Grid>
                                     <Grid item xs={2} md={2}>
-                                        <h5>{providers.name}</h5>
+                                        {service.serviceName}
                                     </Grid>
                                     <Grid item xs={2} md={2}>
-                                        <strong>{providers.email}</strong>
+                                        {service.price}
                                     </Grid>
-                                    <Grid item xs={3} md={3}>
-                                        <strong>{providers.phone}</strong>
+                                    <Grid item xs={2} md={2}>
+                                        {isLoading === false && getProviderNames(service.providerId)}
                                     </Grid>
-                                    <Grid item xs={3} md={3}>
-                                        <Button onClick={() => { renderProviderTimes(providers.id) }} className="bookButton" color="primary" size="large">See Times</Button>
+                                    <Grid item xs={2} md={2}>
+                                        {service.timeSlotDuration} minutes
+                                    </Grid>
+                                    <Grid item xs={2} md={2}>
+                                        <Button onClick={() => { renderProviders(service.providerId.split(","), service.id) }} className="bookButton" color="primary" size="large">Select</Button>
                                     </Grid>
                                 </Grid>
                             </Box>
-                        
-
-
-                    )) : <h6> </h6>
-                    }
-                    </Grid>
-
-
-                    {
-                        providerTimes !== null && serviceId &&
-                        <Grid item xs={6} md={6} >
-                            <Box
-                                sx={{
-                                    minWidth: '300px',
-                                    padding: '10px',
-                                    position: 'relative',
-                                }}
-                                label="Select Time"
-                                name="provider"
-                                value={values.provider}
-                                onChange={handleInputChange}
-                            >
-
-
-
-                                <h2> Below you can pick timeslot for your booking</h2>
-                                <Scheduler
-                                    view="day"
-                                    selectedDate={selectedBookingTime ? selectedBookingTime : new Date()}
+                        ))}
+                    </div>
+                </Grid>
+                <Grid container>
+                    <div className="providers-block services-bookform">
+                        {currentProvider && currentProvider.length > 1 && serviceId ?
+                            <>
+                                <h4 style={{color:'darkred'}}> Selected a service: <span style={{color:'purple'}}>{currentService.serviceName && currentService.serviceName}</span></h4>
+                                <h2> Multiple people can help you </h2>
+                            </>
+                            : <>
+                                <h3 style={{color:'orange'}}>{serviceId && currentProvider && currentProvider[0] && <><span style={{color:'purple'}}>{currentProvider[0].name}</span> is available to help you with <span style={{color:'purple'}}>{currentService.serviceName ? currentService.serviceName : ""}</span></>}</h3>
+                            </>
+            
+                        }
+                        <Grid item xs={6} md={6}>
+                            {currentProvider && serviceId ? currentProvider.map((providers) => (
+            
+                                <Box key={providers.id}
                                     sx={{
-                                        height: '10px',
+                                        minWidth: '1200px',
+                                        border: '1px solid lightgrey',
+                                        height: 100,
+                                        position: 'relative',
+                                    }}
+                                    label="Service Provider"
+                                    name="provider"
+                                    value={values.provider}
+                                    // @ts-ignore Typings are not considering `native`
+                                    onChange={handleInputChange}
+                                >
+                                    <Grid container key={providers.id} spacing={2}>
+                                        <Grid item xs={2} md={2}>
+                                            <img height="50px" src="../../serviceImage.png" />
+                                        </Grid>
+                                        <Grid item xs={2} md={2}>
+                                            <h5>{providers.name}</h5>
+                                        </Grid>
+                                        <Grid item xs={2} md={2}>
+                                            <strong>{providers.email}</strong>
+                                        </Grid>
+                                        <Grid item xs={3} md={3}>
+                                            <strong>{providers.phone}</strong>
+                                        </Grid>
+                                        <Grid item xs={3} md={3}>
+                                            <Button onClick={() => { renderProviderTimes(providers.id) }} className="bookButton" color="primary" size="large">See Times</Button>
+                                        </Grid>
+                                    </Grid>
+                                </Box>
+                            )) : <h6> </h6>
+                            }
+                        </Grid>
+                        {
+                            providerTimes !== null && serviceId &&
+                            <Grid item xs={6} md={6} >
+                                <Box
+                                    sx={{
+                                        minWidth: '1100px',
                                         padding: '10px',
                                         position: 'relative',
                                     }}
-
-                                    day={{
-                                        //weekDays: calendarDays,
-                                        //weekStartOn: 1,
-                                        startHour: calendarHours[0],
-                                        endHour: calendarHours[1],
-                                        step: timeSlotDuration,
-
-                                        cellRenderer: ({ height, start, onClick }) => {
-                                            // Fake some condition up
-                                            const hour = start.getHours();
-                                            //console.log({ hour })
-                                            const minutes = start.getHours();
-                                            let disabled = hour <= calendarHours[0] || hour >= calendarHours[1];
-                                            let selected = false;
-
-                                            disabled = new Date() > start ? true : disabled;
-
-
-                                            if (hour === selectedBookingTime.getHours() && minutes === selectedBookingTime.getMinutes()) {
-                                                selected = true;
+                                    label="Select Time"
+                                    name="provider"
+                                    value={values.provider}
+                                    onChange={handleInputChange}
+                                >
+                                    <h2> Below you can pick timeslot for your booking</h2>
+                                    <h2> {currentProvider && currentProvider[0] && currentProvider[0].name} works on {providerWeekDays && providerWeekDays}</h2>
+                                    <Scheduler
+                                        view="week"
+                                        selectedDate={selectedBookingTime ? selectedBookingTime : new Date()}
+                                        sx={{
+                                            height: '10px',
+                                            padding: '10px',
+                                            position: 'relative',
+                                        }}
+                                        week={{
+                                            weekDays: calendarDays,
+                                            weekStartOn: 1,
+                                            startHour: calendarHours[0],
+                                            endHour: calendarHours[1],
+                                            step: timeSlotDuration,
+                                            cellRenderer: ({ height, start, onClick }) => {
+                                                // Fake some condition up
+                                                const hour = start.getHours();
+                                                //console.log({ hour })
+                                                const minutes = start.getHours();
+                                                let disabled = hour <= calendarHours[0] || hour >= calendarHours[1];
+                                                let selected = false;
+                                                disabled = new Date() > start ? true : disabled;
+                                                if (hour === selectedBookingTime.getHours() && minutes === selectedBookingTime.getMinutes()) {
+                                                    selected = true;
+                                                }
+                                                return (
+                                                    <Button
+                                                        style={{
+                                                            height: "100%",
+                                                            background: disabled ? "pink" : "lightgreen",
+                                                            border: selected ? "1px solid grey" : ""
+                                                        }}
+                                                        onClick={() => {
+                                                            if (true) {
+                                                                //setTimeSlotDuration(height)
+                                                                setSelectedBookingTime(new Date(start));
+                                                                showBookingSummary(start, timeSlotDuration);
+                                                                return console.log(start, timeSlotDuration);
+                                                            }
+                                                            onClick();
+                                                        }}
+                                                        disableRipple={disabled}
+                                                    // disabled={disabled}
+                                                    > {!disabled ? <p>Available - Select</p> : "Not Available"}</Button>
+                                                );
                                             }
-
-
-                                            return (
-                                                <Button
-                                                    style={{
-                                                        height: "100%",
-                                                        background: disabled ? "pink" : "lightgreen",
-                                                        border: selected ? "1px solid grey" : ""
-
-                                                    }}
-                                                    onClick={() => {
-                                                        if (true) {
-                                                            //setTimeSlotDuration(height)
-
-                                                            setSelectedBookingTime(new Date(start));
-                                                            showBookingSummary(start, timeSlotDuration);
-
-                                                            return console.log(start, timeSlotDuration);
-                                                        }
-                                                        onClick();
-                                                    }}
-                                                    disableRipple={disabled}
-                                                // disabled={disabled}
-                                                > {!disabled ? <p>Available - Select</p> : "Not Available"}</Button>
-                                            );
-                                        }
-                                    }}
-
-                                />
-
-                            </Box>
-                        </Grid>
-
-                    }
-
-                </div>
-            </Grid>
-            {
-                providerTimes && serviceId ? <>
-                    <h2> Enter personal details</h2>
-                    <TextField
-                        name="name"
-                        variant="outlined"
-                        label="Full Name"
-                        value={values.name}
-                        onChange={handleInputChange}
-                    />
-                    <TextField
-                        name="email"
-                        variant="outlined"
-                        label="Email"
-                        value={values.email}
-                        onChange={handleInputChange}
-                    />
-                    <TextField
-                        name="phone"
-                        variant="outlined"
-                        label="Phone Number"
-                        value={values.phone}
-                        onChange={handleInputChange}
-                    /></> : <></>}
-
-
-
-
-
-            {serviceId &&
-                <Box
-                    sx={{
-                        minWidth: '100%',
-                        padding: '10px',
-                        position: 'relative',
-                    }}>
-
-                    <Grid
+                                        }}
+                                    />
+                                </Box>
+                            </Grid>
+                        }
+                    </div>
+                </Grid>
+                {
+                    providerTimes && serviceId ? <>
+                        <h2> Enter personal details</h2>
+                        <TextField
+                            name="name"
+                            variant="outlined"
+                            label="Full Name"
+                            value={values.name}
+                            onChange={handleInputChange}
+                        />
+                        <TextField
+                            name="email"
+                            variant="outlined"
+                            label="Email"
+                            value={values.email}
+                            onChange={handleInputChange}
+                        />
+                        <TextField
+                            name="phone"
+                            variant="outlined"
+                            label="Phone Number"
+                            value={values.phone}
+                            onChange={handleInputChange}
+                        /></> : <></>}
+                {serviceId &&
+                    <Box
                         sx={{
                             minWidth: '100%',
                             padding: '10px',
                             position: 'relative',
-                        }}
-                        container className="booking_summary" item xs={12} md={12}>
-                        <Grid item xs={1} md={1}>
-                            <img height="35px" src="serviceImage.png" />
+                        }}>
+                        <Grid
+                            sx={{
+                                minWidth: '100%',
+                                padding: '10px',
+                                position: 'relative',
+                            }}
+                            container className="booking_summary" item xs={12} md={12}>
+                            <Grid item xs={1} md={1}>
+                                <img height="35px" src="serviceImage.png" />
+                            </Grid>
+                            <Grid item xs={2} md={1}>
+                                <strong>Service Name: <br />{currentService.serviceName}</strong>
+                                <br />
+                                <strong>Price: <br /> €{currentService.price}.00</strong>
+                            </Grid>
+                            <Grid item xs={2} md={1}>
+                                <strong>Service Duration: {currentService.timeSlotDuration} </strong> minutes
+                            </Grid>
+                            <Grid item xs={2} md={1}>
+                                <strong>Provider: {currentProvider && currentProvider[0] ? currentProvider[0].name : "Provider not selected"}</strong>
+                            </Grid>
+                            <Grid item xs={2} md={2}>
+                                <strong>Booking Date:</strong><br /> {values.bookingStartTime !== "" ? values.bookingStartTime : "Time not selected"}
+                            </Grid>
+                            <Grid item xs={2} md={2}>
+                                {values.name &&
+                                    <>
+                                        <strong>Your Details: </strong>
+                                        <div>
+                                            <strong>Name:</strong> {values.name ? values.name : "Name not entered"} <br />
+                                            <strong>Email:</strong> {values.email ? values.email : "Email not entered"}<br />
+                                            <strong>Phone:</strong> {values.phone ? values.phone : "Phone not entered"}
+                                        </div>
+                                    </>
+                                }
+                            </Grid>
+                            <Grid item xs={2} md={2}>
+                                {values.phone &&
+                                    <>
+                                        <Button
+                                            className={classes.smMargin}
+                                            variant="contained"
+                                            color="secondary"
+                                            type="submit"
+                                        >
+                                            Reserve a Service
+                                        </Button>
+                                    </>}
+                            </Grid>
+                            <Grid item xs={2} md={1}>
+                                <strong>Booking Date:</strong><br /> {values.bookingStartTime !== "" ? values.bookingStartTime : "Time not selected"}
+                            </Grid>
                         </Grid>
-                        <Grid item xs={2} md={1}>
-                            <strong>Service Name: <br />{currentService.serviceName}</strong>
-                            <br />
-                            <strong>Price: <br /> €{currentService.price}.00</strong>
-                        </Grid>
-                        <Grid item xs={2} md={1}>
-                            <strong>Service Duration: {currentService.timeSlotDuration} </strong> minutes
-                        </Grid>
-                        <Grid item xs={2} md={1}>
-                            <strong>Provider: {providerTimes !== null ? currentProvider[0].name : "Provider not selected"}</strong>
-                        </Grid>
-                        <Grid item xs={2} md={2}>
-                            <strong>Booking Date:</strong><br /> {values.bookingStartTime !== "" ? values.bookingStartTime : "Time not selected"}
-
-                        </Grid>
-                        <Grid item xs={2} md={2}>
-                            {values.name &&
-                                <>
-                                    <strong>Your Details: </strong>
-                                    <div>
-                                        <strong>Name:</strong> {values.name ? values.name : "Name not entered"} <br />
-                                        <strong>Email:</strong> {values.email ? values.email : "Email not entered"}<br />
-                                        <strong>Phone:</strong> {values.phone ? values.phone : "Phone not entered"}
-                                    </div>
-                                </>
-
-                            }
-
-                        </Grid>
-                        <Grid item xs={2} md={2}>
-                            {values.phone &&
-                                <>
-                                    <Button
-                                        className={classes.smMargin}
-                                        variant="contained"
-                                        color="secondary"
-                                        type="submit"
-                                    >
-                                        Reserve a Service
-                                    </Button>
-                                </>}
-                        </Grid>
-                        <Grid item xs={2} md={1}>
-                            <strong>Booking Date:</strong><br /> {values.bookingStartTime !== "" ? values.bookingStartTime : "Time not selected"}
-
-                        </Grid>
-                    </Grid>
-                </Box>}
-
-        </form >
+                    </Box>}
+            </form >: 
+            <><h1>Congratulations you just made a booking request and provider will soon get in touch.</h1> </>}
+        </div>
     )
 }
 

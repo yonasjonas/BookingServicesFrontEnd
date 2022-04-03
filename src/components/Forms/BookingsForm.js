@@ -288,7 +288,6 @@ const BookingsForm = ({ classes, ...props }) => {
 
     return (
         <div>
-
             {!booked ? <form
                 autoComplete="off"
                 noValidate
@@ -298,18 +297,11 @@ const BookingsForm = ({ classes, ...props }) => {
                 <Grid container>
                     <div className="services-bookform">
                         <h2>Services</h2>
-                        <Box
-                            sx={{
-                                minWidth: '1200px',
-                                height: 80,
-                            }}>
-                        </Box>
                         {props.businessServices.length > 0 && props.businessServices.map((service) => (
                             <Box key={service.id} value={service.id}
                                 sx={{
-                                    minWidth: '600px',
-                                    border: '1px solid lightgrey',
-                                    height: 80,
+                                    minWidth: '1200px',
+                                    borderBottom: '1px solid lightgrey',
                                 }}
                             >
                                 <Grid container spacing={2}>
@@ -343,9 +335,9 @@ const BookingsForm = ({ classes, ...props }) => {
                                 <h4 style={{color:'darkred'}}> Selected a service: <span style={{color:'purple'}}>{currentService.serviceName && currentService.serviceName}</span></h4>
                                 <h2> Multiple people can help you </h2>
                             </>
-                            : <>
-                                <h3 style={{color:'orange'}}>{serviceId && currentProvider && currentProvider[0] && <><span style={{color:'purple'}}>{currentProvider[0].name}</span> is available to help you with <span style={{color:'purple'}}>{currentService.serviceName ? currentService.serviceName : ""}</span></>}</h3>
-                            </>
+                            : <div style={{display:'none'}}>
+                               {serviceId && currentProvider && currentProvider[0] && <h3 style={{color:'orange'}}> <><span style={{color:'purple'}}>{currentProvider[0].name}</span> is available to help you with <span style={{color:'purple'}}>{currentService.serviceName ? currentService.serviceName : ""}</span></></h3>}
+                            </div>
             
                         }
                         <Grid item xs={6} md={6}>
@@ -382,11 +374,10 @@ const BookingsForm = ({ classes, ...props }) => {
                                         </Grid>
                                     </Grid>
                                 </Box>
-                            )) : <h6> </h6>
+                            )) : <div style={{display:'none'}}></div>
                             }
                         </Grid>
-                        {
-                            providerTimes !== null && serviceId &&
+                        { providerTimes !== null && serviceId ?
                             <Grid item xs={6} md={6} >
                                 <Box
                                     sx={{
@@ -450,12 +441,12 @@ const BookingsForm = ({ classes, ...props }) => {
                                         }}
                                     />
                                 </Box>
-                            </Grid>
+                            </Grid>: <div style={{display:'none'}}></div>
                         }
                     </div>
                 </Grid>
                 {
-                    providerTimes && serviceId ? <>
+                    providerTimes && serviceId && <>
                         <h2> Enter personal details</h2>
                         <TextField
                             name="name"
@@ -477,8 +468,8 @@ const BookingsForm = ({ classes, ...props }) => {
                             label="Phone Number"
                             value={values.phone}
                             onChange={handleInputChange}
-                        /></> : <></>}
-                {serviceId &&
+                        /></>}
+                {serviceId ?
                     <Box
                         sx={{
                             minWidth: '100%',
@@ -538,9 +529,9 @@ const BookingsForm = ({ classes, ...props }) => {
                                 <strong>Booking Date:</strong><br /> {values.bookingStartTime !== "" ? values.bookingStartTime : "Time not selected"}
                             </Grid>
                         </Grid>
-                    </Box>}
+                    </Box>: <div style={{display:'none'}}></div>}
             </form >: 
-            <><h1>Congratulations you just made a booking request and provider will soon get in touch.</h1> </>}
+            <h1>Congratulations you just made a booking request and provider will soon get in touch.</h1> }
         </div>
     )
 }

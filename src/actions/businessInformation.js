@@ -19,9 +19,9 @@ const formatData = (data) => ({
     Phone: String(data.Phone ? data.Phone : "" ),
 });
 
-export const fetchById = () => dispatch => { 
+export const fetchById = (id) => dispatch => {
 
-    api.businessInformation().fetchById(1)
+    api.businessInformation().fetchById(id)
     .then(response => {
         let dataLocal = Object.assign({}, response)
         //dataLocal.weekvalue = dataLocal.weekvalue.split(',');

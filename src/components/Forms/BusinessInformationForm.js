@@ -62,8 +62,6 @@ const initialFieldValues = {
 
 
 const BusinessInformationForm = ({ classes, ...props }) => {
-
-    const user = JSON.parse(localStorage.getItem('user'))
     const [businessInformation, setBusinessInformation] = useState(initialFieldValues);
     //console.log({ user });
 
@@ -112,16 +110,15 @@ const BusinessInformationForm = ({ classes, ...props }) => {
     let alreadyExists = false;
 
     const updateAfterSave = () => {
-        initialFieldValues.BusinessName = user.businessName;
-        initialFieldValues.Email = user.email;
-        initialFieldValues.Phone = user.phone;
-        initialFieldValues.Description = user.description;
-        initialFieldValues.Address1 = user.address1;
-        initialFieldValues.Address2 = user.address2;
-        initialFieldValues.County = user.county;
-        initialFieldValues.Country = user.country;
+        initialFieldValues.BusinessName = props.user.businessName;
+        initialFieldValues.Email = props.user.email;
+        initialFieldValues.Phone = props.user.phone;
+        initialFieldValues.Description = props.user.description;
+        initialFieldValues.Address1 = props.user.address1;
+        initialFieldValues.Address2 = props.user.address2;
+        initialFieldValues.County = props.user.county;
+        initialFieldValues.Country = props.user.country;
         alreadyExists = true;
-
     }
 
     const handleSubmit = e => {
@@ -133,13 +130,13 @@ const BusinessInformationForm = ({ classes, ...props }) => {
                 //resetForm();
                 //updateAfterSave();
             }
-            if (user && !alreadyExists) props.updateBusinessInfo(user.id, values, onSuccess);
+            if (businessInformation && !alreadyExists) props.updateBusinessInfo(props.user.id, values, onSuccess);
         }
     }
     useEffect(() => {
+        const abortController = new AbortController();
         if (props) {
-            props.fetchBusinessInfo(user.id);
-            //console.log({ props });
+            props.fetchBusinessInfo(props.user.id);
             setValues({
                 BusinessName: props.user.businessName,
                 Email: props.user.email,
@@ -149,22 +146,18 @@ const BusinessInformationForm = ({ classes, ...props }) => {
                 Address2: props.user.address2,
                 County: props.user.county,
                 Country: props.user.country,
-
             });
 
-            //console.log("fetchBusinessInfo: ", { props });
-            //onLoadPlease();
-            if (user && !alreadyExists) updateAfterSave();
-        }
-        else {
-            //console.log("no props")
+            if (businessInformation && !alreadyExists) updateAfterSave();
         }
 
-    }, [user.id])
+        abortController.abort();
+
+    }, [props.user.id])
 
     const onLoadPlease = () => {
         let interval = setInterval(() => {
-            if (user) {
+            if (props.user) {
                 //updateAfterSave();
                 //console.log("updated");
                 clearInterval(interval);

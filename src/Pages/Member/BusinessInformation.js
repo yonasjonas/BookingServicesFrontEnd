@@ -1,27 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import * as actions from "../../actions/businessInformation";
-import * as fileActions from "../../actions/file";
 import {
   Grid,
   Paper,
-  TableBody,
-  TableCell,
-  TableRow,
-  TableContainer,
-  Table,
-  TableHead,
   withStyles,
   Container,
-  ButtonGroup,
-  Button,
 } from "@material-ui/core";
-import EditIcon from "@material-ui/icons/Edit";
-import DeleteIcon from "@material-ui/icons/Delete";
-import BookingsForm from "../../components/Forms/BookingsForm";
-import { useToasts } from "react-toast-notifications";
 import MembersMenu from "../../components/navigation/MemberMenu";
-import { accountService, alertService } from "../../services";
 import BusinessInformationForm from "../../components/Forms/BusinessInformationForm";
 import MainImages from "../../components/media/MainImages";
 
@@ -39,15 +25,7 @@ const style = (theme) => ({
   },
 });
 
-const BusinessInformation = (props, classes) => {
-
-  const user = JSON.parse(localStorage.getItem("user"));
-  //const { addToast } = useToasts();
-
-
-
-
-  const [currentId, setCurrentId] = useState(0);
+const BusinessInformation = (props) => {
 
   return (
     <>
@@ -70,15 +48,10 @@ const BusinessInformation = (props, classes) => {
 
 const mapStateToProps = (state) => ({
   BusinessInformation: state.businessInformation,
-  FileInformation: state.fileReducer,
 });
-
-//console.log({ mapStateToProps });
 
 const mapActionsToProps = {
   fetchBusinessInfo: actions.fetchById,
-  deleteBusinessService: actions.deleteData,
-  //fetchImage: fileActions.fetchAll,
 };
 
 export default connect(

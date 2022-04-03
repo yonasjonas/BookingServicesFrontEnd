@@ -30,9 +30,7 @@ import { alertActions } from './actions/alert.actions';
 import { userActions } from './actions/user.actions';
 
 
-function App(...props) {
-
-    
+function App(...props) {    
     return (
         <>
             {alert.message &&
@@ -53,7 +51,6 @@ function App(...props) {
                         <PrivateRoute exact path="/dashboard" component={DashBoard} />
                         <PrivateRoute exact path="/business-details" component={BusinessInformation} />
                         <Route path={"/book-services"} component={BookNow} />
-                        {/* <Route path="/services" component={BusinessServices} /> */}
                         <Route path="/providers" component={BusinessProviders} />
                         <Route path="/widget" component={Widget} />
                         <PrivateRoute path="/profile" component={Profile} />
@@ -70,13 +67,7 @@ function App(...props) {
 }
 
 const mapStateToProps = state =>({
-    //const { alert } = state;
     user: state.authentication
-
-
-    //user: state.authentication.loggedIn;
-
-    //return { alert };
 });
 
 const mapActionsToProps = {

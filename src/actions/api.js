@@ -61,8 +61,7 @@ export default {
             delete: id => axios.delete(url + id)
         }
     },
-    fileInformation(url = baseURL + 'api/upload/') {
-        
+    fileInformation(url = baseURL + 'api/upload/') {        
         return {
             //fetchImageById: id => axios.get(url+id),
             fetchAll: () => axios.get(url),

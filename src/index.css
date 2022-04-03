@@ -135,5 +135,8 @@ img.providerImage {
   height: 60px;
   width: 60px;
 }
+.MuiContainer-root.MuiContainer-maxWidthLg {
+  margin-bottom: 600px;
+}
 
 

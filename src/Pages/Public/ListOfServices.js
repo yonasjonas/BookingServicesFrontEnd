@@ -56,30 +56,27 @@ const Businesses = (props, classes) => {
 
                             <Table>
                                 <TableBody>
-                                   
-                                    {
+                                    {props.businesses && props.businesses.map((record, index) => {
+                                        return (<TableRow key={index}>
+                                            <TableCell><img height="50px" src="serviceImage.png" /></TableCell>
+                                            <TableCell><strong>{record.businessName}</strong></TableCell>
+                                            <TableCell>{record.description}</TableCell>
+                                            <TableCell>{record.county}</TableCell>
+                                            <TableCell>
+                                                <Button
+                                                    color="secondary"
+                                                    className={classes.smMargin}
+                                                    variant="contained"
 
-                                        props.businesses && props.businesses.map((record, index) => {
-                                            return (<TableRow key={index}>
-                                                <TableCell><img height="50px" src="serviceImage.png" /></TableCell>
-                                                <TableCell><strong>{record.businessName}</strong></TableCell>
-                                                <TableCell>{record.description}</TableCell>
-                                                <TableCell>{record.county}</TableCell>
-                                                <TableCell>
-                                                    <Button
-                                                        color="secondary"
-                                                        className={classes.smMargin}
-                                                        variant="contained"
+                                                >
+                                                    <Link href={"single-business/" + record.id} color="inherit">
+                                                        Business Info and Book
+                                                    </Link>
+                                                </Button></TableCell>
 
-                                                    >
-                                                        <Link href={"single-business/" + record.id} color="inherit">
-                                                            Business Info and Book
-                                                        </Link>
-                                                    </Button></TableCell>
-
-                                            </TableRow>
-                                            )
-                                        })
+                                        </TableRow>
+                                        )
+                                    })
                                     }
                                 </TableBody>
                             </Table>

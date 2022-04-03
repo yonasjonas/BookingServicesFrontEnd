@@ -1,7 +1,7 @@
 import axios from "axios";
 import { accountService } from '../services';
 
-const baseURL = "http://localhost:4000/";
+const baseURL = "https://nixerwebapi.azurewebsites.net/";
 
 export default {
     businessService(url = baseURL + 'api/services/') {

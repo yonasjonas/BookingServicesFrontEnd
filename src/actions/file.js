@@ -31,7 +31,7 @@ export const postImage = (selectedFile, type, userId, providerId)  =>{
 
 
     fetch(
-        'http://localhost:4000/api/upload/image/file',
+        'https://nixerwebapi.azurewebsites.net/api/upload/image/file',
         {
             method: 'POST',
             body: formData,

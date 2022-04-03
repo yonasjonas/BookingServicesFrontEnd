@@ -15,7 +15,7 @@ export default function MainImages(props) {
         }).then((result) => {
             if (result.status === "ok") setCoverImage(img.src);
         }).then(() => {
-            checkProfileImage(`../../business/${user.id}/businessInformationProfile.png`);
+            checkProfileImage(`https://nixerwebapi.azurewebsites.net/images/business/${user.id}/businessInformationProfile.png`);
         });
 
     };
@@ -32,7 +32,7 @@ export default function MainImages(props) {
 
     useEffect(() => {
         if (user) {
-            checkCoverImage(`../../business/${user.id}/businessInformationCover.png`);
+            checkCoverImage(`https://nixerwebapi.azurewebsites.net/images/business/${user.id}/businessInformationCover.png`);
         }
 
         //

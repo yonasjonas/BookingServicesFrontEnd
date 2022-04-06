@@ -67,6 +67,7 @@ const BusinessServices = (props, classes) => {
                                     <TableRow>
                                         <TableCell>Service Name</TableCell>
                                         <TableCell>Time Slot</TableCell>
+                                        <TableCell>Servive Image</TableCell>
                                         <TableCell>Providers</TableCell>
                                         <TableCell>Price</TableCell>
                                     </TableRow>
@@ -86,6 +87,8 @@ const BusinessServices = (props, classes) => {
 
 
                                                 )}</TableCell>
+                                                <TableCell><img className="serviceImage" src={"https://nixerwebapi.azurewebsites.net/images/business/" + record.businessId + "/service/serviceImage_"+ record.id +".jpg"} /></TableCell>
+
                                                 <TableCell>{record.price}</TableCell>
                                                 <TableCell>
                                                     <ButtonGroup>

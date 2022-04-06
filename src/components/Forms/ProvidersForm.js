@@ -91,7 +91,7 @@ const ProvidersForm = ({ classes, ...props }) => {
     let localDays = [];
 
     useEffect(() => {
-        oldNewDaysLength = 0;        
+        oldNewDaysLength = 0;          
         //props.providersList();
         //resetForm();
         if (props.currentId !== 0) {
@@ -258,6 +258,7 @@ const ProvidersForm = ({ classes, ...props }) => {
     }
     const showForm = () => {
         setEditing(true)
+        //checkProviderImage("https://nixerwebapi.azurewebsites.net/images/business/"+ props.authentication.user.id +"/provider/providerImage_"+24+".jpg");      
     }
     const hideForm = () => {
         setEditing(false)
@@ -265,6 +266,16 @@ const ProvidersForm = ({ classes, ...props }) => {
         props.currentId = 0;
         console.log(props.currentId)
     }
+
+    /* const checkProviderImage = (path) => {
+        new Promise((resolve) => {
+            img.onload = () => resolve({ path, status: "ok" });
+            img.onerror = () => resolve({ path, status: "error" });
+            img.src = path;
+        }).then((result) => {
+            if (result.status === "ok") setCoverImage(img.src);            
+        });
+    }; */
 
     return (
         <>
@@ -394,6 +405,7 @@ const ProvidersForm = ({ classes, ...props }) => {
 
 const mapStateToProps = state => ({
     providersList: state.businessProvider.list,
+    authentication: state.authentication
 
 });
 

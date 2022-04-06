@@ -58,7 +58,7 @@ const Businesses = (props, classes) => {
                                 <TableBody>
                                     {props.businesses && props.businesses.map((record, index) => {
                                         return (<TableRow key={index}>
-                                            <TableCell><img height="50px" src="serviceImage.png" /></TableCell>
+                                            <TableCell><img height="80px" src={`https://nixerwebapi.azurewebsites.net/images/business/${record.id}/businessInformationProfile.jpg`} /></TableCell>
                                             <TableCell><strong>{record.businessName}</strong></TableCell>
                                             <TableCell>{record.description}</TableCell>
                                             <TableCell>{record.county}</TableCell>

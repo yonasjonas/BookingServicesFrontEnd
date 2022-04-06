@@ -15,7 +15,7 @@ export default function MainImages(props) {
         }).then((result) => {
             if (result.status === "ok") setCoverImage(img.src);
         }).then(() => {
-            checkProfileImage(`https://nixerwebapi.azurewebsites.net/images/business/${user.id}/businessInformationProfile.png`);
+            checkProfileImage(`https://nixerwebapi.azurewebsites.net/images/business/${user.id}/businessInformationProfile.jpg`);
         });
 
     };
@@ -32,7 +32,7 @@ export default function MainImages(props) {
 
     useEffect(() => {
         if (user) {
-            checkCoverImage(`https://nixerwebapi.azurewebsites.net/images/business/${user.id}/businessInformationCover.png`);
+            checkCoverImage(`https://nixerwebapi.azurewebsites.net/images/business/${user.id}/businessInformationCover.jpg`);
         }
 
         //
@@ -45,15 +45,15 @@ export default function MainImages(props) {
 
     return (
         <>
-            {coverImage === null ? <FileUpload type="Upload Cover image" /> :
+            {coverImage === null ? <><h3 className="noCoverImage">Upload your business cover image that will be visible on your business page</h3>   <FileUpload type="businessInformationCover" exist={false} class="noCoverImage" /> </>:
                 <>
                     <HeroImage image={coverImage} />
-                    <FileUpload class="coverImage" type="businessInformationCover" frontEnd={props.frontEnd}/>
+                    <FileUpload class="coverImage" type="businessInformationCover" frontEnd={props.frontEnd} exist={true}/>
                 </>}
-            {profileImage === null ? <FileUpload type="Upload Profile image" /> :
+            {profileImage === null ? <><h3 className="noProfileImage">Upload business logo</h3> <FileUpload type="businessInformationProfile" exist={false} class="noProfileImage" /></> :
                 <>
                     <ProfileImage image={profileImage} />
-                    <FileUpload class="profileImage" type="businessInformationProfile" frontEnd={props.frontEnd}/>
+                    <FileUpload class="profileImage" type="businessInformationProfile" frontEnd={props.frontEnd} exist={true}/>
                 </>}
 
         </>

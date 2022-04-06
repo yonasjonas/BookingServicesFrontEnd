@@ -6,8 +6,9 @@ import { Button } from '@material-ui/core';
 
 
 function FileUpload(props) {
-	const [selectedFile, setSelectedFile] = useState();
+	const [selectedFile, setSelectedFile] = useState(null);
 	const [isFilePicked, setIsFilePicked] = useState(false);
+	const [changeButton, setChangeButton] = useState("Upload");
 	const [loaded, setLoaded] = useState(false);
 
 	const changeHandler = (event) => {
@@ -17,16 +18,21 @@ function FileUpload(props) {
 	};
 
 	const handleSubmission = (e) => {
-		//e.preventDefault();
-		props.user.id && props.postImage(selectedFile, props.type, props.user.id, props.providerId);
+		props.user.id && fileActions.postImage(selectedFile, props.type, props.user.id, props.providerId);
+		window.location.reload();
 	};
 
 	useEffect(() => {
-		//console.log({ props })
+		console.log({ props })
 		fetchAll();
 		if (isFilePicked && !loaded) {
 			handleSubmission();
+			
 		}
+		if (props.exist) {
+			setChangeButton("Change");
+		}
+		
 	});
 
 
@@ -39,7 +45,7 @@ function FileUpload(props) {
 				variant="contained"
 				component="label"
 			>
-				Change
+				{changeButton}
 				<input
 					type="file"
 					name="file"
@@ -68,16 +74,10 @@ function FileUpload(props) {
 
 
 const mapStateToProps = state => ({
-	file: state.fileReducer,
 	user: state.authentication.user,
 
 });
 
-//console.log({ mapStateToProps });
 
-const mapActionsToProps = {
-	fetchAll: fileActions.fetchAll,
-	postImage: fileActions.postImage
-}
 
-export default connect(mapStateToProps, mapActionsToProps)(FileUpload);
+export default connect(mapStateToProps)(FileUpload);

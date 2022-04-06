@@ -49,3 +49,10 @@
   margin: auto;
   display: table;
 }
+
+.filePicker.noCoverImage {
+  margin: auto;
+  position: relative;
+  float: none;
+  display: table;
+}

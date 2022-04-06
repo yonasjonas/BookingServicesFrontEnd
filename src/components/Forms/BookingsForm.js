@@ -81,7 +81,9 @@ const initialFieldValues = {
     email: "",
     phone: "",
     providerId: "",
-    serviceId: "",
+    providerName: "",    
+    serviceId: "",    
+    serviceName: "",
     bookingStartTime: "",
     bookingDuration: 0,
 }
@@ -89,7 +91,8 @@ const initialFieldValues = {
 const BookingsForm = ({ classes, ...props }) => {
 
     const { addToast } = useToasts();
-    const [currentProvider, setCurrentProvider] = useState(props.businessProviders);
+    const [currentProviders, setCurrentProviders] = useState(props.businessProviders);
+    const [currentProvider, setCurrentProvider] = useState(null);
     const [currentService, setCurrentService] = useState(null);
     const [providerTimes, setProviderTimes] = useState(null);
     const [providerWeekDays, setProviderWeekDays] = useState(null);
@@ -128,14 +131,17 @@ const BookingsForm = ({ classes, ...props }) => {
         setErrors,
         handleInputChange,
         handleChangeMultiple,
-        resetForm
     } = useForm(initialFieldValues, validate, props.setCurrentId)
 
 
     const handleSubmit = e => {
         e.preventDefault();
         setIsLoading(true);
-        values.BusinessId = props.authentication && props.authentication.id
+        values.BusinessId = props.authentication && props.authentication.id;
+        values.serviceName = !!currentService && currentService.serviceName;
+        values.providerName = currentProviders && currentProviders[0] && currentProviders[0].name
+
+
 
         if (validate()) {
             const onSuccess = () => {
@@ -146,7 +152,6 @@ const BookingsForm = ({ classes, ...props }) => {
                 setProviderTimes(null);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 setBooked(true);
-                resetForm();
                 setIsLoading(false);
             }
             
@@ -169,7 +174,7 @@ const BookingsForm = ({ classes, ...props }) => {
         
 
         setBusinessServices(props.businessServices);
-        //setCurrentProvider(props.businessProviders);
+        //setCurrentProviders(props.businessProviders);
         if (props.currentId !== 0 && props.currentId !== undefined) {
 
             let temp = props.providersList.find(x => x.id == props.currentId);
@@ -213,11 +218,12 @@ const BookingsForm = ({ classes, ...props }) => {
         }
     };
     let oldId
-    const renderProviderTimes = (providerId) => {  
+    const renderProviderTimes = (providerId) => { 
+        setCurrentProvider(props.businessProviders.filter(x => x.id === providerId));
 
         if (oldId !== providerId) {
-            //setCurrentProvider( props.businessProviders.filter(x => x.id == providerId[0]));
-            showWeekDays(currentProvider[0].weekvalue);  
+            //setCurrentProviders( props.businessProviders.filter(x => x.id == providerId[0]));
+            showWeekDays(currentProviders[0].weekvalue);  
         }
         oldId = providerId;
         if (providerTimes === null) window.scrollTo(0, document.body.scrollHeight)
@@ -230,7 +236,7 @@ const BookingsForm = ({ classes, ...props }) => {
             "providerId": providerId
         })
 
-        currentProv = currentProvider.filter(x => x.id == providerId).length > 0 ? JSON.parse(currentProvider.filter(x => x.id == providerId)[0].weekvalue) : {};
+        currentProv = currentProviders.filter(x => x.id == providerId).length > 0 ? JSON.parse(currentProviders.filter(x => x.id == providerId)[0].weekvalue) : {};
 
         if (currentProv) {
             Object.keys(currentProv).map(i => {
@@ -306,7 +312,7 @@ const BookingsForm = ({ classes, ...props }) => {
                             >
                                 <Grid container spacing={2}>
                                     <Grid item xs={2} md={2}>
-                                        <img height="50px" src="../../serviceImage.png" />
+                                        <img height="50px" src={"https://nixerwebapi.azurewebsites.net/images/business/" + service.businessId + "/service/serviceImage_"+ service.id +".jpg"} />
                                     </Grid>
                                     <Grid item xs={2} md={2}>
                                         {service.serviceName}
@@ -330,18 +336,18 @@ const BookingsForm = ({ classes, ...props }) => {
                 </Grid>
                 <Grid container>
                     <div className="providers-block services-bookform">
-                        {currentProvider && currentProvider.length > 1 && serviceId ?
+                        {currentProviders && currentProviders.length > 1 && serviceId ?
                             <>
                                 <h4 style={{color:'darkred'}}> Selected a service: <span style={{color:'purple'}}>{currentService.serviceName && currentService.serviceName}</span></h4>
                                 <h2> Multiple people can help you </h2>
                             </>
                             : <div style={{display:'none'}}>
-                               {serviceId && currentProvider && currentProvider[0] && <h3 style={{color:'orange'}}> <><span style={{color:'purple'}}>{currentProvider[0].name}</span> is available to help you with <span style={{color:'purple'}}>{currentService.serviceName ? currentService.serviceName : ""}</span></></h3>}
+                               {serviceId && currentProviders && currentProviders[0] && <h3 style={{color:'orange'}}> <><span style={{color:'purple'}}>{currentProviders[0].name}</span> is available to help you with <span style={{color:'purple'}}>{currentService.serviceName ? currentService.serviceName : ""}</span></></h3>}
                             </div>
             
                         }
                         <Grid item xs={6} md={6}>
-                            {currentProvider && serviceId ? currentProvider.map((providers) => (
+                            {currentProviders && serviceId ? currentProviders.map((providers) => (
             
                                 <Box key={providers.id}
                                     sx={{
@@ -358,7 +364,7 @@ const BookingsForm = ({ classes, ...props }) => {
                                 >
                                     <Grid container key={providers.id} spacing={2}>
                                         <Grid item xs={2} md={2}>
-                                            <img height="50px" src="../../serviceImage.png" />
+                                            <img height="50px" src={"https://nixerwebapi.azurewebsites.net/images/business/" + providers.businessId + "/provider/providerImage_"+ providers.id +".jpg"} />
                                         </Grid>
                                         <Grid item xs={2} md={2}>
                                             <h5>{providers.name}</h5>
@@ -391,7 +397,7 @@ const BookingsForm = ({ classes, ...props }) => {
                                     onChange={handleInputChange}
                                 >
                                     <h2> Below you can pick timeslot for your booking</h2>
-                                    <h2> {currentProvider && currentProvider[0] && currentProvider[0].name} works on {providerWeekDays && providerWeekDays}</h2>
+                                    <h2> {currentProvider && currentProvider && currentProvider.name} works on {providerWeekDays && providerWeekDays}</h2>
                                     <Scheduler
                                         view="week"
                                         selectedDate={selectedBookingTime ? selectedBookingTime : new Date()}
@@ -484,7 +490,7 @@ const BookingsForm = ({ classes, ...props }) => {
                             }}
                             container className="booking_summary" item xs={12} md={12}>
                             <Grid item xs={1} md={1}>
-                                <img height="35px" src="serviceImage.png" />
+                                <img height="90px" src={"https://nixerwebapi.azurewebsites.net/images/business/" + currentService.businessId + "/service/serviceImage_"+ currentService.id +".jpg"} />
                             </Grid>
                             <Grid item xs={2} md={1}>
                                 <strong>Service Name: <br />{currentService.serviceName}</strong>
@@ -495,7 +501,8 @@ const BookingsForm = ({ classes, ...props }) => {
                                 <strong>Service Duration: {currentService.timeSlotDuration} </strong> minutes
                             </Grid>
                             <Grid item xs={2} md={1}>
-                                <strong>Provider: {currentProvider && currentProvider[0] ? currentProvider[0].name : "Provider not selected"}</strong>
+                                <div>{currentProviders && <img src={"https://nixerwebapi.azurewebsites.net/images/business/" + currentProviders[0].businessId + "/provider/providerImage_"+ currentProviders[0].id +".jpg"}/>}
+                                    <strong>Provider {currentProviders && currentProviders[0] ? currentProviders[0].name : "not selected"}</strong></div>
                             </Grid>
                             <Grid item xs={2} md={2}>
                                 <strong>Booking Date:</strong><br /> {values.bookingStartTime !== "" ? values.bookingStartTime : "Time not selected"}

@@ -138,5 +138,27 @@ img.providerImage {
 .MuiContainer-root.MuiContainer-maxWidthLg {
   margin-bottom: 600px;
 }
+h3.noCoverImage {
+  margin: auto;
+  position: relative;
+  float: none;
+  display: table;
+}
 
+h3.noProfileImage {
+  position: absolute;
+  left: 20.1%;
+  width: 181px;
+  top: 167px;
+}
+
+.filePicker.noProfileImage {
+  position: relative;
+  left: 22.1%;
+  width: 181px;
+  bottom: 10px;
+}
+img.serviceImage {
+  max-height: 92px;
+}
 

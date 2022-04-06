@@ -87,7 +87,7 @@ const BusinessProviders = (props, classes) => {
                                             <TableCell>Name</TableCell>
                                             <TableCell>Email</TableCell>
                                             <TableCell>Weekdays</TableCell>
-                                            <TableCell>Working Hours</TableCell>
+                                            <TableCell>Profile Picture</TableCell>
                                             <TableCell>Description</TableCell>
                                             <TableCell>Image</TableCell>
                                             <TableCell>Phone</TableCell>
@@ -101,7 +101,7 @@ const BusinessProviders = (props, classes) => {
                                                         <TableCell>{record.name}</TableCell>
                                                         <TableCell>{record.email}</TableCell>
                                                         <TableCell className="weekdaysClass">{showDays(record.weekvalue)}</TableCell>
-                                                        <TableCell><img className="providerImage" src={"https://nixerwebapi.azurewebsites.net/images/business/1/provider/providerImage_"+ record.id +".png"} /></TableCell>
+                                                        <TableCell><img className="providerImage" src={"https://nixerwebapi.azurewebsites.net/images/business/" + record.businessId + "/provider/providerImage_"+ record.id +".jpg"} /></TableCell>
                                                         <TableCell>{record.phone}</TableCell>
                                                         <TableCell>{record.phone}</TableCell>
                                                         <TableCell>{record.phone}</TableCell>

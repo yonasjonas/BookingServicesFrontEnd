@@ -65,11 +65,15 @@ const BusinessServices = (props, classes) => {
                             <Table>
                                 <TableHead className={classes.root}>
                                     <TableRow>
+
+                                        
+                                        <TableCell>Image</TableCell>                                        
                                         <TableCell>Service Name</TableCell>
-                                        <TableCell>Time Slot</TableCell>
-                                        <TableCell>Servive Image</TableCell>
+                                        <TableCell>Service Duration</TableCell>
                                         <TableCell>Providers</TableCell>
                                         <TableCell>Price</TableCell>
+                                        <TableCell>Manage</TableCell>
+
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -78,16 +82,17 @@ const BusinessServices = (props, classes) => {
                                         props.businessServicesList && props.businessServicesList.map((record, index) => {
                                             //console.log("record", record)
                                             return (<TableRow key={index}>
+                                                <TableCell><img className="serviceImage" src={"https://nixerwebapi.azurewebsites.net/images/business/" + record.businessId + "/service/serviceImage_"+ record.id +".jpg"} /></TableCell>
                                                 <TableCell>{record.serviceName}</TableCell>
-                                                <TableCell>{record.timeSlotDuration}</TableCell>
-                                                <TableCell>{typeof record.providerId !== 'string' && record.providerId.split(',').map(i => {
+                                                <TableCell>{record.timeSlotDuration} min.</TableCell>
+                                                <TableCell>{typeof record.providerId === 'string' && record.providerId.split(',').map(i => {
                                                     return (props.businessProviders.find(j => j.id == i) ? props.businessProviders.find(j => j.id == i).name + " " : "")
                                                 }
 
 
 
                                                 )}</TableCell>
-                                                <TableCell><img className="serviceImage" src={"https://nixerwebapi.azurewebsites.net/images/business/" + record.businessId + "/service/serviceImage_"+ record.id +".jpg"} /></TableCell>
+                                                
 
                                                 <TableCell>{record.price}</TableCell>
                                                 <TableCell>

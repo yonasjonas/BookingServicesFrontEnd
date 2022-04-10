@@ -76,7 +76,7 @@ const weekdays = [
     }
 ]
 
-const initialFieldValues = {
+let initialFieldValues = {
     name: "",
     email: "",
     phone: "",
@@ -86,6 +86,7 @@ const initialFieldValues = {
     serviceName: "",
     bookingStartTime: "",
     bookingDuration: 0,
+    accepted: null,
 }
 
 const BookingsForm = ({ classes, ...props }) => {
@@ -104,6 +105,7 @@ const BookingsForm = ({ classes, ...props }) => {
     const [businessServices, setBusinessServices] = useState(props.businessServices);
     const [isLoading, setIsLoading] = useState(false);
     const [booked, setBooked] = useState(false);
+
 
 
 
@@ -133,11 +135,22 @@ const BookingsForm = ({ classes, ...props }) => {
         handleChangeMultiple,
     } = useForm(initialFieldValues, validate, props.setCurrentId)
 
+    const onAccept = (bookingId, data) => {
+        if (window.confirm('Email will be sent to the customer about you accepting the booking')) {
+            props.updateBooking(bookingId, data);
+        }
+    }
+    const onReject = id => {
+        if (window.confirm('Are you sure?')) {
+            props.deleteBooking(id, () => addToast("Submitted successfully", { appearance: 'info' }));
+        }
+    }
+
 
     const handleSubmit = e => {
         e.preventDefault();
         setIsLoading(true);
-        values.BusinessId = props.authentication && props.authentication.id;
+        values.BusinessId = props.businessInfo && props.businessInfo.list && props.businessInfo.list[0] && props.businessInfo.list[0].id && props.businessInfo.list[0].id;
         values.serviceName = !!currentService && currentService.serviceName;
         values.providerName = currentProviders && currentProviders[0] && currentProviders[0].name
 
@@ -171,16 +184,25 @@ const BookingsForm = ({ classes, ...props }) => {
             props.fetchAllBusinessServices(props.id);
         props.fetchAllProviders(props.id);
 
+        console.log("here: ", props.currentId)
+
+
+
         
 
         setBusinessServices(props.businessServices);
         //setCurrentProviders(props.businessProviders);
         if (props.currentId !== 0 && props.currentId !== undefined) {
 
-            let temp = props.providersList.find(x => x.id == props.currentId);
-            setValues({
-                ...temp
-            })
+            let temp = props.businessBookings && props.businessBookings.length && props.businessBookings.find(x => x.id == props.currentId);
+
+            initialFieldValues = temp;
+            initialFieldValues.accepted = props.accept;
+            initialFieldValues.BusinessId = props.businessInfo && props.businessInfo.list && props.businessInfo.list[0] && props.businessInfo.list[0].id && props.businessInfo.list[0].id;
+
+            onAccept(props.currentId, temp);
+
+            
             setErrors({})
         }
         if (props.id) {
@@ -214,16 +236,16 @@ const BookingsForm = ({ classes, ...props }) => {
         currentProv = props.businessProviders.filter(x => providerId.includes(x.id.toString()));
         if (providerId.length > 0) {
             //console.log("provide rid is: ", providerId);
-            setCurrentProvider(currentProv);
+            setCurrentProviders(currentProv);
         }
     };
     let oldId
     const renderProviderTimes = (providerId) => { 
         setCurrentProvider(props.businessProviders.filter(x => x.id === providerId));
 
-        if (oldId !== providerId) {
+        if (oldId !== providerId && props.businessProviders.filter(x => x.id === providerId) !== null) {
             //setCurrentProviders( props.businessProviders.filter(x => x.id == providerId[0]));
-            showWeekDays(currentProviders[0].weekvalue);  
+            showWeekDays(props.businessProviders.filter(x => x.id === providerId));  
         }
         oldId = providerId;
         if (providerTimes === null) window.scrollTo(0, document.body.scrollHeight)
@@ -236,7 +258,15 @@ const BookingsForm = ({ classes, ...props }) => {
             "providerId": providerId
         })
 
+        
+
         currentProv = currentProviders.filter(x => x.id == providerId).length > 0 ? JSON.parse(currentProviders.filter(x => x.id == providerId)[0].weekvalue) : {};
+
+
+        setCurrentProvider(currentProviders.filter(x => x.id == providerId)[0]);
+        
+        //console.log("currentprovider5", currentProviders.filter(x => x.id == providerId)[0].name)
+
 
         if (currentProv) {
             Object.keys(currentProv).map(i => {
@@ -256,17 +286,25 @@ const BookingsForm = ({ classes, ...props }) => {
             setCalendarHours(hours);
         }
     };
+    
+    let providerdays = 0;
 
     const showWeekDays = (obj) => {
 
-        let currentPro = convertStringToObject(obj);
+        let currentProviderWeekdays = convertStringToObject(obj[0].weekvalue);
+
+        //urrentProviderWeekdays[0].weekvalue
         let days = [];
 
-        Object.keys(currentPro).map(x => {
-            days.push(currentPro[x].dayIndex);
+
+
+        Object.keys(currentProviderWeekdays).map(x => {
+            days.push(currentProviderWeekdays[x].dayIndex);
         });
 
-        if (providerWeekDays === null) setProviderWeekDays(days.join(", "));
+
+        setProviderWeekDays(days.join(", "));
+        providerdays = days.join(", ");
 
     }
     const convertStringToObject = (arr) => {
@@ -342,7 +380,7 @@ const BookingsForm = ({ classes, ...props }) => {
                                 <h2> Multiple people can help you </h2>
                             </>
                             : <div style={{display:'none'}}>
-                               {serviceId && currentProviders && currentProviders[0] && <h3 style={{color:'orange'}}> <><span style={{color:'purple'}}>{currentProviders[0].name}</span> is available to help you with <span style={{color:'purple'}}>{currentService.serviceName ? currentService.serviceName : ""}</span></></h3>}
+                               {serviceId && currentProviders && currentProviders[0] && currentProvider && <h3 style={{color:'orange'}}> <><span style={{color:'purple'}}>{currentProvider.name}</span> is available to help you with <span style={{color:'purple'}}>{currentService.serviceName ? currentService.serviceName : ""}</span></></h3>}
                             </div>
             
                         }
@@ -402,8 +440,8 @@ const BookingsForm = ({ classes, ...props }) => {
                                         view="week"
                                         selectedDate={selectedBookingTime ? selectedBookingTime : new Date()}
                                         sx={{
-                                            height: '10px',
-                                            padding: '10px',
+                                            height: '5px',
+                                            padding: '6px',
                                             position: 'relative',
                                         }}
                                         week={{
@@ -428,16 +466,19 @@ const BookingsForm = ({ classes, ...props }) => {
                                                         style={{
                                                             height: "100%",
                                                             background: disabled ? "pink" : "lightgreen",
-                                                            border: selected ? "1px solid grey" : ""
+                                                            border: selected ? "1px solid grey" : "",
+                                                            "pointer-events": disabled && 'none'
                                                         }}
                                                         onClick={() => {
-                                                            if (true) {
+                                                            
+                                                            if (!disabled) {
                                                                 //setTimeSlotDuration(height)
                                                                 setSelectedBookingTime(new Date(start));
                                                                 showBookingSummary(start, timeSlotDuration);
                                                                 return console.log(start, timeSlotDuration);
                                                             }
-                                                            onClick();
+                                                            
+                                                           
                                                         }}
                                                         disableRipple={disabled}
                                                     // disabled={disabled}
@@ -548,6 +589,7 @@ const mapStateToProps = state => ({
     businessProviders: state.businessProvider.list,
     businessBookings: state.businessBooking.list,
     authentication: state.authentication.loggedIn ? state.authentication.user : null,
+    businessInfo: state.businesses
 });
 
 
@@ -555,6 +597,7 @@ const mapActionsToProps = {
     fetchAllProviders: providerActions.fetchAll,
     fetchAllBusinessServices: serviceActions.fetchAll,
     createBooking: bookingActions.create,
+    updateBooking: bookingActions.update,
     //fetchAuth: authenticationActions.fetchAuth,
 }
 

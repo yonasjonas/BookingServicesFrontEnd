@@ -43,9 +43,6 @@ const TopNavigation = (...props) => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
-    console.log({ props });
-
-
     return (
         <>
         {props[0].user.user.loggedIn ?

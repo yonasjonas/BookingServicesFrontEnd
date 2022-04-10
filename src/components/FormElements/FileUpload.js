@@ -18,12 +18,15 @@ function FileUpload(props) {
 	};
 
 	const handleSubmission = (e) => {
-		props.user.id && fileActions.postImage(selectedFile, props.type, props.user.id, props.providerId);
+		props.businessInfo && props.businessInfo.list.length > 0 ? 
+			fileActions.postImage(selectedFile, props.type, props.businessInfo.list[0].id, props.providerId)
+			:
+			fileActions.postImage(selectedFile, props.type, props.user.id, props.providerId)		
+		;
 		window.location.reload();
 	};
 
 	useEffect(() => {
-		console.log({ props })
 		fetchAll();
 		if (isFilePicked && !loaded) {
 			handleSubmission();
@@ -39,7 +42,6 @@ function FileUpload(props) {
 
 	return (
 		<div className={'filePicker ' + props.class}>
-			{console.log({props})}
 			{ !props.frontEnd &&
 			<Button
 				variant="contained"
@@ -75,7 +77,7 @@ function FileUpload(props) {
 
 const mapStateToProps = state => ({
 	user: state.authentication.user,
-
+	businessInfo: state.businesses
 });
 
 

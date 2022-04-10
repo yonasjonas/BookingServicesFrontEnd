@@ -18,7 +18,8 @@ const formatData = (data) => ({
     serviceName: String(data.serviceName ? data.serviceName : "" ),
     bookingStartTime: String(data.bookingStartTime ? data.bookingStartTime : "" ),
     bookingDuration: Number(data.bookingDuration ? data.bookingDuration : 0 ),
-    BusinessId: Number(!isNaN(data.BusinessId) ? data.BusinessId : 0 ),
+    BusinessId: Number(!isNaN(data.businessId) ? data.businessId : 0 ),
+    accepted: String(data.accepted),
 
 });
 
@@ -56,7 +57,7 @@ export const create = (data, onSuccess) => dispatch => {
 export const update = (id, data, onSuccess) => dispatch => {
     data = formatData(data);    
     let dataLocal = Object.assign({}, data)
-    dataLocal.weekvalue = dataLocal.weekvalue.split(',');   
+    dataLocal.weekvalue = dataLocal.weekvalue && dataLocal.weekvalue.split(',');   
     api.businessBooking().update(id, data)
     .then(response => {
         dispatch({
@@ -67,6 +68,12 @@ export const update = (id, data, onSuccess) => dispatch => {
     })
     .catch(error => console.log(error))
 };
+
+export const confirmBooking = (id, accept) => dispatch => {
+
+    api.businessBooking().update(id, accept)
+
+}
 
 export const deleteData = (id, onSuccess) => dispatch => {
     api.businessBooking().delete(id)

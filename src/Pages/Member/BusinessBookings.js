@@ -11,6 +11,8 @@ import BookingsForm from '../../components/Forms/BookingsForm';
 import { useToasts } from "react-toast-notifications";
 import MembersMenu from '../../components/navigation/MemberMenu';
 import MainImages from "../../components/media/MainImages";
+import CheckIcon from '@mui/icons-material/Check';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 const style = theme => ({
     root: {
@@ -30,19 +32,19 @@ const BusinessBookings = (props, classes) => {
     const { addToast } = useToasts();
     const [businessBookings, setBusinessBookings] = useState(props.businessBookingsList);
     const [currentId, setCurrentId] = useState(0);
+    const [accepted, setAccepted] = useState(null);
 
     useEffect(() => {
 
-        props.authentication.user.id && props.fetchAllBookings(props.authentication.user.id);
+        props.fetchAllBookings(props.authentication.user.id);
         //props.fetchAllBusinessServices();
-        setBusinessBookings(props.businessBookingsList);
+        !props.authentication && setBusinessBookings(props.businessBookingsList);
+        /*  if (currentId !== 0) {
+             if (accepted !== null) {
+                 //props.confirmBooking(currentId, accepted);
+             }
+         } */
     }, [])
-
-    const onDelete = id => {
-        if (window.confirm('Are you sure?')) {
-            props.deleteBooking(id, () => addToast("Submitted successfully", { appearance: 'info' }));
-        }
-    }
 
     return (
         <>
@@ -53,7 +55,7 @@ const BusinessBookings = (props, classes) => {
                         <Grid item xs={3}>{<MembersMenu />}</Grid>
                         <Grid item xs={9}>
                             <TableContainer>
-                                <Grid container><BookingsForm {...({ currentId, setCurrentId })} /></Grid>
+                                <Grid container><BookingsForm {...({ currentId, setCurrentId })} accept={accepted} /></Grid>
                                 <h1> Bookings</h1>
 
 
@@ -64,7 +66,6 @@ const BusinessBookings = (props, classes) => {
                                             <TableCell>Provider</TableCell>
                                             <TableCell>Customer Name</TableCell>
                                             <TableCell>Customer Phone</TableCell>
-                                            <TableCell>Customer Email</TableCell>
                                             <TableCell>Booking Time</TableCell>
                                             <TableCell>Service Duration</TableCell>
 
@@ -72,21 +73,35 @@ const BusinessBookings = (props, classes) => {
                                     </TableHead>
                                     <TableBody>
                                         {
-                                            businessBookings.map((record, index) => {
+                                            props.businessBookingsList.map((record, index) => {
                                                 return (<TableRow key={index}>
                                                     <TableCell>{record.id}</TableCell>
                                                     <TableCell>{record.providerId}</TableCell>
                                                     <TableCell>{record.name}</TableCell>
                                                     <TableCell>{record.phone}</TableCell>
-                                                    <TableCell>{record.email}</TableCell>
                                                     <TableCell>{record.bookingStartTime}</TableCell>
                                                     <TableCell>{record.bookingDuration}</TableCell>
-                                                    <TableCell>
-                                                        <ButtonGroup>
-                                                            <Button><EditIcon color="primary" onClick={() => { setCurrentId(record.id) }} /></Button>
-                                                            {<Button><RemoveRedEyeIcon color="secondary" onClick={() => { onDelete(record.id) }} /></Button>}
-                                                        </ButtonGroup>
-                                                    </TableCell>
+                                                    {!record.accepted ? <>
+                                                        <TableCell>
+                                                            <ButtonGroup>
+                                                                <Button><EditIcon color="primary" onClick={() => { setCurrentId(record.id) }} /></Button>
+                                                                {<Button><CheckIcon color="secondary" onClick={() => { setCurrentId(record.id); setAccepted(true) }} /></Button>}
+                                                                <Button><HighlightOffIcon color="secondary" onClick={() => { setCurrentId(record.id); setAccepted(false) }} /></Button>
+                                                            </ButtonGroup>
+                                                        </TableCell>
+                                                    </>
+                                                        : record.accepted && record.accepted === "false" ?
+
+                                                            <TableCell>Rejected</TableCell>
+
+                                                            : <TableCell>Accepted</TableCell>
+
+
+
+
+
+
+                                                    }
 
                                                 </TableRow>
                                                 )
@@ -114,9 +129,8 @@ const mapStateToProps = state => ({
 const mapActionsToProps = {
     fetchAllBusinessServices: serviceActions.fetchAll,
     fetchAllBookings: bookingActions.fetchAll,
-    fetchAllProviders: providerActions.fetchAll
-
-    //deleteBusinessService: actions.deleteData
+    fetchAllProviders: providerActions.fetchAll,
+    confirmBooking: bookingActions.confirmBooking
 }
 
 

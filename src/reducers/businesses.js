@@ -6,7 +6,12 @@ const initialState = {
 
 export const businesses = (state = initialState, action) => {    
     switch (action.type) {        
-        case ACTION_TYPES.FETCH_ALL:
+        case ACTION_TYPES.FETCH_ALL_BUSINESSES:
+            return {
+                ...state,
+                list: [...action.payload]
+            }
+        case ACTION_TYPES.FETCH_ONE_BUSINESS:
             return {
                 ...state,
                 list: [...action.payload]

@@ -81,7 +81,7 @@ const BusinessServicesForm = ({ classes, state, ...props }) => {
     const handleSubmit = e => {
         e.preventDefault();
         //console.log("works", state);
-        values.providerId = values.providerId ? values.providerId.join(',') : "";
+        values.providerId  = values.providerId && typeof values.providerId !== 'string' ? values.providerId.join(',') : values.providerId;
         setValues({
             "providerId": values.providerId,
         })

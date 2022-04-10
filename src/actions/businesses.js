@@ -4,7 +4,8 @@ export const ACTION_TYPES = {
     CREATE2 : 'CREATE2',
     UPDATE2:'UPDATE2',
     DELETE2:'DELETE2',
-    FETCH_ALL:'FETCH_ALL'
+    FETCH_ALL_BUSINESSES:'FETCH_ALL_BUSINESSES',
+    FETCH_ONE_BUSINESS:'FETCH_ONE_BUSINESS'
 }
 
 const formatData = (data) => ({
@@ -22,7 +23,25 @@ export const fetchAll = () => dispatch => {
         let dataLocal = Object.assign({}, response)
 
         dispatch({
-            type:ACTION_TYPES.FETCH_ALL,
+            type:ACTION_TYPES.FETCH_ALL_BUSINESSES,
+            payload: dataLocal.data
+        })
+    });    
+};
+
+export const fetchById = (id) => dispatch => {
+
+    api.businesses().fetchById(id)
+    .then(response => {
+        let dataLocal = Object.assign({}, response)
+        //dataLocal.weekvalue = dataLocal.weekvalue.split(',');
+        //console.log("from actions:", response.data);
+        for (let i = 0; i < response.data.length; i++) {
+            //dataLocal.data[i].weekvalue  = response.data[i].weekvalue.split(',');            
+        }
+
+        dispatch({
+            type:ACTION_TYPES.FETCH_ALL_BUSINESSES,
             payload: dataLocal.data
         })
     });    

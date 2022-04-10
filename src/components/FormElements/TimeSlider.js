@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import Typography from '@mui/material/Typography';
 import { connect } from "react-redux";
+import * as convertString from '../../helpers';
 import * as actions from "../../actions/businessProvidersActions";
 
 
@@ -72,106 +73,86 @@ function RangeSlider(...props) {
 
     //const [currentValue, setCurrentValue] = React.useState([0,0]);
     let [currentValue, setCurrentValue] = React.useState([0, 0]);
+    let [currentProvider, setCurrentProvider] = React.useState();
+    let [currentId, setCurrentId] = React.useState();
     const [days, setDays] = React.useState([]);
 
     useEffect(() => {
 
-        //console.log("useEffect");
-        localDays = [];
 
+        if ((props[0].currentId !== 0 && currentId !== props[0].currentId) || props[0].currentId === undefined) {
+            //console.log("useEffect");
+            setCurrentProvider(props[0].providersList && props[0].providersList.filter(i => i.id === props[0].currentId))
+            setCurrentId(props[0].currentId);
+            retrieveTimesAndDays(props[0].providersList && props[0].providersList.filter(i => i.id === props[0].currentId));
 
-        //console.log("currentID", props[0].currentId);
-
-        if (!!allInfo === false) {
-            // only perform below if slider wasnt touched on the page already
-            if (!isDirty && props[0].daysObject !== '') {
-                if (typeof props[0].daysObject === 'object') {
-                    allInfo = props && props[0].daysObject !== '' ? props[0].daysObject : {};
-                }
-                else {
-                    allInfo = props && props[0].daysObject !== '' ? JSON.parse(props[0].daysObject) : {};
-                }
-            }
-
-            if (!!allInfo && allInfo !== "[object Object]") {
-                if (typeof allInfo === 'string') {
-                    Object.keys(JSON.parse(allInfo)).map(i => {
-                        localDays.push(i);
-                    })
-                }
-                else {
-                    Object.keys(allInfo).map(i => {
-                        i = !isNaN(i) ? parseInt(i) : 0;
-                        localDays.push(i);
-
-                        //setCorrectHours(localDays, [startTime, endTime])
-
-
-                    });
-                    //console.log("days to display:<> ", [startTime, endTime]);
-                }
-
-            }
-        }
-        else if (!!allInfo && props[0].currentId > 0 && notUpdated) {
-
-
-            Object.keys(allInfo).map(i => {
-                marks.forEach(element => {
-                    if (element.label == allInfo[i].startTime) {
-                        startTime = element.value;
-                    }
-                    if (element.label == allInfo[i].endTime) {
-                        endTime = element.value;
-                    }
-                });
-            });
 
         }
-        /* else if (props[0].currentId > 0){
-            allInfo = props[0].daysObject;
-            if (typeof allInfo === 'string') {
-                Object.keys(JSON.parse(allInfo)).map(i => {
-                    localDays.push(i);
-                })
-            }
-            else {
-                Object.keys(allInfo).map(i => {
-                    localDays.push(i);
-                    console.log("days to display:> ", allInfo[i]);
-                    marks.forEach(element => {
-                        if (element.label == allInfo[i].startTime) {
-                            startTime = element.value;
-                        }
-                        if (element.label == allInfo[i].endTime) {
-                            endTime = element.value;
-                        }
-                    });
-                });
-
-
-
-            }
-            if (localDays.length !== days.length) {
-                //setDays(localDays);
-                setCurrentValue([startTime, endTime]);
-
-            }
-
-        } */
     });
 
-    const setCorrectHours = (localDays, hours) => {
-        if (!!localDays) {
-            setDays(localDays);
-        }
-        if (!!hours) {
-            setCurrentValue(hours);
-        }
-        //setDays(localDays);
-        //setCurrentValue(prevTimes => ([...prevTimes, hours]));
+    const retrieveTimesAndDays = (provider) => {
+
+
+        const weekvalue = convertString.convertStringToObject(provider[0].weekvalue);
+
+        console.log("retrieveTimesAndDays", weekvalue);
+
+
+
+        //Object.keys(weekvalue).map(i => {
+        updateTimeSlidersOnEdit(weekvalue);
+        //})
+
+
     }
 
+    const updateTimeSlidersOnEdit = (weekvalue) => {
+        
+        
+
+        Object.keys(weekvalue).map(i => {
+            if (weekvalue[i].dayIndex === props[0].day ) {
+                
+                console.log(weekvalue[i].dayIndex)
+                
+
+                let startTimeValue = null;
+                let endTimeValue = null;
+
+                let startTime = parseInt(weekvalue[i].startTime.substring(0, weekvalue[i].startTime.indexOf(":")));
+                let endTime = parseInt(weekvalue[i].endTime.substring(0, weekvalue[i].endTime.indexOf(":")));
+
+                marks.forEach(element => {
+                    if (element.value == startTime) {
+                        startTime = element.label;
+                        startTimeValue = element.value;
+                    }
+                    if (element.value == endTime) {
+                        endTime = element.label;
+                        endTimeValue = element.value;
+                    }
+                });
+
+                setCurrentValue([startTimeValue, endTimeValue]);
+        
+            }
+            console.log(weekvalue[i].dayIndex)
+            //console.log(weekvalue[i].startTime)
+        
+        })
+
+        //setCurrentValue([startTimeValue, endTimeValue]);
+
+
+
+
+
+
+
+
+        // ????  props[0].parentCallback(allInfo);
+        //notUpdated = false;
+    }
     const sortDaysHours = (value, day, key) => {
 
         startTime = null;
@@ -230,7 +211,6 @@ function RangeSlider(...props) {
                 }
             });
             setCurrentValue([startTime, endTime]);
-
         }
         isDirty = true;
         //console.log("allInfo : ", allInfo);
@@ -269,7 +249,7 @@ RangeSlider.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    //providersList: state.businessProvider.list,
+    providersList: state.businessProvider.list,
 
 });
 

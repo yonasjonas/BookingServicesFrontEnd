@@ -3,7 +3,9 @@ import React, { useEffect, useState } from "react";
 import { connect } from 'react-redux';
 //import { Role } from '@/helpers';
 import { accountService } from './services';
-import { PrivateRoute, CustomAlert } from './components/account';
+import * as businessesActions from "./actions/businesses";
+import { CustomAlert } from './components/account';
+import PrivateRoute from './components/account/PrivateRoute';
 import BusinessServices from './Pages/Member/BusinessServices';
 import BusinessBookings from './Pages/Member/BusinessBookings';
 import Business from './Pages/Member/Business';
@@ -73,7 +75,8 @@ const mapStateToProps = state =>({
 const mapActionsToProps = {
     clearAlerts: alertActions.clear,
     userActions: userActions.refreshToken,
-    logout: userActions.logout
+    logout: userActions.logout,
+    fetchAllBusinesses: businessesActions.fetchAll
 
 };
 

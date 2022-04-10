@@ -136,7 +136,7 @@ const BusinessInformationForm = ({ classes, ...props }) => {
     useEffect(() => {
         const abortController = new AbortController();
         if (props) {
-            props.fetchBusinessInfo(props.user.id);
+            //props.fetchBusinessInfo(props.user.id);
             setValues({
                 BusinessName: props.user.businessName,
                 Email: props.user.email,
@@ -192,7 +192,7 @@ const mapStateToProps = state => ({
 
 });
 const mapActionsToProps = {
-    fetchBusinessInfo: actions.fetchById,
+    //fetchBusinessInfo: actions.fetchById,
     updateBusinessInfo: actions.update
 }
 export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(BusinessInformationForm));

@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { fetchWrapper, history } from '../helpers';
 
 const userSubject = new BehaviorSubject(null);
-const baseUrl = `https://nixerwebapi.azurewebsites.net/api/accounts`;
+const baseUrl = `https://nixerwebapi.azurewebsites.net`;
 
 export const accountService = {
     login,
@@ -37,9 +37,9 @@ function login(email, password) {
 
 function logout() {
     // revoke token, stop refresh timer, publish null to user subscribers and redirect to login page
-    //fetchWrapper.post(`${baseUrl}/revoke-token`, {});
-    //stopRefreshTokenTimer();
-    //localStorage.removeItem('user');
+    fetchWrapper.post(`${baseUrl}/revoke-token`, {});
+    stopRefreshTokenTimer();
+    localStorage.removeItem('user');
     userSubject.next(null);
     history.push('/login');
 }
@@ -120,8 +120,8 @@ function startRefreshTokenTimer() {
     const jwtToken = JSON.parse(atob(userSubject.value.jwtToken.split('.')[1]));
 
     // set a timeout to refresh the token a minute before it expires
-    const expires = new Date(jwtToken.exp * 1000);
-    const timeout = expires.getTime() - Date.now() - (60 * 10000);
+    const expires = new Date(jwtToken.exp * 1);
+    const timeout = expires.getTime() - Date.now() - (6 * 1);
     refreshTokenTimeout = setTimeout(refreshToken, timeout);
 }
 

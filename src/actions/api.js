@@ -37,7 +37,7 @@ export default {
             delete: id => axios.delete(url + id)
         }
     },
-    businesses(url = baseURL + 'api/accounts/') {
+    businesses(url = baseURL + 'api/businessinfo/') {
         return {
             fetchAll: () => axios.get(url),
             fetchById: id=> axios.get(url+id),

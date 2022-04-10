@@ -4,7 +4,7 @@ export const ACTION_TYPES = {
     CREATE : 'CREATE',
     UPDATE:'UPDATE',
     DELETE:'DELETE',
-    FETCH_ONE:'FETCH_ONE'
+    FETCH_ONE_BUSINESS:'FETCH_ONE_BUSINESS'
 }
 
 const formatData = (data) => ({
@@ -17,6 +17,7 @@ const formatData = (data) => ({
     Description: String(data.Description ? data.Description : "" ),
     Email: String(data.Email ? data.Email : "" ),
     Phone: String(data.Phone ? data.Phone : "" ),
+    
 });
 
 export const fetchById = (id) => dispatch => {

@@ -23,7 +23,9 @@ import Contact from "./Pages/Public/Contact";
 import BusinessPage from "./Pages/Public/BusinessPage";
 import BookNow from "./Pages/Public/ListOfServices";
 import connectedLoginPage from "./Pages/Account/Login";
+import VerifyPage from "./Pages/Account/VerifyEmail";
 import Register from "./Pages/Account/Register";
+import ResetPassword from "./Pages/Account/ForgotPassword";
 import DashBoard from "./Pages/Member/Dashboard";
 import { ToastProvider } from "react-toast-notifications";
 import { Profile } from './components/profile';
@@ -41,7 +43,7 @@ function App(...props) {
             <Router history={history}>
             
                 <TopNavigation user={props[0]}/>
-                <MainNavigation loggedIn={props[0].user.loggedIn}/>
+                <MainNavigation loggedIn={props && props[0] && props[0].user && props[0].user.loggedIn}/>
                 <CustomAlert />
                 <ToastProvider autoDismiss={true}>
                     <Switch>
@@ -58,8 +60,10 @@ function App(...props) {
                         <PrivateRoute path="/profile" component={Profile} />
                         <PrivateRoute path="/business" component={Business} />
                         <PrivateRoute path="/bookings" component={Bookings} />
+                        <Route path="/verify-email" component={VerifyPage} />
+                        <Route path="/forgot-password" component={ResetPassword} />
                         <Route path="/login" component={connectedLoginPage} />
-                        <Route path="/register" component={Register} />
+                        <Route path="/register" component={Register} history={history} />
                         <Route exact path="/single-business/:id" component={BusinessPage} />
                     </Switch>
                 </ToastProvider>

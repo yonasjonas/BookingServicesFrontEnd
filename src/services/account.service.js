@@ -2,9 +2,11 @@ import { BehaviorSubject } from 'rxjs';
 
 //import config from 'config';
 import { fetchWrapper, history } from '../helpers';
+import { alertService } from './';
+
 
 const userSubject = new BehaviorSubject(null);
-const baseUrl = `https://nixerwebapi.azurewebsites.net`;
+const baseUrl = `http://localhost:4000/api/accounts`;
 
 export const accountService = {
     login,
@@ -32,7 +34,7 @@ function login(email, password) {
             startRefreshTokenTimer();
             localStorage.setItem('user', JSON.stringify(user));
             return user;
-        });
+        })
 }
 
 function logout() {

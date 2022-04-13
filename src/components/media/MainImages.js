@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 function MainImages(props) {
 
     const img = new Image();
+    const [user, setUser] = useState(null);
 
     const checkCoverImage = (path) => {
         new Promise((resolve) => {
@@ -16,9 +17,15 @@ function MainImages(props) {
             img.src = path;
         }).then((result) => {
             if (result.status === "ok") setCoverImage(img.src);
+            else {
+                setCoverImage("https://www.fg-a.com/wallpapers/magnetic-field-1920.jpg");
+                checkProfileImage(`https://nixerwebapi.azurewebsites.net/images/business/${user}/businessInformationProfile.jpg`);
+
+        }
+            
         }).then(() => {
-            checkProfileImage(`https://nixerwebapi.azurewebsites.net/images/business/${props.user ? props.user : props.authentication.user.id}/businessInformationProfile.jpg`);
-        });
+            checkProfileImage(`https://nixerwebapi.azurewebsites.net/images/business/${user}/businessInformationProfile.jpg`);
+        })
 
     };
 
@@ -29,11 +36,18 @@ function MainImages(props) {
             img.src = path;
         }).then((result) => {
             if (result.status === "ok") setProfileImage(img.src);
+            else{setProfileImage("https://altissia.org/wp-content/uploads/2020/09/Your-Logo-1.jpg")}
         });
     };
 
     useEffect(() => {
-        if (props.authentication.user.id) checkCoverImage(`https://nixerwebapi.azurewebsites.net/images/business/${props.user ? props.user : props.authentication.user.id}/businessInformationCover.jpg`);
+
+        let localUser = props ? (props.user || (props.authentication && props.authentication.user && props.authentication.user.id)) : null;
+
+        setUser(localUser);
+
+        const coverImage = localUser && `https://nixerwebapi.azurewebsites.net/images/business/${localUser}/businessInformationCover.jpg`;
+        checkCoverImage(coverImage);
         console.log({ props })
 
         //

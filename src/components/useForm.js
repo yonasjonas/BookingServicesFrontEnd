@@ -21,6 +21,7 @@ const useForm = (initialFieldValues, validate, setCurrentId, setDays) => {
 		setValues({
 			...values,
 			"providerId": thevalue,
+
 		})
 		
 		//setWeekvalue(thevalue);
@@ -29,7 +30,15 @@ const useForm = (initialFieldValues, validate, setCurrentId, setDays) => {
 
 	const handleInputChange = (event) => {
 		const providerId = values.providerId;
-		const { name, value } = event.target;
+
+		
+		let { name, value } = event.target;
+
+		if (event.target.checked){
+			value = event.target.checked;
+		}
+
+
 
 
 		let fieldValue = { [name]: value }

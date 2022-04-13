@@ -18,8 +18,12 @@ const formatData = (data) => ({
     serviceName: String(data.serviceName ? data.serviceName : "" ),
     bookingStartTime: String(data.bookingStartTime ? data.bookingStartTime : "" ),
     bookingDuration: Number(data.bookingDuration ? data.bookingDuration : 0 ),
-    BusinessId: Number(!isNaN(data.businessId) ? data.businessId : 0 ),
+    BusinessId: Number(!isNaN(data.businessId) ? data.businessId : parseInt(data.BusinessId) ),
     accepted: String(data.accepted),
+
+
+    BusinessId: Number(!isNaN(data.BusinessId) ? data.BusinessId : 0 ),
+
 
 });
 

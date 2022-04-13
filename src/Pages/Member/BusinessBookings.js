@@ -81,7 +81,7 @@ const BusinessBookings = (props, classes) => {
                                                     <TableCell>{record.phone}</TableCell>
                                                     <TableCell>{record.bookingStartTime}</TableCell>
                                                     <TableCell>{record.bookingDuration}</TableCell>
-                                                    {!record.accepted ? <>
+                                                    {!record.accepted || record.accepted == "null" ? <>
                                                         <TableCell>
                                                             <ButtonGroup>
                                                                 <Button><EditIcon color="primary" onClick={() => { setCurrentId(record.id) }} /></Button>

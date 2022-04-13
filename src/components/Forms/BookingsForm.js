@@ -321,7 +321,7 @@ const BookingsForm = ({ classes, ...props }) => {
         const providerIdList = typeof providerId === 'string' ? providerId.split(',') : providerId;
         let lproNames = [];
 
-        providerIdList.map(pId => {
+        providerIdList && providerIdList.map(pId => {
             const providerName = !!props.businessProviders.filter(x => x.id == pId).map(x => x.name)
                 ? props.businessProviders.filter(x => x.id == pId).map(x => x.name) : "";
             lproNames.push(providerName);
@@ -454,7 +454,7 @@ const BookingsForm = ({ classes, ...props }) => {
                                                 // Fake some condition up
                                                 const hour = start.getHours();
                                                 //console.log({ hour })
-                                                const minutes = start.getHours();
+                                                const minutes = start.getDay();
                                                 let disabled = hour <= calendarHours[0] || hour >= calendarHours[1];
                                                 let selected = false;
                                                 disabled = new Date() > start ? true : disabled;
@@ -482,7 +482,7 @@ const BookingsForm = ({ classes, ...props }) => {
                                                         }}
                                                         disableRipple={disabled}
                                                     // disabled={disabled}
-                                                    > {!disabled ? <p>Available - Select</p> : "Not Available"}</Button>
+                                                    > {!disabled ? <p>Available - Select {hour} : {minutes}</p> : "Not Available"}</Button>
                                                 );
                                             }
                                         }}

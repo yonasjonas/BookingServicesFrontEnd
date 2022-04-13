@@ -57,7 +57,7 @@ const Businesses = (props, classes) => {
                             <Table>
                                 <TableBody>
                                     {props.businesses && props.businesses.map((record, index) => {
-                                        return (<TableRow key={index}>
+                                        return record.isVerified && (<TableRow key={index}>
                                             <TableCell><img height="80px" src={`https://nixerwebapi.azurewebsites.net/images/business/${record.id}/businessInformationProfile.jpg`} /></TableCell>
                                             <TableCell><strong>{record.businessName}</strong></TableCell>
                                             <TableCell>{record.description}</TableCell>

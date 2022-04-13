@@ -52,14 +52,6 @@ const BusinessServices = (props, classes) => {
         props.fetchAllBusinessServices();
         //props.fetchAllProviders();
     }, [])
-
-    const onDelete = id => {
-        if (window.confirm('Are you sure?')) {
-            props.deleteBusinessService(id, () => addToast("Submitted successfully", { appearance: 'info' }));
-        }
-    }
-    let temp = [];
-    let i = 0;
     const user = JSON.parse(localStorage.getItem('user'))
 
 

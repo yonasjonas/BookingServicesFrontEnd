@@ -8,7 +8,7 @@ export const fetchWrapper = {
     delete: _delete
 }
 
-const apiUrl = "https://nixerwebapi.azurewebsites.net/";
+const apiUrl = "http://localhost:4000/";
 
 function get(url) {
     const requestOptions = {
@@ -25,6 +25,8 @@ function post(url, body) {
         credentials: 'include',
         body: JSON.stringify(body)
     };
+    //if (requestOptions && requestOptions.headers && requestOptions.headers.Authorization) {
+        //fetch(url, requestOptions).then(handleResponse);
     return fetch(url, requestOptions).then(handleResponse);
 }
 function put(url, body) {

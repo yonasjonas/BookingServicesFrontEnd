@@ -17,7 +17,7 @@ const formatData = (data) => ({
     Description: String(data.Description ? data.Description : "" ),
     Email: String(data.Email ? data.Email : "" ),
     Phone: String(data.Phone ? data.Phone : "" ),
-    
+    Category: String(data.Category ? data.Category : "" ),    
 });
 
 export const fetchById = (id) => dispatch => {

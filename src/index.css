@@ -41,7 +41,7 @@ a {
 }
 .MuiInputBase-root.MuiOutlinedInput-root {
   min-width: 200px;
-  margin-bottom: 25px;
+  margin-bottom: 0px;
 }
 label.MuiFormLabel-root.MuiFormLabel-colorPrimary.css-u4tvz2-MuiFormLabel-root {
   margin-top: 10px;
@@ -160,5 +160,36 @@ h3.noProfileImage {
 }
 img.serviceImage {
   max-height: 92px;
+}
+
+select.countryDropdown, select.countyDropdown {
+  width: 100%;
+  height: 56px;
+  border-radius: 3px;
+  border: 1px solid lightgray;
+  margin: 8px 0px 17px;
+  font-size: 16px;
+  color: gray;
+  padding: 8px;
+}
+label#simple-select-label {
+  clear: both;
+  width: 100%;
+  padding-bottom: 14px;
+}
+div#simple-select em {
+  color: grey;
+  font-style: initial;
+}
+.MuiFormControl-root.MuiTextField-root.descriptionregister {
+  min-height: 145px;
+}
+.MuiInputBase-root.MuiOutlinedInput-root.selectdublinarea {
+  min-width: 100%;
+  height: 56px;
+  top: 8px;
+}
+.profileLogo.MuiBox-root.css-0 img {
+  max-width: 203px;
 }
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import queryString from 'query-string';
 
-import { accountService, alertService } from '@/_services';
+import { accountService, alertService } from '../../services';
 
 function VerifyEmail({ history }) {
     const EmailStatus = {
@@ -45,4 +45,4 @@ function VerifyEmail({ history }) {
     )
 }
 
-export { VerifyEmail }; 
+export default VerifyEmail; 

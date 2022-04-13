@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 //import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import useForm from '../../components/useForm';
-import { Grid, InputLabel, Select, MenuItem, withStyles, FormControl, Button, TextField, Paper, Container } from '@material-ui/core';
+import { Grid, Box, InputLabel, Select, MenuItem, withStyles, Button, TextField, Paper, Container } from '@material-ui/core';
 import Checkbox from '@mui/material/Checkbox';
 import { FormLabel } from '@mui/material';
-import UploadToServer from '../../components/FormElements/UploadToServer';
-
+import { CountryDropdown, RegionDropdown, CountryRegionData } from 'react-country-region-selector';
 import { accountService, alertService } from '../../services';
+
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -70,35 +70,58 @@ const initialFieldValues = {
     Address2: '',
     County: '',
     Country: '',
+    Category: '',
     Password: '',
     ConfirmPassword: '',
-    AcceptTerms: true,
+    AcceptTerms: false,
 };
+
 
 function Register(history, classes, ...props) {
 
-    const validate = (fieldValues = values) => {
-        let temp = { ...errors }
-        if ("firstname" in fieldValues)
-            temp.firstname = fieldValues.firstname.length > 0 ? "" : "First Name is required"
-        if ("lastname" in fieldValues)
-            temp.lastname = fieldValues.lastname.length > 0 ? "" : "Last Name is required"
-        if ("email" in fieldValues)
-            temp.email = fieldValues.email.length > 0 ? "" : "email is required"
-        if ("password" in fieldValues)
-            temp.password = fieldValues.password.length > 0 ? "" : "password is required"
-        if ("repeatpassword" in fieldValues)
-            temp.repeatpassword = fieldValues.repeatpassword.length > 0 ? "" : "repeatpassword is required"
-        if ("acceptTerms" in fieldValues)
-            temp.acceptTerms = fieldValues.acceptTerms ? "" : "Accept Terms is required"
-        /* if ("weekvalue" in fieldValues)
-            temp.weekvalue = fieldValues.weekvalue.length > 0 ? "" : "Week is required" */
+    const [country, setCountry] = useState("Ireland");
+    const [county, setCounty] = useState("Dublin");
+    const [number, setNumber] = useState([]);
+    const [acceptTerms, setAcceptTerms] = useState(false);
+
+    const [category, setCategory] = useState(null);
+
+
+    const validate = (initialFieldValues = values) => {
+        //values.AcceptTerms ? setValues({ ...values, AcceptTerms: true }) : setValues({ ...values, AcceptTerms: false });
+        let temp = { ...errors };
+        if ("BusinessName" in initialFieldValues)
+            temp.BusinessName = initialFieldValues.BusinessName.length > 0 ? "" : "BusinessName is required"
+        if ("Email" in initialFieldValues)
+            temp.Email = initialFieldValues.Email.length > 0 ? "" : "Email is required"
+        if ("Phone" in initialFieldValues)
+            temp.Phone = initialFieldValues.Phone.length > 0 ? "" : "Phone is required"
+        if ("County" in initialFieldValues)
+            temp.County = initialFieldValues.County.length > 0 ? "" : "County is required"
+        if ("Country" in initialFieldValues)
+            temp.Country = initialFieldValues.Country.length > 0 ? "" : "Country is required"
+        if ("Category" in initialFieldValues)
+            temp.Category = initialFieldValues.Category.length > 0 ? "" : "Category is required"
+        if ("Password" in initialFieldValues)
+            temp.Password = initialFieldValues.Password.length > 5 ? "" : "Password must be longer than 6 characters"
+        if ("ConfirmPassword" in initialFieldValues)
+            temp.ConfirmPassword = initialFieldValues.ConfirmPassword === values.Password && initialFieldValues.ConfirmPassword.length > 5 ? "" : "Passwords does not match"
+        if ("AcceptTerms" in initialFieldValues)
+            temp.AcceptTerms = initialFieldValues.AcceptTerms ? "" : "You Must Accept Terms and Conditions"
         setErrors({
             ...temp
         });
-        if (fieldValues == values)
+        if (initialFieldValues == values)
             return Object.values(temp).every(x => x == "");
     }
+
+    useEffect(() => {
+
+        if (values.Country == "") setValues({ ...values, Country: "Ireland" });
+        if (values.County == "") setValues({ ...values, County: "Dublin" });
+        setNumber(arrayOfDublin());
+
+    })
 
     const {
         values,
@@ -110,92 +133,223 @@ function Register(history, classes, ...props) {
         resetForm
     } = useForm(initialFieldValues, validate, props.setCurrentId,)
 
-    /* const validationSchema = Yup.object().shape({
-        title: Yup.string()
-            .required('Title is required'),
-        firstName: Yup.string()
-            .required('First Name is required'),
-        lastName: Yup.string()
-            .required('Last Name is required'),
-        email: Yup.string()
-            .email('Email is invalid')
-            .required('Email is required'),
-        password: Yup.string()
-            .min(6, 'Password must be at least 6 characters')
-            .required('Password is required'),
-        confirmPassword: Yup.string()
-            .oneOf([Yup.ref('password'), null], 'Passwords must match')
-            .required('Confirm Password is required'),
-        acceptTerms: Yup.bool()
-            .oneOf([true], 'Accept Terms & Conditions is required')
-    });
+    const setAcceptTermsFunc = (terms) => {
 
-    function onSubmit(fields, { setStatus, setSubmitting }) {
-        setStatus();
-        accountService.register(fields)
-            .then(() => {
-                alertService.success('Registration successful, please check your email for verification instructions', { keepAfterRouteChange: true });
-                //history.push('login');
-            })
-            .catch(error => {
-                setSubmitting(false);
-                alertService.error(error);
-            });
-    } */
+        
 
+        if (acceptTerms && !terms) {
+            
+            setValues({ ...values, AcceptTerms: true });
+        }
+        
+
+    }
     const handleSubmit = e => {
         e.preventDefault();
         //values.weekvalue = values.weekvalue ? values.weekvalue : "";
         //console.log("works from register:", values);
-        accountService.register(values)
-            .then(() => {
-                alertService.success('Registration successful, please check your email for verification instructions', { keepAfterRouteChange: true });
-                history.push('login');
-            })
-            .catch(error => {
-                alertService.error(error);
-            });
+
         if (validate()) {
+            accountService.register(values)
+                .then(() => {
+                    //alertService.success('Registration successful, please check your email for verification instructions', { keepAfterRouteChange: true });
+                    history.history.push({
+                        pathname: '/login',
+                        state: "Registration successful, please check your email for verification instructions"
+                    });
+                })
+                .catch(error => {
+                    //alertService.error(error);
+                });
             const onSuccess = () => {
                 //addToast("Submitted successfully", { appearance: 'success' });
                 resetForm();
             }
-            /* if (props.currentId == 0) {
-                props.createProvider(values, onSuccess);
-            }
-            else {
-                props.updateProvider(props.currentId, values, onSuccess);
-            } */
         }
     }
-    const callbackFunction = (childData) => {
-        values.ProfileImagePath = childData;
+
+    const arrayOfDublin = () => {
+
+        for (let i = 1; i < 25; i++) {
+            number[i] = i;
+        }
+        return number
     }
+
+
 
     return (
         <Container maxWidth="md">
             <Paper>
                 <form onSubmit={handleSubmit} className={classes.root}>
-                    <Grid container>
-                        <TextField name="BusinessName" label="BusinessName" type="text" variant="outlined" value={values.BusinessName} onChange={handleInputChange} />
-                        <TextField name="Email" label="Email" type="text" variant="outlined" value={values.Email} onChange={handleInputChange} />
-                        <TextField name="Phone" label="Phone" type="text" value={values.Phone} onChange={handleInputChange} />
-                        <TextField name="Description" label="Description" type="text" variant="outlined" value={values.Description} onChange={handleInputChange} />
-                        <TextField name="Address1" label="Address1" type="text" variant="outlined" value={values.Address1} onChange={handleInputChange} />
-                        <TextField name="Address2" label="Address2" type="text" variant="outlined" value={values.Address2} onChange={handleInputChange} />
-                        <TextField name="County" label="County" type="text" variant="outlined" value={values.County} onChange={handleInputChange} />
-                        <TextField name="Country" label="Country" type="text" variant="outlined" value={values.Country} onChange={handleInputChange} />
-                        <TextField name="Password" label="Password" type="password" variant="outlined" value={values.Password} onChange={handleInputChange} />
-                        <TextField name="ConfirmPassword" label="ConfirmPassword" type="password" variant="outlined" value={values.ConfirmPassword} onChange={handleInputChange} />
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} md={4}>
+                            <TextField
+                                name="BusinessName"
+                                label="BusinessName"
+                                type="text"
+                                variant="outlined"
+                                value={values.BusinessName ? values.BusinessName : ""}
+                                onChange={handleInputChange}
+                                {...(errors.BusinessName && { error: true, helperText: errors.BusinessName })}
+                            />
+
+                        </Grid>
+                        <Grid item xs={12} md={4}>
+                            <TextField name="Email" label="Email" type="text" variant="outlined" value={values.Email ? values.Email : ""} onChange={handleInputChange} {...(errors.Email && { error: true, helperText: errors.Email })} />
+                        </Grid>
+                        <Grid item xs={12} md={4}>
+                            <TextField name="Phone" label="Phone" type="text" variant="outlined" value={values.Phone ? values.Phone : ""} onChange={handleInputChange} {...(errors.Phone && { error: true, helperText: errors.Phone })} />
+                        </Grid>
+                        <Grid className="business-category" item xs={12} md={12} {...(errors.Category && { helperText: errors.Category })}>
+                            <InputLabel id="simple-select-label">Business Category</InputLabel>
+                            <Select
+
+                                className="simple-select-label"
+                                id="simple-select"
+                                name="Category"
+                                value={values.Category ? values.Category : ""}
+                                type="text"
+                                variant="outlined"
+                                label="Category"
+                                displayEmpty
+                                onChange={handleInputChange}
+                                renderValue={(selected) => {
+                                    if (selected && selected.length === 0) {
+                                        return <em>Select Business Type</em>;
+                                    }
+                                    return selected;
+                                }}
+                                {...(errors.Category && { error: true, helperText: errors.Category })}
 
 
-                        <Checkbox />
-                        <FormControl label="Accept Terms & Conditions" variant="outlined" className={classes.formControl} >
-                            <FormLabel>Accept Terms & Conditions</FormLabel>
-                        </FormControl>
+                            >
+                                <MenuItem disabled value="">
+                                    <em>Select Business Type</em>
+                                </MenuItem>
+                                <MenuItem value="beauty">All Beauty Services</MenuItem>
+                                <MenuItem value="Handyman">Handyman / Construction</MenuItem>
+                                <MenuItem value="Personal Trainer">Personal Trainer</MenuItem>
+                                <MenuItem value="Driving Instructor">Driving Instructor</MenuItem>
+                                <MenuItem value="Massage">Massage</MenuItem>
+                                <MenuItem value="Consulting">Consulting</MenuItem>
+                                <MenuItem value="Cleaning">Cleaning</MenuItem>
+                                <MenuItem value="Household">Household</MenuItem>
+                                <MenuItem value="Pet Services">Pet Services</MenuItem>
+                                <MenuItem value="Tutoring Lessons">Tutoring Lessons</MenuItem>
+                                <MenuItem value="Child Minding">Child Minding</MenuItem>
+                                <MenuItem value="Other Classes">Other Classes</MenuItem>
+                            </Select>
+
+                        </Grid>
+
+                        <Grid item xs={12} md={4}>
+                            <InputLabel id="simple-select-label">Country</InputLabel>
+                            <CountryDropdown
+                                className="countryDropdown"
+                                type="text"
+                                name="Country"
+                                variant="outlined"
+                                value={country ? country : ""}
+                                onChange={setCountry}
+                                {...(errors.Country && { error: true, helperText: errors.Country })}
+                            />
+
+                        </Grid>
+                        <Grid item xs={12} md={4}>
+                            <InputLabel id="simple-select-label">County</InputLabel>
+                            <RegionDropdown
+                                className="countyDropdown"
+                                type="text"
+                                name="County"
+                                variant="outlined"
+                                country={country}
+                                value={county ? county : ""}
+                                onChange={setCounty}
+                                {...(errors.County && { error: true, helperText: errors.County })} />
+                        </Grid>
+                        <Grid item xs={12} md={4}>
+                            {county && country && county === 'Dublin' &&
+
+
+                                <>
+                                    <InputLabel id="simple-select-label">Select Area</InputLabel>
+
+                                    <Select
+                                        className="selectdublinarea"
+                                        id="simple-select"
+                                        name="Address1"
+                                        value={values.Address1 ? values.Address1 : ""}
+                                        type="text"
+                                        variant="outlined"
+                                        displayEmpty
+                                        label="Category"
+                                        renderValue={(selected) => {
+                                            if (selected && selected.length === 0) {
+                                                return <em>Select Dublin Area</em>;
+                                            }
+                                            return selected;
+                                        }}
+                                        onChange={handleInputChange}
+                                    >
+                                        <MenuItem disabled value="">
+                                            <em>Select Dublin Number</em>
+                                        </MenuItem>
+                                        {number.length > 0 && number.map(number => {
+                                            return <MenuItem key={number} value={"Dublin " + number}>Dublin {number}</MenuItem>
+                                        })}
+                                    </Select>
 
 
 
+                                </>}
+                        </Grid>
+                        <Grid
+
+                            item xs={12} md={12}>
+                            <TextField
+                                className="descriptionregister"
+                                multiline
+                                minRows={4}
+                                maxRows={4}
+                                name="Description"
+                                label="Description"
+                                type="text"
+                                variant="outlined"
+                                value={values.Description ? values.Description : ""}
+                                onChange={handleInputChange} />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <TextField name="Password" label="Password" type="password" variant="outlined" value={values.Password ? values.Password : ""} onChange={handleInputChange}
+                                {...(errors.Password && { error: true, helperText: errors.Password })} />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <TextField name="ConfirmPassword" label="ConfirmPassword" type="password" variant="outlined" value={values.ConfirmPassword ? values.ConfirmPassword : ""} onChange={handleInputChange}
+                                {...(errors.ConfirmPassword && { error: true, helperText: errors.ConfirmPassword })}
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={12}>
+                            <Checkbox 
+                            className={classes.formControl} 
+                            label="AcceptTerms"
+                            name="AcceptTerms" 
+                            value={values.AcceptTerms ? values.AcceptTerms : false} 
+                            //checked={acceptTerms}
+                            onChange={handleInputChange} />
+
+                            <FormLabel >Accept Terms & Conditions
+                            </FormLabel>
+                        </Grid>
+                        <Grid item xs={12} md={12}>
+                            <>{errors.AcceptTerms && <Box
+                                sx={{
+                                    marginTop: "-10px",
+                                    marginLeft: "15px",
+                                    fontSize: "12px",
+                                    color: 'red',
+                                }}
+                            >{errors.AcceptTerms}</Box>}</>
+                        </Grid>
                     </Grid>
                     <Button type="submit"
                         className={classes.smMargin}

@@ -46,7 +46,7 @@ const TopNavigation = (...props) => {
     return (
         <>
         {props[0].user.user.loggedIn ?
-             <AppBar className="topBar" position="static">
+             <AppBar className="topBar primaryColor" position="static">
              <CssBaseline />
              
                  {props[0].user.user.loggedIn ?

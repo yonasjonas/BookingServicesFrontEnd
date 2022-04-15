@@ -55,10 +55,12 @@ const BusinessPage = (props, classes) => {
     return (
         <>
             <MainImages user={id} frontEnd={true}/>
-            <Container maxWidth="lg">
-                <Box className="pagetitle" ><h1><strong>{businessInfo && businessInfo.businessName}</strong></h1>
-                1671 Reviews 5 out of 5 <img src="../../5stars.png" alt="reviews" />
-                </Box>
+            <Container spacing={2} maxWidth="lg">
+                <Grid className="gridbusinesspage" item xs={12} md={4}></Grid>
+                <Grid className="gridbusinesspage" item xs={12} md={4}><Box className="pagetitle" ><h1><strong>{businessInfo && businessInfo.businessName}</strong></h1></Box></Grid>
+                <Grid className="gridbusinesspage" item xs={12} md={4}><Box className="pagetitle" >1671 Reviews 5 out of 5 <img src="../../5stars.png" alt="reviews" /></Box>
+                </Grid>
+                
                 <Box className="pagetitle businessinfo" ><h3>Business Information</h3><p>{businessInfo && businessInfo.description}</p>
                 </Box>
                 <BookingsForm id={id}/>                        

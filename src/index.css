@@ -1,14 +1,28 @@
+.primaryColor {
+  background: #f7776d !important;
+  color: white !important;
+}
+.primaryColor:hover {
+  background: #2968ab;
+  color: white !important;
+
+}
+.secondaryColor {
+  background: #2968ab !important;
+  color: white !important;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
@@ -17,8 +31,7 @@ header.MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation4.MuiAppBar-root.MuiAp
   top: 108px;
 }
 
-.MuiDrawer-root.MuiDrawer-docked.css-cvumne-MuiDrawer-docked a  
-{
+.MuiDrawer-root.MuiDrawer-docked.css-cvumne-MuiDrawer-docked a {
   color: rgb(29, 20, 20);
 }
 
@@ -47,8 +60,8 @@ label.MuiFormLabel-root.MuiFormLabel-colorPrimary.css-u4tvz2-MuiFormLabel-root {
   margin-top: 10px;
 }
 .MuiButton-textPrimary {
-  color: #ffffff!important;
-  background: rgb(105, 2, 62)!important;
+  color: #ffffff !important;
+  background: rgb(105, 2, 62) !important;
 }
 .profileLogo.MuiBox-root.css-0 {
   position: relative;
@@ -83,25 +96,20 @@ label.MuiFormLabel-root.MuiFormLabel-colorPrimary.css-u4tvz2-MuiFormLabel-root {
 }
 
 .booking_summary {
-  background: orange!important;
+  background: orange !important;
   position: fixed;
   bottom: 0;
   width: 100%;
-  left:0;
+  left: 0;
 }
 
 .topBar div {
   line-height: 20px;
   padding: 2px 10px;
-  color: black!important;
+  color: black !important;
   float: right;
   font-weight: 400;
 }
-
-.topBar {
-  background: #ff6a00!important;
-}
-
 .topBar a {
   font-weight: 600;
 }
@@ -109,21 +117,22 @@ label.MuiFormLabel-root.MuiFormLabel-colorPrimary.css-u4tvz2-MuiFormLabel-root {
 .profileImage .MuiButton-contained {
   background-color: #fe6a0045;
 }
-.profileImage .MuiButton-label { 
+.profileImage .MuiButton-label {
   font-weight: 600;
 }
 
 .coverImage .MuiButton-contained {
   color: rgba(0, 0, 0, 0.87);
-  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+    0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
   background-color: #e0e0e0;
-  background: transparent!important;
+  background: transparent !important;
   color: black;
   font-weight: 600;
 }
 .pagetitle {
   margin: auto;
-  margin-left: 26%;
+  /*margin-left: 26%;*/
 }
 .pagetitle img {
   max-width: 144px;
@@ -162,7 +171,8 @@ img.serviceImage {
   max-height: 92px;
 }
 
-select.countryDropdown, select.countyDropdown {
+select.countryDropdown,
+select.countyDropdown {
   width: 100%;
   height: 56px;
   border-radius: 3px;
@@ -192,4 +202,32 @@ div#simple-select em {
 .profileLogo.MuiBox-root.css-0 img {
   max-width: 203px;
 }
+.MuiChip-root.rejected-chip {
+  background: #0ec2bb;
+}
+.MuiChip-root.accepted-chip {
+  background: #6bd822e6;
+}
+.dashboardButton:hover {
+  box-shadow: none;
+  border: 1px solid black;
+  color: white;
+  transition-duration: 1s;
+}
+.dashboardButton {
+  border: 1px solid grey;
+  padding: 0 18px;
+  background: black;
+  font-size: 18px;
+  line-height: 34px;
+}
+.mainnav {
+  margin-bottom: 19px;
+}
+.mainnav {
+    margin-bottom: 22px;
+}
 
+div#simple-select {
+    padding: 8.5px 14px!important;
+}

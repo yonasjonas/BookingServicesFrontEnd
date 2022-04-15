@@ -80,13 +80,6 @@ export default function TypographyMenu(props) {
     const toggleDrawer = () => {
         setOpen(!open);
     };
-    const url = window.location.href;
-    const services = "'http://localhost:3000/services'";
-    const providers = "'http://localhost:3000/providers'";
-    const bookings = "'http://localhost:3000/bookings'";
-    const widget = "'http://localhost:3000/widget'";
-
-    const user = JSON.parse(localStorage.getItem('user'))
 
     return (
         <Drawer variant="permanent" open={open}>
@@ -173,7 +166,6 @@ export default function TypographyMenu(props) {
                 </MenuList>
             </Paper>
             <Divider />
-            <Nav />
             <Divider />
         </Drawer>
     );

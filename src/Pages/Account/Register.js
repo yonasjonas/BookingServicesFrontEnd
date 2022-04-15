@@ -238,7 +238,9 @@ function Register(history, classes, ...props) {
                                 <MenuItem value="Pet Services">Pet Services</MenuItem>
                                 <MenuItem value="Tutoring Lessons">Tutoring Lessons</MenuItem>
                                 <MenuItem value="Child Minding">Child Minding</MenuItem>
+                                <MenuItem value="Child Minding">IT Services</MenuItem>
                                 <MenuItem value="Other Classes">Other Classes</MenuItem>
+
                             </Select>
 
                         </Grid>

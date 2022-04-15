@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { accountService } from '../../services';
 import { Role } from '../../helpers';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 
 
 import {
@@ -27,10 +28,11 @@ const useStyles = makeStyles((theme) => ({
     link: {
         textDecoration: "none",
         color: "white",
-        fontSize: "20px",
-        marginLeft: theme.spacing(20),
+        fontSize: "16px",
+        lineHeight: "2.5",
+        marginLeft: theme.spacing(10),
         "&:hover": {
-            color: "yellow",
+            color: "black",
             borderBottom: "1px solid white",
         },
     },
@@ -44,11 +46,11 @@ const MainNavigation = (...props) => {
     const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
     return (
-        <AppBar position="static">
+        <AppBar position="static" className="secondaryColor mainnav">
             <CssBaseline />
             <Toolbar>
                 <Typography variant="h4" className={classes.logo}>
-                    My Nixer
+                    My <ThumbUpIcon /> nixer
                 </Typography>
                 {isMobile ? (
                     <DrawerComponent />
@@ -73,7 +75,7 @@ const MainNavigation = (...props) => {
                         </>
                         :
                         <>
-                            <Link to="/dashboard" className={classes.link}>
+                            <Link to="/dashboard" className={classes.link + " dashboardButton primaryColor"}>
                                 Dashboard
                             </Link>
                         </>

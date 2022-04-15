@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import * as bookingActions from "../../actions/businessBookings";
 import * as providerActions from "../../actions/businessProvidersActions";
 import * as serviceActions from "../../actions/businessServices";
-import { Grid, Paper, TableBody, TableCell, TableRow, TableContainer, Table, TableHead, withStyles, Container, ButtonGroup, Button } from '@material-ui/core';
+import { Chip, Grid, Paper, TableBody, TableCell, TableRow, TableContainer, Table, TableHead, withStyles, Container, ButtonGroup, Button } from '@material-ui/core';
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
@@ -13,6 +13,8 @@ import MembersMenu from '../../components/navigation/MemberMenu';
 import MainImages from "../../components/media/MainImages";
 import CheckIcon from '@mui/icons-material/Check';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import TagFacesIcon from '@mui/icons-material/TagFaces';
+import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
 
 const style = theme => ({
     root: {
@@ -37,14 +39,33 @@ const BusinessBookings = (props, classes) => {
     useEffect(() => {
 
         props.fetchAllBookings(props.authentication.user.id);
-        //props.fetchAllBusinessServices();
         !props.authentication && setBusinessBookings(props.businessBookingsList);
-        /*  if (currentId !== 0) {
-             if (accepted !== null) {
-                 //props.confirmBooking(currentId, accepted);
-             }
-         } */
+
+        props.businessProviders.length === 0  && props.fetchAllProviders(props.authentication.user.id);
+
     }, [])
+
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+
+    const convertDate = (date) => {
+        let localdate = new Date(date.replace(/['"]+/g, ''))
+        return localdate.getDay() + " " + monthNames[localdate.getMonth()] + " " + localdate.getFullYear() + " " + localdate.getHours() + ":" + checkMinutes(localdate.getMinutes());
+
+    }
+
+    const checkMinutes = (minutes) => {
+        return minutes < 10 ? minutes + "0" : minutes;
+    }
+
+    const acceptOrRejectBooking = (id, accepted) => {
+        if (id !== 0) {
+            if (accepted !== null) {
+                props.confirmBooking(id, accepted);
+            }
+        }
+    }
 
     return (
         <>
@@ -55,19 +76,18 @@ const BusinessBookings = (props, classes) => {
                         <Grid item xs={3}>{<MembersMenu />}</Grid>
                         <Grid item xs={9}>
                             <TableContainer>
-                                <Grid container><BookingsForm {...({ currentId, setCurrentId })} accept={accepted} /></Grid>
+                                <Grid container><BookingsForm {...({ currentId, setCurrentId })} accept={accepted} admin={true} /></Grid>
                                 <h1> Bookings</h1>
-
-
                                 <Table>
                                     <TableHead className={classes.root}>
                                         <TableRow>
-                                            <TableCell>Id</TableCell>
                                             <TableCell>Provider</TableCell>
-                                            <TableCell>Customer Name</TableCell>
-                                            <TableCell>Customer Phone</TableCell>
+                                            <TableCell>Name</TableCell>
+                                            <TableCell>Phone</TableCell>
+                                            <TableCell>Price Agreed</TableCell>
                                             <TableCell>Booking Time</TableCell>
-                                            <TableCell>Service Duration</TableCell>
+                                            <TableCell>Duration</TableCell>
+                                            <TableCell>Accept Or Reject</TableCell>
 
                                         </TableRow>
                                     </TableHead>
@@ -75,34 +95,35 @@ const BusinessBookings = (props, classes) => {
                                         {
                                             props.businessBookingsList.map((record, index) => {
                                                 return (<TableRow key={index}>
-                                                    <TableCell>{record.id}</TableCell>
-                                                    <TableCell>{record.providerId}</TableCell>
+                                                    <TableCell>{record.providerName}</TableCell>
                                                     <TableCell>{record.name}</TableCell>
                                                     <TableCell>{record.phone}</TableCell>
-                                                    <TableCell>{record.bookingStartTime}</TableCell>
-                                                    <TableCell>{record.bookingDuration}</TableCell>
+                                                    <TableCell>30€</TableCell>
+                                                    <TableCell>{record.bookingStartTime && convertDate(record.bookingStartTime)}</TableCell>
+                                                    <TableCell>{record.bookingDuration} min.</TableCell>
                                                     {!record.accepted || record.accepted == "null" ? <>
                                                         <TableCell>
                                                             <ButtonGroup>
-                                                                <Button><EditIcon color="primary" onClick={() => { setCurrentId(record.id) }} /></Button>
-                                                                {<Button><CheckIcon color="secondary" onClick={() => { setCurrentId(record.id); setAccepted(true) }} /></Button>}
-                                                                <Button><HighlightOffIcon color="secondary" onClick={() => { setCurrentId(record.id); setAccepted(false) }} /></Button>
+                                                                {<Button><CheckIcon color="secondary" onClick={() => { setCurrentId(record.id); setAccepted(true); acceptOrRejectBooking(record.id, true) }} /></Button>}
+                                                                <Button><HighlightOffIcon color="secondary" onClick={() => { setCurrentId(record.id); setAccepted(false); acceptOrRejectBooking(record.id, false) }} /></Button>
                                                             </ButtonGroup>
                                                         </TableCell>
                                                     </>
                                                         : record.accepted && record.accepted === "false" ?
-
-                                                            <TableCell>Rejected</TableCell>
-
-                                                            : <TableCell>Accepted</TableCell>
-
-
-
-
-
-
+                                                            <TableCell>
+                                                                <Chip
+                                                                    label="Rejected"
+                                                                    className="rejected-chip"
+                                                                    icon={<SentimentDissatisfiedIcon />} />
+                                                            </TableCell>
+                                                            :
+                                                            <TableCell>
+                                                                <Chip
+                                                                    className="accepted-chip"
+                                                                    label="Accepted"
+                                                                    icon={<TagFacesIcon />} />
+                                                            </TableCell>
                                                     }
-
                                                 </TableRow>
                                                 )
                                             })

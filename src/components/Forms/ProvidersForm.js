@@ -78,6 +78,7 @@ const ProvidersForm = ({ classes, ...props }) => {
                 addToast("Submitted successfully", { appearance: 'success' });
                 resetForm();
                 setDays([])
+                props.fetchProviders(values.businessId)
             }
             if (props.currentId == 0) {
                 props.createProvider(values, onSuccess);
@@ -410,6 +411,7 @@ const mapStateToProps = state => ({
 });
 
 const mapActionsToProps = {
+    fetchProviders: actions.fetchAll,
     createProvider: actions.create,
     updateProvider: actions.update,
     deleteProvider: actions.deleteData,

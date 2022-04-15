@@ -70,6 +70,7 @@ function LoginPage({ history, classes, location, ...props }) {
             initialFieldValues.isSubmitting = true;
             props.login(values.Email, values.Password);
             alreadyadded = false;
+            history.push('/');
             /* accountService.login(values.Email, values.Password).then(() => {
                 alertService.success('Login Success', { keepAfterRouteChange: true });
                 history.push('dashboard');

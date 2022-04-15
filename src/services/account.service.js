@@ -39,7 +39,7 @@ function login(email, password) {
 
 function logout() {
     // revoke token, stop refresh timer, publish null to user subscribers and redirect to login page
-    fetchWrapper.post(`${baseUrl}/revoke-token`, {});
+    //fetchWrapper.post(`${baseUrl}/revoke-token`, {});
     stopRefreshTokenTimer();
     localStorage.removeItem('user');
     userSubject.next(null);
@@ -50,6 +50,7 @@ function refreshToken() {
     return fetchWrapper.post(`${baseUrl}/refresh-token`, {})
         .then(user => {
             // publish user to subscribers and start timer to refresh token
+            localStorage.setItem('user', JSON.stringify(user));
             userSubject.next(user);
             startRefreshTokenTimer();
             return user;
@@ -123,7 +124,7 @@ function startRefreshTokenTimer() {
 
     // set a timeout to refresh the token a minute before it expires
     const expires = new Date(jwtToken.exp * 1);
-    const timeout = expires.getTime() - Date.now() - (6 * 1);
+    const timeout = expires.getTime() - Date.now() - (60 * 1000);
     refreshTokenTimeout = setTimeout(refreshToken, timeout);
 }
 

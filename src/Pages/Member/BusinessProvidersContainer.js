@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../actions/businessProvidersActions";
-import { Grid, Paper, TableBody, TableCell, TableRow, TableContainer, Table, TableHead, withStyles, Container, ButtonGroup, Button } from '@material-ui/core';
+import { Chip, Grid, Paper, TableBody, TableCell, TableRow, TableContainer, Table, TableHead, withStyles, Container, ButtonGroup, Button } from '@material-ui/core';
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ProvidersForm from '../../components/Forms/ProvidersForm';
 import { useToasts } from "react-toast-notifications";
 import MembersMenu from '../../components/navigation/MemberMenu';
 import MainImages from "../../components/media/MainImages";
-import * as convertString from '../../helpers';
+import * as helpers from '../../helpers';
+import TagFacesIcon from '@mui/icons-material/TagFaces';
+import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
 
 
 
@@ -48,25 +50,58 @@ const BusinessProviders = (props, classes) => {
             props.deleteProvider(id, () => addToast("Submitted successfully", { appearance: 'info' }));
         }
     }
-    const [value, setValue] = React.useState(new Date());
-
-    /*  const convertToObj = (value) => {
-         return JSON.parse(value);
-     } */
+    
     let days = [];
 
     let showDays = (allDays) => {
 
-        days = [];
-        const weekvalue = convertString.convertStringToObject(allDays);
+        days = []
+        const weekvalue = helpers.convertStringToObject(allDays);
 
         weekvalue && Object.keys(weekvalue).map(i => {
-            weekvalue[i] && days.push(weekvalue[i].dayIndex)
+            weekvalue[i] && days.push(
+                weekvalue[i].dayIndex
+            )
+            /* return <TableCell>
+                <Chip
+                    label={weekvalue[i].dayIndex}
+                    className="rejected-chip"
+                    icon={<SentimentDissatisfiedIcon />} />
+            </TableCell> */
         })
         return days.join(",");
 
     }
 
+    function imageExists(image_url) {
+
+        var http = new XMLHttpRequest();
+
+        http.open('HEAD', image_url, false);
+        http.send();
+
+        return http.status != 404;
+
+    }
+
+    const getProviderImage = (id, businessId) => {
+
+
+        let path = "https://nixerwebapi.azurewebsites.net/images/business/" + businessId + "/provider/providerImage_" + id + ".jpg";
+
+
+        /* // when go live enable this
+        if (imageExists(path)) {
+            path = "noimage.png"
+        }
+        else {
+            path = "noimage.png"
+        } */
+
+
+        return <img className="providerImage" src={path} />;
+
+    }
 
 
     return (
@@ -94,9 +129,9 @@ const BusinessProviders = (props, classes) => {
                                             props.providersList && props.providersList.map((record, index) => {
                                                 return (
                                                     <TableRow key={index}>
-                                                        <TableCell><img className="providerImage" src={"https://nixerwebapi.azurewebsites.net/images/business/" + record.businessId + "/provider/providerImage_" + record.id + ".jpg"} /></TableCell>
-                                                       <TableCell>{record.name}</TableCell>
-                                                       <TableCell className="weekdaysClass">{showDays(record.weekvalue)}</TableCell>
+                                                        <TableCell>{getProviderImage(record.id, record.businessId)}</TableCell>
+                                                        <TableCell>{record.name}</TableCell>
+                                                        <TableCell className="weekdaysClass">{showDays(record.weekvalue)}</TableCell>
                                                         <TableCell>{record.phone}</TableCell>
                                                         <TableCell>{record.email}</TableCell>
                                                         <TableCell>

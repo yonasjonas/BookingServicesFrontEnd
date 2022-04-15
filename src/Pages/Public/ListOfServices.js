@@ -2,12 +2,8 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../actions/businesses";
 import { TextField, Grid, Paper, TableBody, TableCell, MenuItem, Select, TableRow, TableContainer, Table, TableHead, withStyles, Container, ButtonGroup, Button, Link } from '@material-ui/core';
-import EditIcon from "@material-ui/icons/Edit";
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import DeleteIcon from "@material-ui/icons/Delete";
-import BusinessServicesForm from '../../components/Forms/BusinessServicesForm';
+import * as helpers from '../../helpers';
 import { useToasts } from "react-toast-notifications";
-import Nav from '../../components/navigation/MemberMenu';
 
 
 
@@ -102,15 +98,8 @@ const Businesses = (props, classes) => {
             type="text"
             variant="outlined"
             label="Filter by Category"
-            displayEmpty
             select
             onChange={searchFilters}
-            renderValue={(selected) => {
-                if (selected && selected.length === 0) {
-                    return <em>Select Business Type</em>;
-                }
-                return selected;
-            }}
         >
             <MenuItem value="All">
                 <em>All</em>
@@ -136,18 +125,9 @@ const Businesses = (props, classes) => {
             type="text"
             variant="outlined"
             label="Filter by County"
-            displayEmpty
             onChange={searchFilters}
-            renderValue={(selected) => {
-                if (selected && selected.length === 0) {
-                    return <em>Select Business Type</em>;
-                }
-                return selected;
-            }}
         >
-            <MenuItem disabled value="">
-                <em>Select Business Type</em>
-            </MenuItem>
+            
             <MenuItem value="All">
                 <em>All</em>
             </MenuItem>
@@ -161,11 +141,6 @@ const Businesses = (props, classes) => {
         </TextField>
     }
 
-    const getRandomInt = (min, max, decimal) => {
-
-        return (Math.random() * (max - min) + min).toFixed(decimal); //The maximum is exclusive and the minimum is inclusive
-    }
-
 
     return (
         <Container maxWidth={false}>
@@ -173,7 +148,7 @@ const Businesses = (props, classes) => {
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={2}></Grid>
                     <Grid item xs={12} md={4}>
-                        Find services offers by various businesses. You can filter by category or county
+                        Find services that are offered by various businesses. You can filter by category or county
                     </Grid>
                     <Grid item xs={12} md={2}>
                         {props.businesses && props.businesses.length > 0 && categoryFilter(props.businesses)}
@@ -185,19 +160,13 @@ const Businesses = (props, classes) => {
 
                     <Grid item xs={12}>
                         <TableContainer>
-                            {/*                             <h1> Here you can Find services offers by various businesses. You can filter by category. But for now just pick the business</h1>
- */}
-
-
-
-
                             <Table>
                                 <TableBody>
                                     {businesses && businesses.length > 0 ? businesses.map((record, index) => {
                                         return record.isVerified && (<TableRow key={index}>
                                             <TableCell><img height="80px" width="130px;" src={`https://nixerwebapi.azurewebsites.net/images/business/${record.id}/businessInformationProfile.jpg`} /></TableCell>
                                             <TableCell>{record.businessName.toUpperCase()}</TableCell>
-                                            <TableCell>{getRandomInt(100, 1500, 0)} Reviews {getRandomInt(3, 5, 2)} out of 5 <img height="14px" src="../../5stars.png" alt="reviews" /></TableCell>
+                                            <TableCell>{helpers.getRandomInt(100, 1500, 0)} Reviews {helpers.getRandomInt(3, 5, 2)} out of 5 <img height="14px" src="../../5stars.png" alt="reviews" /></TableCell>
                                             <TableCell>{record.county}</TableCell>
                                             <TableCell>{record.category}</TableCell>
                                             <TableCell>
@@ -213,41 +182,23 @@ const Businesses = (props, classes) => {
                                         </TableRow>
                                         )
                                     }) :
-                                        props.businesses && props.businesses.map((record, index) => {
+                                        props.businesses && (county === "All" ||  category === "All") && props.businesses.map((record, index) => {
                                             return record.isVerified && (<TableRow key={index}>
-                                                <Grid container spacing={2}>
-                                                    <Grid xs={2} md={1}>
-                                                        <TableCell><img height="80px" src={`https://nixerwebapi.azurewebsites.net/images/business/${record.id}/businessInformationProfile.jpg`} /></TableCell>
-                                                    </Grid>
-                                                    <Grid xs={2} md={2}>
-                                                        <TableCell><strong>{record.businessName}</strong></TableCell>
-                                                    </Grid>
-                                                    <Grid xs={2} md={2}>
-                                                        <TableCell>{record.description}</TableCell>
-                                                    </Grid>
-                                                    <Grid xs={2} md={2}>
-                                                        <TableCell>{record.county}</TableCell>
-                                                    </Grid>
-                                                    <Grid xs={2} md={2}>
-                                                        <TableCell>{record.category}</TableCell>
-                                                    </Grid>
-                                                    <Grid xs={2} md={2}>
-                                                        <TableCell>
-                                                            <Button
-                                                                
-                                                                className={classes.smMargin + " secondaryColor"}
-                                                                variant="contained"
-                                                            >
-                                                                <Link href={"single-business/" + record.id} color="inherit">
-                                                                    Business Info and Book
-                                                                </Link>
-                                                            </Button>
-                                                        </TableCell>
-                                                    </Grid>
-                                                </Grid>
-
+                                                <TableCell><img height="80px" width="130px;" src={`https://nixerwebapi.azurewebsites.net/images/business/${record.id}/businessInformationProfile.jpg`} /></TableCell>
+                                                <TableCell>{record.businessName.toUpperCase()}</TableCell>
+                                                <TableCell>{helpers.getRandomInt(100, 1500, 0)} Reviews {helpers.getRandomInt(3, 5, 2)} out of 5 <img height="14px" src="../../5stars.png" alt="reviews" /></TableCell>
+                                                <TableCell>{record.county}</TableCell>
+                                                <TableCell>{record.category}</TableCell>
+                                                <TableCell>
+                                                    <Button
+                                                        className={classes.smMargin + " secondaryColor"}
+                                                        variant="contained"
+                                                    >
+                                                        <Link href={"single-business/" + record.id} color="inherit">
+                                                            Business Info and Book
+                                                        </Link>
+                                                    </Button></TableCell>
                                             </TableRow>
-
                                             )
                                         })
                                     }

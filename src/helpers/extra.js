@@ -22,7 +22,8 @@ export const checkImage = (path) => {
 };
 
 export const convertDate = (date) => {
-    let localdate = new Date(date.replace(/['"]+/g, ''))
+    let localdate;
+    typeof date === 'object' ? localdate = date : localdate = new Date(date.replace(/['"]+/g, ''));
     return localdate.getDay() + " " + monthNames[localdate.getMonth()] + " " + localdate.getFullYear() + " " + localdate.getHours() + ":" + checkMinutes(localdate.getMinutes());
 
 }
@@ -34,3 +35,10 @@ const checkMinutes = (minutes) => {
 const monthNames = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
 ];
+
+
+
+export const getRandomInt = (min, max, decimal) => {
+
+    return (Math.random() * (max - min) + min).toFixed(decimal); //The maximum is exclusive and the minimum is inclusive
+}

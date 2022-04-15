@@ -5,12 +5,78 @@
 .primaryColor:hover {
   background: #2968ab;
   color: white !important;
-
 }
 .secondaryColor {
   background: #2968ab !important;
   color: white !important;
 }
+.secondaryColor:hover {
+  background: #f7776d !important;
+  color: white !important;
+}
+.thirdColor {
+  color: #e7e7e7 !important;
+}
+
+.primaryTextColor {
+  color: #f7776d !important;
+}
+span.rs__cell p {
+  font-size: .8em;
+}
+button.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.MuiButtonBase-root.css-1e6y48t-MuiButtonBase-root-MuiButton-root {
+  background: #fafafa;
+  width: 518px;
+  color: #f7776d!important;
+  border: solid 1px #f7776d;
+}
+.secondaryTextColor {
+  color: #2968ab !important;
+}
+svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-i4bv87-MuiSvgIcon-root {
+  color: #f7776d;
+}
+.alignCenter {
+  margin: auto;
+  display: table;
+  padding: 32px 21px 10px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid;
+}
+
+span.rs__cell.rs__header.rs__time {width: 60px;}
+
+span.rs__cell.rs__header.rs__time span {
+    font-weight: 400;
+    color: #f7776d;
+    font-size: 10px;
+}
+.rs__header {max-height: 45px!important;}
+
+span.rs__cell.rs__header.rs__time {max-height: 30px!important;}
+
+.titleOnly {
+  margin: auto;
+  display: table;
+  padding: 0px 21px 10px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid;
+}
+
+.bookButton.secondaryColor.MuiButton-textPrimary.MuiButton-textSizeLarge.MuiButton-sizeLarge:hover {
+  font-size: 11px;
+  background: #2968ab!important;
+  color: white!important;
+  border: solid 1px #2968ab;
+}
+button.MuiButtonBase-root.MuiButton-root.MuiButton-text.bookButton.secondaryColor.MuiButton-textPrimary.MuiButton-textSizeLarge.MuiButton-sizeLarge {
+  font-size: 11px;
+  background: white!important;
+  color: #2968ab!important;
+  border: solid 1px #2968ab;
+}
+
+
 
 body {
   margin: 0;
@@ -61,7 +127,6 @@ label.MuiFormLabel-root.MuiFormLabel-colorPrimary.css-u4tvz2-MuiFormLabel-root {
 }
 .MuiButton-textPrimary {
   color: #ffffff !important;
-  background: rgb(105, 2, 62) !important;
 }
 .profileLogo.MuiBox-root.css-0 {
   position: relative;
@@ -95,13 +160,13 @@ label.MuiFormLabel-root.MuiFormLabel-colorPrimary.css-u4tvz2-MuiFormLabel-root {
   left: 26%;
 }
 
-.booking_summary {
+/* .booking_summary {
   background: orange !important;
   position: fixed;
   bottom: 0;
   width: 100%;
   left: 0;
-}
+} */
 
 .topBar div {
   line-height: 20px;
@@ -231,3 +296,46 @@ div#simple-select em {
 div#simple-select {
     padding: 8.5px 14px!important;
 }
+
+span.rs__cell {max-height: 30px;}
+.MuiPaper-root.pagetitle.primaryTextColor.css-1pyfst.MuiPaper-elevation1.MuiPaper-rounded {
+  margin-top: -195px;
+}
+.iconsmall {
+  font-size: 14px;
+  margin-bottom: -2px;
+}
+span.rs__cell.rs__header.rs__time span {
+  font-weight: 800;
+  color: #f7776d;
+}
+.css-m1a27h div div:nth-child(2) {
+  display: none;
+}
+.booking_summary {background: #eeedd2;}
+
+.providerNames {
+  border-bottom: 1px solid;
+  border-radius: 5px;
+  padding: 2px;
+    margin: 2px;
+  /* float: left;
+     */
+}
+.price {
+  border-radius: 5px;
+  max-width: 193px;
+  margin-top: -23px;
+}
+.allProviderNames {
+  margin: auto;
+  align-content: flex-start;
+  justify-content: center;
+}
+.customerDetailsBlock {
+  background: white;
+}
+.MuiGrid-root.MuiGrid-item.MuiGrid-grid-md-6 {
+  float: left;
+}
+

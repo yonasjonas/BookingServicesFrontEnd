@@ -4,7 +4,8 @@ import * as bookingActions from "../../actions/businessBookings";
 import * as providerActions from "../../actions/businessProvidersActions";
 import * as serviceActions from "../../actions/businessServices";
 import * as businessesActions from "../../actions/businesses";
-import { Box, Grid, Paper, TableBody, TableCell, TableRow, TableContainer, Table, TableHead, withStyles, Container, ButtonGroup, Button } from '@material-ui/core';
+import { Box, Grid, Paper, withStyles, Container, ButtonGroup, Button } from '@material-ui/core';
+import { styled } from '@mui/material/styles';
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
@@ -27,16 +28,24 @@ const style = theme => ({
     }
 });
 
+const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+}));
+
 const BusinessPage = (props, classes) => {
 
     //const { addToast } = useToasts();
-    
+
     var { id } = useParams();
-    
+
     //const [businessInfo, setBusinessInfo] = useState(props[0].businessInfo.filter(business => business.id === id));
     const [businessInfo, setBusinessInfo] = useState(null);
     useEffect(() => {
-        console.log({id})
+        console.log({ id })
 
         //id && setBusinessInfo(props.businessInfo.filter(business => business.id === parseInt(id)));
         //!businessInfo && props.fetchAllBusinessess();
@@ -47,24 +56,42 @@ const BusinessPage = (props, classes) => {
         }
         setBusinessInfo(props.businessInfo.list[0]);
         //setBusinessInfo(props[0].businessInfo.filter(business => business.id === id));
-        
+
     })
 
-    
+
 
     return (
         <>
-            <MainImages user={id} frontEnd={true}/>
-            <Container spacing={2} maxWidth="lg">
-                <Grid className="gridbusinesspage" item xs={12} md={4}></Grid>
-                <Grid className="gridbusinesspage" item xs={12} md={4}><Box className="pagetitle" ><h1><strong>{businessInfo && businessInfo.businessName}</strong></h1></Box></Grid>
-                <Grid className="gridbusinesspage" item xs={12} md={4}><Box className="pagetitle" >1671 Reviews 5 out of 5 <img src="../../5stars.png" alt="reviews" /></Box>
+            <MainImages user={id} frontEnd={true} />
+
+            <Container maxWidth="lg">
+                <Grid container>
+                <Grid className="pagetitle"  item xs={12} md={3}>
+                    
                 </Grid>
-                
-                <Box className="pagetitle businessinfo" ><h3>Business Information</h3><p>{businessInfo && businessInfo.description}</p>
-                </Box>
-                <BookingsForm id={id}/>                        
+
+                    <Grid className="bizinfo" item xs={12} md={6}>
+                        <Item className="pagetitle primaryTextColor" ><h2><strong>{businessInfo && businessInfo.businessName}</strong></h2></Item>
+
+                        <Item className="pagetitle" >1671 Reviews 5 out of 5 <img src="../../5stars.png" alt="reviews" /></Item>
+
+                        <Item className="pagetitle" >
+                            <h3>Business Information</h3><p>{businessInfo && businessInfo.description}</p>
+                        </Item>
+
+                    </Grid>
+
+                    <Grid item xs={12} md={3}></Grid>
+                    <Grid item xs={12} md={12}>
+                        <BookingsForm id={id} />
+                    </Grid>
+                </Grid>
+
+
+
             </Container>
+
         </>
     )
 }

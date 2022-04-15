@@ -3,14 +3,16 @@ import * as providerActions from "../../actions/businessProvidersActions";
 import * as serviceActions from "../../actions/businessServices";
 import { connect } from "react-redux";
 import { styled } from '@mui/material/styles';
-import React, { useState, useEffect } from "react";
-import { Grid, InputLabel, Select, MenuItem, withStyles, FormControl, Button, TextField, OutlinedInput } from '@material-ui/core';
+import React, { useState, useEffect, useRef } from "react";
+import { Grid, Container, Select, MenuItem, withStyles, FormControl, Button, TextField, OutlinedInput } from '@material-ui/core';
 import useForm from '../useForm';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import { useToasts } from "react-toast-notifications";
 import { Scheduler } from "@aldabil/react-scheduler";
 import * as helpers from '../../helpers';
+import EventBusyIcon from '@mui/icons-material/EventBusy';
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 
 
 
@@ -19,13 +21,13 @@ const styles = theme => ({
     root: {
         '& .MuiTextField-root': {
             margin: theme.spacing(1),
-            minWidth: '400px'
+            minWidth: '100%'
         }
     },
     formControl: {
         margin: theme.spacing(1),
-        minWidth: '400px',
-        minHeigth: '400px'
+        minWidth: "100%"
+
 
     },
 
@@ -93,6 +95,10 @@ let initialFieldValues = {
 
 const BookingsForm = ({ classes, ...props }) => {
 
+
+    const input1 = useRef(null);
+    const input2 = useRef(null);
+    const inputservices = useRef(null);
     const { addToast } = useToasts();
     const [currentProviders, setCurrentProviders] = useState(props.businessProviders);
     const [currentProvider, setCurrentProvider] = useState(null);
@@ -107,8 +113,7 @@ const BookingsForm = ({ classes, ...props }) => {
     const [businessServices, setBusinessServices] = useState(props.businessServices);
     const [isLoading, setIsLoading] = useState(false);
     const [booked, setBooked] = useState(false);
-
-
+    let providerdays = 0;
 
 
     const validate = (fieldValues = values) => {
@@ -136,7 +141,6 @@ const BookingsForm = ({ classes, ...props }) => {
         handleInputChange,
         handleChangeMultiple,
     } = useForm(initialFieldValues, validate, props.setCurrentId)
-
     const onAccept = (bookingId, data) => {
         if (window.confirm('Email will be sent to the customer about you accepting the booking')) {
             props.updateBooking(bookingId, data);
@@ -147,8 +151,6 @@ const BookingsForm = ({ classes, ...props }) => {
             props.deleteBooking(id, () => addToast("Submitted successfully. Check your email.", { appearance: 'info' }));
         }
     }
-
-
     const handleSubmit = e => {
         e.preventDefault();
         setIsLoading(true);
@@ -165,7 +167,6 @@ const BookingsForm = ({ classes, ...props }) => {
                 setServiceId(0);
                 setCurrentService(null);
                 setProviderTimes(null);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
                 setBooked(true);
                 setIsLoading(false);
             }
@@ -178,15 +179,11 @@ const BookingsForm = ({ classes, ...props }) => {
             } */
         }
     }
-
     useEffect(() => {
-        //console.log("props.currentId", props.currentId);
 
         props.id &&
             props.fetchAllBusinessServices(props.id);
         props.fetchAllProviders(props.id);
-
-        console.log("here: ", props.currentId)
 
 
 
@@ -210,8 +207,14 @@ const BookingsForm = ({ classes, ...props }) => {
         if (props.id) {
             //console.log("props.id", props.id);
         }
-    }, [props.currentId])
+        const inter = setInterval(() => {
+            if (inputservices.current) {
+                inputservices.current.scrollIntoView(false);
+                clearInterval(inter);
+            }
+        }, 1000);
 
+    }, [props.currentId])
 
     const showBookingSummary = (start, duration) => {
         setValues({
@@ -221,8 +224,9 @@ const BookingsForm = ({ classes, ...props }) => {
         })
     };
     const renderProviders = (providerId, serviceId) => {
+
+
         setProviderTimes(null);
-        { window.scrollTo(0, document.body.scrollHeight) }
         const curService = props.businessServices.filter(x => x.id == serviceId)[0];
         curService.timeSlotDuration
             ? setTimeSlotDuration(curService.timeSlotDuration)
@@ -240,9 +244,19 @@ const BookingsForm = ({ classes, ...props }) => {
             //console.log("provide rid is: ", providerId);
             setCurrentProviders(currentProv);
         }
+
+        setTimeout(() => {
+            input1.current && input1.current.scrollIntoView({
+                behavior: 'auto',
+                block: 'center',
+                inline: 'center'
+            });
+        }, 100);
+
     };
     let oldId
     const renderProviderTimes = (providerId) => {
+
         setCurrentProvider(props.businessProviders.filter(x => x.id === providerId));
 
         if (oldId !== providerId && props.businessProviders.filter(x => x.id === providerId) !== null) {
@@ -250,7 +264,7 @@ const BookingsForm = ({ classes, ...props }) => {
             showWeekDays(props.businessProviders.filter(x => x.id === providerId));
         }
         oldId = providerId;
-        if (providerTimes === null) window.scrollTo(0, document.body.scrollHeight)
+
 
         let currentProv = {};
         let days = [];
@@ -287,9 +301,16 @@ const BookingsForm = ({ classes, ...props }) => {
             setCalendarDays(days);
             setCalendarHours(hours);
         }
-    };
+        setTimeout(() => {
+            input2.current && input2.current.scrollIntoView({
+                behavior: 'auto',
+                block: 'center',
+                inline: 'center'
+            });
 
-    let providerdays = 0;
+        }, 100);
+
+    };
 
     const showWeekDays = (obj) => {
 
@@ -322,103 +343,124 @@ const BookingsForm = ({ classes, ...props }) => {
     const getProviderNames = (providerId) => {
         const providerIdList = typeof providerId === 'string' ? providerId.split(',') : providerId;
         let lproNames = [];
+        let jsxProviders = "";
 
         providerIdList && providerIdList.map(pId => {
-            const providerName = !!props.businessProviders.filter(x => x.id == pId).map(x => x.name)
+            const providerName = !!props && props.businessProviders && props.businessProviders.filter(x => x.id == pId).map(x => x.name)
                 ? props.businessProviders.filter(x => x.id == pId).map(x => x.name) : "";
-            lproNames.push(providerName);
+            providerName !== "" && lproNames.push(providerName);
+
+
 
         });
-        return lproNames;
+        for (let i = 0; i < lproNames.length; i++) {
+
+            jsxProviders = <div>{jsxProviders}<div className="providerNames secondaryColor">{lproNames[i] !== "" && lproNames[i]}</div></div>
+        }
+
+        return jsxProviders;
     };
 
     const servicesBlock = () => {
         return props.businessServices.length > 0 && props.businessServices.map((service) => (
             <Box key={service.id} value={service.id}
                 sx={{
-                    minWidth: '1200px',
-                    borderBottom: '1px solid lightgrey',
+                    minWidth: '1144px',
+                    marginBottom: '2px',
+                    //borderBottom: '1px solid lightgrey',
                 }}
             >
-                <Grid container spacing={2}>
-                    <Grid item xs={2} md={2}>
-                        <img height="50px" src={"https://nixerwebapi.azurewebsites.net/images/business/" + service.businessId + "/service/serviceImage_" + service.id + ".jpg"} />
+                <Item ref={inputservices}>
+                    <Grid container spacing={2} className="thirdTextColor">
+                        <Grid item xs={2} md={1}>
+                            <img height="50px" src={"https://nixerwebapi.azurewebsites.net/images/business/" + service.businessId + "/service/serviceImage_" + service.id + ".jpg"} />
+                        </Grid>
+                        <Grid item xs={2} md={3}>
+                            <h2 className="servicename secondaryTextColor">{service.serviceName}</h2>
+                        </Grid>
+                        <Grid item xs={2} md={2}>
+                            <div className="price thirdColor">
+                                <h2 className="primaryTextColor">{service.price}€ </h2> <h4 className="secondaryTextColor">for around {service.timeSlotDuration}min. slot</h4>
+                            </div>
+                        </Grid>
+                        <Grid item xs={2} md={4}>
+                            {isLoading === false && <div className="allProviderNames">{getProviderNames(service.providerId)}</div>}
+                        </Grid>
+                        <Grid item xs={2} md={2}>
+                            <Button onClick={() => { renderProviders(service.providerId.split(","), service.id) }} className="bookButton primaryColor" color="primary" size="large">Select</Button>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={2} md={2}>
-                        {service.serviceName}
-                    </Grid>
-                    <Grid item xs={2} md={2}>
-                        {service.price}
-                    </Grid>
-                    <Grid item xs={2} md={2}>
-                        {isLoading === false && getProviderNames(service.providerId)}
-                    </Grid>
-                    <Grid item xs={2} md={2}>
-                        {service.timeSlotDuration} minutes
-                    </Grid>
-                    <Grid item xs={2} md={2}>
-                        <Button onClick={() => { renderProviders(service.providerId.split(","), service.id) }} className="bookButton" color="primary" size="large">Select</Button>
-                    </Grid>
-                </Grid>
+                </Item>
             </Box>
         ))
     }
     const providersBlock = () => {
-        return currentProviders && serviceId ? currentProviders.map((providers) => (
+        return <Box
+            className="providersBlock"
+            sx={{
+                minWidth: '500px',
+                marginBottom: '2px',
+                position: 'relative',
+            }}
+            label="Service Provider"
+            name="provider"
+            value={values.provider}
+            // @ts-ignore Typings are not considering `native`
+            onChange={handleInputChange}
+        ><Item ref={input1}>
+                {currentProviders && serviceId && <h4 className="primaryTextColor titleOnly"> Multiple providers can help you with: {currentService.serviceName && currentService.serviceName}</h4>}
 
-            <Box key={providers.id}
-                sx={{
-                    minWidth: '1200px',
-                    border: '1px solid lightgrey',
-                    height: 100,
-                    position: 'relative',
-                }}
-                label="Service Provider"
-                name="provider"
-                value={values.provider}
-                // @ts-ignore Typings are not considering `native`
-                onChange={handleInputChange}
-            >
-                <Grid container key={providers.id} spacing={2}>
-                    <Grid item xs={2} md={2}>
-                        <img height="50px" src={"https://nixerwebapi.azurewebsites.net/images/business/" + providers.businessId + "/provider/providerImage_" + providers.id + ".jpg"} />
-                    </Grid>
-                    <Grid item xs={2} md={2}>
-                        <h5>{providers.name}</h5>
-                    </Grid>
-                    <Grid item xs={2} md={2}>
-                        <strong>{providers.email}</strong>
-                    </Grid>
-                    <Grid item xs={3} md={3}>
-                        <strong>{providers.phone}</strong>
-                    </Grid>
-                    <Grid item xs={3} md={3}>
-                        <Button onClick={() => { renderProviderTimes(providers.id) }} className="bookButton" color="primary" size="large">See Times</Button>
-                    </Grid>
-                </Grid>
-            </Box>
-        )) : <div style={{ display: 'none' }}></div>
 
+                {currentProviders && serviceId ? currentProviders.map((providers) => (
+
+
+
+
+
+                    <Grid container key={providers.id} spacing={2}>
+                        <Grid item xs={2} md={2}>
+                            <img height="50px" src={"https://nixerwebapi.azurewebsites.net/images/business/" + providers.businessId + "/provider/providerImage_" + providers.id + ".jpg"} />
+                        </Grid>
+                        <Grid item xs={2} md={4}>
+                            <h4 className="secondaryTextColor">{providers.name}</h4>
+                        </Grid>
+                        <Grid item xs={2} md={3}>
+                            <h4 className="secondaryTextColor">{helpers.getRandomInt(100, 1500, 0)} Reviews {helpers.getRandomInt(3, 5, 2)} out of 5 <img height="14px" src="../../5stars.png" alt="reviews" /></h4>
+                        </Grid>
+                        <Grid item xs={3} md={3}>
+                            <Button onClick={() => { renderProviderTimes(providers.id) }} className="bookButton secondaryColor" color="primary" size="large">Pick Provider</Button>
+                        </Grid>
+                    </Grid>
+
+
+
+                )) : <div style={{ display: 'none' }}></div>
+
+
+                }
+            </Item>
+        </Box>
     }
+
     const calendarBlock = () => {
         return providerTimes !== null && serviceId ?
-            <Grid item xs={6} md={6} >
-                <Box
-                    sx={{
-                        minWidth: '1100px',
-                        padding: '10px',
-                        position: 'relative',
-                    }}
-                    label="Select Time"
-                    name="provider"
-                    value={values.provider}
-                    onChange={handleInputChange}
-                >
-                    <h2> Below you can pick timeslot for your booking</h2>
-                    <h2> {currentProvider && currentProvider && currentProvider.name} works on {providerWeekDays && providerWeekDays}</h2>
+            <Box
+                sx={{
+                    minWidth: '600px',
+                    position: 'relative',
+                    marginTop: '0px',
+                }}
+                label="Select Time"
+                name="provider"
+                value={values.provider}
+                onChange={handleInputChange}
+            >
+                <Item ref={input2}>
+                    <h4 className="primaryTextColor titleOnly">Pick a timeslot for your booking</h4>
                     <Scheduler
                         view="week"
                         selectedDate={selectedBookingTime ? selectedBookingTime : new Date()}
+                        resourceViewMode="tabs"
                         sx={{
                             height: '5px',
                             padding: '6px',
@@ -445,7 +487,8 @@ const BookingsForm = ({ classes, ...props }) => {
                                     <Button
                                         style={{
                                             height: "100%",
-                                            background: disabled ? "pink" : "lightgreen",
+                                            maxHeight: "30px",
+                                            background: disabled ? "#fff" : "#2968ab",
                                             border: selected ? "1px solid grey" : "",
                                             pointerEvents: disabled && 'none'
                                         }}
@@ -462,89 +505,115 @@ const BookingsForm = ({ classes, ...props }) => {
                                         }}
                                         disableRipple={disabled}
                                     // disabled={disabled}
-                                    > {!disabled ? <p>Available - Select {hour} : {minutes}</p> : "Not Available"}</Button>
+                                    > {!disabled ? <p style={{ color: "white" }}><EventAvailableIcon color="danger" className="iconsmall" />Reserve</p> : <EventBusyIcon className="secondaryTextColor" />} </Button>
                                 );
                             }
                         }}
                     />
-                </Box>
-            </Grid> : <div style={{ display: 'none' }}></div>
+                    <p className="secondaryTextColor"> <strong>{currentProvider && currentProvider && currentProvider.name}</strong> provides service on {providerWeekDays && providerWeekDays} this week.</p>
+                    <strong className="primaryTextColor">* If you can not see appointments this week go to next</strong>
+                </Item>
+            </Box>
+
+
+            : <div style={{ display: 'none' }}></div>
 
     }
     const customerDetailsBlock = () => {
-        return providerTimes && serviceId && <>
-            <h2> Enter personal details</h2>
-            <TextField
-                name="name"
-                variant="outlined"
-                label="Full Name"
-                value={values.name}
+        return providerTimes && serviceId &&
+
+            <Box
+                sx={{
+                    minWidth: '600px',
+                    position: 'relative',
+                    marginTop: '0px',
+                }}
+                label="Select Time"
+                name="provider"
+                value={values.provider}
                 onChange={handleInputChange}
-            />
-            <TextField
-                name="email"
-                variant="outlined"
-                label="Email"
-                value={values.email}
-                onChange={handleInputChange}
-            />
-            <TextField
-                name="phone"
-                variant="outlined"
-                label="Phone Number"
-                value={values.phone}
-                onChange={handleInputChange}
-            /></>
+            >
+               
+                <Grid className="customerDetailsBlock" container>
+                <h2 className="primaryTextColor titleOnly">Enter your details so provider could get in touch with you after you make a booking</h2> 
+                    <Grid item xs={12} md={4}>
+                        <TextField
+                            name="name"
+                            variant="outlined"
+                            label="Full Name"
+                            value={values.name}
+                            onChange={handleInputChange}
+                        />
+
+                    </Grid>
+                    <Grid item xs={12} md={4}>
+                        <TextField
+                            name="email"
+                            variant="outlined"
+                            label="Email"
+                            value={values.email}
+                            onChange={handleInputChange}
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={4}>
+                        <TextField
+                            name="phone"
+                            variant="outlined"
+                            label="Phone Number"
+                            value={values.phone}
+                            onChange={handleInputChange}
+                        />
+                    </Grid>
+                </Grid >
+            </Box>
+
+
+
+
     }
     const bookingSummaryBlock = () => {
         return serviceId ?
-            <Box
-                sx={{
-                    minWidth: '100%',
-                    padding: '10px',
-                    position: 'relative',
-                }}>
-                <Grid
-                    sx={{
-                        minWidth: '100%',
-                        padding: '10px',
-                        position: 'relative',
-                    }}
-                    container className="booking_summary" item xs={12} md={12}>
-                    <Grid item xs={1} md={1}>
-                        <img height="90px" src={"https://nixerwebapi.azurewebsites.net/images/business/" + currentService.businessId + "/service/serviceImage_" + currentService.id + ".jpg"} />
-                    </Grid>
-                    <Grid item xs={2} md={1}>
-                        <strong>Service Name: <br />{currentService.serviceName}</strong>
+
+
+            <Item className="booking_summary">
+                <h1 className="primaryTextColor alignCenter">Booking Summary</h1>
+                <Grid container item xs={12} md={12}>
+
+                    <Grid item xs={2} md={2}>
+                        <strong>Service Name: </strong><div><br />{currentService.serviceName}</div>
                         <br />
-                        <strong>Price: <br /> €{currentService.price}.00</strong>
+
                     </Grid>
                     <Grid item xs={2} md={1}>
-                        <strong>Service Duration: {currentService.timeSlotDuration} </strong> minutes
+                        <strong>Price:</strong> <div><br /> €{currentService.price}.00</div>
                     </Grid>
                     <Grid item xs={2} md={2}>
-                        <div>{currentProvider && <img src={"https://nixerwebapi.azurewebsites.net/images/business/" + currentProviders[0].businessId + "/provider/providerImage_" + currentProviders[0].id + ".jpg"} />}
-                            <br/><strong>{currentProvider ? currentProvider.name : "not selected"}</strong>
+                        <strong>Service Duration: </strong> <br /><br /> <div>{currentService.timeSlotDuration} minutes</div>
+                    </Grid>
+                    <Grid item xs={2} md={2}>
+                        <strong>Provider:</strong>
+                        <div>{currentProvider && <img height="70px" src={"https://nixerwebapi.azurewebsites.net/images/business/" + currentProviders[0].businessId + "/provider/providerImage_" + currentProviders[0].id + ".jpg"} />}
+                            <br />{currentProvider ? <strong>currentProvider.name</strong> : <div>not selected yet...</div>}
                         </div>
                     </Grid>
-                    
-                    <Grid item xs={2} md={1}>
-                        <strong>Booking Date:</strong><br /> {values.bookingStartTime !== "" ? helpers.convertDate(values.bookingStartTime) : "Time not selected"}
+
+                    <Grid item xs={2} md={2}>
+                        <strong>Booking Date:</strong><br /> {values.bookingStartTime !== "" ? helpers.convertDate(values.bookingStartTime) : <div><br /> not selected yet...</div>}
                     </Grid>
                     <Grid item xs={2} md={2}>
-                        {values.name &&
+                        {values.name ?
                             <>
                                 <strong>Your Details: </strong>
                                 <div>
-                                    <strong>Name:</strong> {values.name ? values.name : "Name not entered"} <br />
-                                    <strong>Email:</strong> {values.email ? values.email : "Email not entered"}<br />
-                                    <strong>Phone:</strong> {values.phone ? values.phone : "Phone not entered"}
+                                    {values.name ? values.name : "Name not entered"} <br />
+                                    {values.email ? values.email : "Email not entered"}<br />
+                                    {values.phone ? values.phone : "Phone not entered"}
                                 </div>
-                            </>
+                            </> : <div><strong>Your Details: </strong> <br /><br />not selected yet...</div>
                         }
                     </Grid>
-                    <Grid item xs={2} md={2}>
-                        {values.phone &&
+                    <Grid item xs={12} md={12}>
+                        {values.phone ?
                             <>
                                 <Button
                                     className={classes.smMargin}
@@ -554,50 +623,72 @@ const BookingsForm = ({ classes, ...props }) => {
                                 >
                                     Reserve a Service
                                 </Button>
-                            </>}
+                            </> : <Button
+                                className={classes.smMargin}
+                                variant="contained"
+                                color="secondary"
+                                type="submit"
+                                disabled
+                            >
+                                Reserve a Service
+                            </Button>}
                     </Grid>
                 </Grid>
-            </Box> : <div style={{ display: 'none' }}></div>
+            </Item>
+            : <div style={{ display: 'none' }}></div>
     }
 
     return (
-        <div>
+        <Container maxWidth="lg">
             {!booked && !props.admin ? <form
                 autoComplete="off"
                 noValidate
                 className={classes.root}
                 onSubmit={handleSubmit}
             >
-                <Grid container>
+                <Grid>
                     <div className="services-bookform">
-                        <h2>Services</h2>
+                        <h1 className="primaryTextColor alignCenter">Services</h1>
                         {servicesBlock()}
                     </div>
                     <div className="providers-block services-bookform">
                         {currentProviders && currentProviders.length > 1 && serviceId ?
                             <>
-                                <h4 style={{ color: 'darkred' }}> Selected a service: <span style={{ color: 'purple' }}>{currentService.serviceName && currentService.serviceName}</span></h4>
-                                <h2> Multiple people can help you </h2>
+                                <h1 className="primaryTextColor alignCenter">Providers</h1>
+
                             </>
                             : <div style={{ display: 'none' }}>
+                                <h1 className="primaryTextColor alignCenter">Providers</h1>
                                 {serviceId && currentProviders && currentProviders[0] && currentProvider && <h3 style={{ color: 'orange' }}> <><span style={{ color: 'purple' }}>{currentProvider.name}</span> is available to help you with <span style={{ color: 'purple' }}>{currentService.serviceName ? currentService.serviceName : ""}</span></></h3>}
                             </div>
 
                         }
-                        <Grid item xs={6} md={6}>
+                        <Grid item md={6}>
                             {providersBlock()}
                         </Grid>
-                        {calendarBlock()}
+                        <Grid item md={6}>
+                            {calendarBlock()}
+                        </Grid>
+                        <Grid item md={12}>
+                            {customerDetailsBlock()}
+                        </Grid>
+
+
                     </div>
 
-                    {customerDetailsBlock()}
-                    {bookingSummaryBlock()}</Grid>
-            </form > : 
+
+                </Grid>
+                <Grid>
+                    <Grid item md={12}>
+                        {bookingSummaryBlock()}
+                    </Grid>
+                </Grid>
+            </form > :
                 <h1>Congratulations you just made a booking request and provider will soon get in touch.</h1>
 
                     ? props.admin :
-                    <>here</>}
-        </div>
+                    <></>}
+        </Container>
     )
 }
 

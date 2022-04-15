@@ -56,3 +56,12 @@
   float: none;
   display: table;
 }
+.alignCenter {
+  margin: auto;
+  display: table;
+  padding: 22px 19px 0;
+  border-bottom: 1px solid;
+  margin-bottom: 10px;
+  width: 300px;
+  text-align: center;
+}

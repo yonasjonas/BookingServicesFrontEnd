@@ -9,6 +9,56 @@ import { Link } from "react-router-dom";
 import Box from '@mui/material/Box';
 import { experimentalStyled as styled } from '@mui/material/styles';
 import MainImages from "../../components/media/MainImages";
+import Tour from 'reactour'
+
+const tourConfig = [
+    {
+        selector: '[data-tour="tour-start1"]',
+        content: 'Welcome! This is your dashboard. Here you can manage your business services, providers and bookings. This guide will help you get started.',
+    },
+    {
+        selector: '[data-tour="tour-2"]',
+        content: 'This is your dashboard navigation. Use these to navigate between your business services, providers and bookings.',
+    },
+    {
+        selector: '[data-tour="tour-3"]',
+        content: 'Add your business logo by clicking here. * Your business will not be published till you will upload this',
+    },
+    {
+        selector: '[data-tour="tour-4"]',
+        content: 'Add your business cover picture by clicking here. * Your business will not be published till you will upload this',
+    },
+    {
+        selector: '[data-tour="tour-5"]',
+        content: 'In Business Information page you can change your details and password',
+    },
+    {
+        selector: '[data-tour="tour-6"]',
+        content: 'First you need to add your business providers. If it is only you just add yourself and set your working times. You need at least one provider to publish your business.',
+    },
+    {
+        selector: '[data-tour="tour-7"]',
+        content: 'Then add your services and link it to providers. You can add multiple services to one provider and vice versa. You need at least one services that is linked to provider to publish your business.'
+    },
+    {
+        selector: '[data-tour="tour-8"]',
+        content: 'You will start seeing your bookings once you will finish your page setup and will start accepting bookings.',
+    },
+    {
+        selector: '[data-tour="tour-9"]',
+        content: 'Once your business is live it will be visible on the Find Services page',
+    },
+    {
+        selector: '[data-tour="tour-10"]',
+        content: 'Widget will be ready in the near future',
+    },
+    {
+        selector: '[data-tour="tour-11"]',
+        content: 'Phew! This was a lot of information. You can always come back to this guide by clicking here.',
+    }
+
+]
+let openedAlready = false;
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -44,8 +94,20 @@ const style = theme => ({
 const BusinessServices = (props, classes) => {
 
     const { addToast } = useToasts();
+    const [tourOpen, setTourOpen] = useState(false);    
 
-    const [currentId, setCurrentId] = useState("");
+    const closeTour = () => {
+        setTourOpen(false);
+        console.log('close tour');
+        openedAlready = true
+    };
+
+    const openTour = () => {
+        setTourOpen(true);        
+    };
+    useEffect(() => {        
+        !openedAlready && openTour();
+    });
     //console.log("useState(0)" ,props)
 
     useEffect(() => {
@@ -59,6 +121,14 @@ const BusinessServices = (props, classes) => {
     return (
         <>
             <MainImages />
+            <Tour
+                    steps={tourConfig}
+                    isOpen={tourOpen}
+                    onRequestClose={closeTour}
+                    className="helper"
+                    rounded={5}
+                    accentColor="#5cb7b7"
+                />
             <Container maxWidth={"lg"}>
                 <TableContainer>
                     <Grid container>
@@ -87,6 +157,11 @@ const BusinessServices = (props, classes) => {
                                     <Grid item xs={2} sm={4} md={6} key="4">
                                         <Link to="/widget">
                                             <Item>Get the Widget</Item>
+                                        </Link>
+                                    </Grid>
+                                    <Grid data-tour="tour-11" item xs={2} sm={4} md={12} key="5">
+                                        <Link onClick={() => {setTourOpen(true) }}>
+                                            <Item>Open Help Tour</Item>
                                         </Link>
                                     </Grid>
 

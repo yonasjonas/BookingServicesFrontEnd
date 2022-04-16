@@ -49,9 +49,12 @@ const MainNavigation = (...props) => {
         <AppBar position="static" className="secondaryColor mainnav">
             <CssBaseline />
             <Toolbar>
-                <Typography variant="h4" className={classes.logo}>
-                    My <ThumbUpIcon /> nixer
-                </Typography>
+                
+                <a href="/">
+                    <Typography variant="h4" className={classes.logo}>
+                        My <ThumbUpIcon /> nixer
+                    </Typography>
+                </a>
                 {isMobile ? (
                     <DrawerComponent />
                 ) : <div className={classes.navlinks}>
@@ -61,7 +64,7 @@ const MainNavigation = (...props) => {
                     <Link to="/about" className={classes.link}>
                         About
                     </Link>
-                    <Link to="/book-services" className={classes.link}>
+                    <Link data-tour="tour-10" to="/book-services" className={classes.link}>
                         Find Services
                     </Link>
                     {!props[0].loggedIn ?

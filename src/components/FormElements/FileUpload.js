@@ -41,7 +41,7 @@ function FileUpload(props) {
 
 
 	return (
-		<div className={'filePicker ' + props.class}>
+		<div data-tour={props.type === "businessInformationProfile" ? 'tour-3' : 'tour-4'} className={'filePicker ' + props.class}>
 			{ !props.frontEnd &&
 			<Button
 				variant="contained"

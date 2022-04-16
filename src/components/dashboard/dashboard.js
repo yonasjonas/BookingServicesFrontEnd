@@ -24,6 +24,7 @@ import Orders from './Orders';
 import MemberMenu from '../../components/navigation/MemberMenu';
 
 
+
 function Copyright(props) {
 	return (
 		<Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -90,9 +91,35 @@ function DashboardContent() {
 	const toggleDrawer = () => {
 		setOpen(!open);
 	};
+	const [tourOpen, setTourOpen] = useState(false);
+
+    
+
+    const closeTour = () => {
+        setTourOpen(false);
+        console.log('close tour');
+        openedAlready = true
+    };
+
+    const openTour = () => {
+        setTourOpen(true);        
+    };
+    useEffect(() => {        
+        !openedAlready && openTour();
+    });
+
 
 	return (
 		<ThemeProvider theme={mdTheme}>
+			<Tour
+                    steps={tourConfig}
+                    isOpen={tourOpen}
+                    onRequestClose={closeTour}
+                    maskClassName="mask"
+                    className="helper"
+                    rounded={5}
+                    accentColor="#5cb7b7"
+                />
 			<Box sx={{ display: 'flex' }}>
 				<CssBaseline />
 				<AppBar position="absolute" open={open}>

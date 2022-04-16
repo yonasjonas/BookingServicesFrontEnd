@@ -14,6 +14,7 @@ import BusinessProviders from './Pages/Member/BusinessProvidersContainer';
 import Bookings from './Pages/Member/BusinessBookings';
 import BusinessInformation from './Pages/Member/BusinessInformation';
 import MainNavigation from "./components/navigation/MainNavigation";
+import Footer from "./components/Footer";
 import TopNavigation from "./components/navigation/TopNavigation";
 import MemberMenu from "./components/navigation/MemberMenu";
 import { Router, Switch, Route, Link } from "react-router-dom";
@@ -33,17 +34,15 @@ import { history } from './helpers';
 import { alertActions } from './actions/alert.actions';
 import { userActions } from './actions/user.actions';
 
-
-function App(...props) {    
+function App(...props) {
     return (
         <>
             {alert.message &&
                 <div className={`alert ${alert.type}`}>{alert.message}</div>
             }
             <Router history={history}>
-            
-                <TopNavigation user={props[0]}/>
-                <MainNavigation loggedIn={props && props[0] && props[0].user && props[0].user.loggedIn}/>
+                <TopNavigation user={props[0]} />
+                <MainNavigation loggedIn={props && props[0] && props[0].user && props[0].user.loggedIn} />
                 <CustomAlert />
                 <ToastProvider autoDismiss={true}>
                     <Switch>
@@ -67,12 +66,13 @@ function App(...props) {
                         <Route exact path="/single-business/:id" component={BusinessPage} />
                     </Switch>
                 </ToastProvider>
+                <Footer />
             </Router>
         </>
     );
 }
 
-const mapStateToProps = state =>({
+const mapStateToProps = state => ({
     user: state.authentication
 });
 

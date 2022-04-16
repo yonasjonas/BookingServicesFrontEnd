@@ -12,7 +12,7 @@ const styles = theme => ({
     root: {
         '& .MuiTextField-root': {
             margin: theme.spacing(1),
-            minWidth: '80%'
+            backgroundColor: '#000',
         }
     },
     formControl: {
@@ -107,7 +107,7 @@ function LoginPage({ history, classes, location, ...props }) {
     } = useForm(initialFieldValues, validate, props.setCurrentId,)
 
     return (
-        <Container maxWidth="md">
+        <Container maxWidth="sm">
             <Paper>
                 {location.pathname === '/register' && location.state && <h2>{location.state}</h2>}
                 <form onSubmit={handleSubmit} className={classes.root}>
@@ -130,7 +130,7 @@ function LoginPage({ history, classes, location, ...props }) {
                         </div>
                     </Grid>
                     <Button type="submit"
-                        className={classes.smMargin}
+                        className={classes.smMargin + " secondaryColor"}
                         variant="contained"
                         color="primary"
                     >Login

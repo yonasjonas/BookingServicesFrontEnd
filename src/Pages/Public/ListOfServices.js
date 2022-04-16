@@ -145,7 +145,7 @@ const Businesses = (props, classes) => {
     return (
         <Container maxWidth={false}>
             <Paper>
-                <Grid container spacing={2}>
+                <Grid container spacing={0}>
                     <Grid item xs={12} md={2}></Grid>
                     <Grid item xs={12} md={4}>
                         Find services that are offered by various businesses. You can filter by category or county

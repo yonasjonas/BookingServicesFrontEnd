@@ -112,7 +112,7 @@ const BookingsForm = ({ classes, ...props }) => {
     const [serviceId, setServiceId] = useState(0);
     const [businessServices, setBusinessServices] = useState(props.businessServices);
     const [isLoading, setIsLoading] = useState(false);
-    const [booked, setBooked] = useState(false);
+    const [booked, setBooked] = useState();
     let providerdays = 0;
 
 
@@ -447,7 +447,6 @@ const BookingsForm = ({ classes, ...props }) => {
             <Box
                 sx={{
                     minWidth: '600px',
-                    position: 'relative',
                     marginTop: '0px',
                 }}
                 label="Select Time"
@@ -524,8 +523,6 @@ const BookingsForm = ({ classes, ...props }) => {
 
             <Box
                 sx={{
-                    minWidth: '600px',
-                    position: 'relative',
                     marginTop: '0px',
                 }}
                 label="Select Time"
@@ -684,10 +681,12 @@ const BookingsForm = ({ classes, ...props }) => {
                     </Grid>
                 </Grid>
             </form > :
-                <h1>Congratulations you just made a booking request and provider will soon get in touch.</h1>
+                <div>
 
-                    ? props.admin :
-                    <></>}
+                    <h2 style={{marginTop:'20px'}}className="primaryTextColor titleOnly">Congratulations you just made a booking request and provider will soon get in touch. Email has been sent.</h2>
+                    <a className="confirmedbooking secondaryColor titleOnly" href="/book-services">Browse More</a>
+                </div>
+            }
         </Container>
     )
 }

@@ -93,7 +93,7 @@ export default function TypographyMenu(props) {
             >               
             </Toolbar>
 
-            <Paper sx={{ width: 230, height: 1 }}>
+            <Paper data-tour="tour-2" sx={{ width: 230, height: 1 }}>
                 <MenuList>
                     <MenuItem>
                         <ListItem button>
@@ -107,7 +107,7 @@ export default function TypographyMenu(props) {
                         </ListItem>
                     </MenuItem>
 
-                    <MenuItem>
+                    <MenuItem data-tour="tour-5">
                         <ListItem button>
                             <ListItemIcon>
                                 <PeopleIcon fontSize="small" />
@@ -118,7 +118,18 @@ export default function TypographyMenu(props) {
                             </Link>
                         </ListItem>
                     </MenuItem>
-                    <MenuItem>
+                    <MenuItem data-tour="tour-6">
+                        <ListItem button>
+                            <ListItemIcon>
+                                <PeopleIcon fontSize="small" />
+                            </ListItemIcon>
+                            <Link to="/providers" >
+                                <Typography variant="inherit" noWrap />
+                                <ListItemText primary="Providers" />
+                            </Link>
+                        </ListItem>
+                    </MenuItem>
+                    <MenuItem data-tour="tour-7">
                         <ListItem button>
                             <ListItemIcon>
                                 <PeopleIcon fontSize="small" />
@@ -130,18 +141,7 @@ export default function TypographyMenu(props) {
                             </Link>
                         </ListItem>
                     </MenuItem>
-                    <MenuItem>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <PeopleIcon fontSize="small" />
-                            </ListItemIcon>
-                            <Link to="/providers" >
-                                <Typography variant="inherit" noWrap />
-                                <ListItemText primary="Providers" />
-                            </Link>
-                        </ListItem>
-                    </MenuItem>
-                    <MenuItem>
+                    <MenuItem data-tour="tour-8">
                         <ListItem button>
                             <ListItemIcon>
                                 <ShoppingCartIcon fontSize="small" />
@@ -152,7 +152,7 @@ export default function TypographyMenu(props) {
                             </Link>
                         </ListItem>
                     </MenuItem>
-                    <MenuItem>
+                    <MenuItem data-tour="tour-9">
                         <ListItem button>
                             <ListItemIcon>
                                 <DraftsIcon fontSize="small" />

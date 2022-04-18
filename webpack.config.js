@@ -17,12 +17,14 @@ module.exports = {
         template: './src/index.html'
     })],
     devServer: {
-        historyApiFallback: true
+        historyApiFallback: true,
+        contentBase: './',
+        hot: true
     },
     externals: {
         // global app config object
         config: JSON.stringify({
-            apiUrl: 'http://localhost:4000'
+            apiUrl: 'https://nixerwebapi.azurewebsites.net'
         })
     }
 }

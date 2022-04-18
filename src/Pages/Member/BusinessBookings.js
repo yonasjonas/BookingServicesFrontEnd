@@ -81,13 +81,13 @@ const BusinessBookings = (props, classes) => {
                                 <Table>
                                     <TableHead className={classes.root}>
                                         <TableRow>
-                                            <TableCell>Provider</TableCell>
-                                            <TableCell>Name</TableCell>
-                                            <TableCell>Phone</TableCell>
-                                            <TableCell>Price Agreed</TableCell>
-                                            <TableCell>Booking Time</TableCell>
-                                            <TableCell>Duration</TableCell>
-                                            <TableCell>Accept Or Reject</TableCell>
+                                            <TableCell><h3>Provider</h3></TableCell>
+                                            <TableCell><h3>Name</h3></TableCell>
+                                            <TableCell><h3>Phone</h3></TableCell>
+                                            <TableCell><h3>Price Agreed</h3></TableCell>
+                                            <TableCell><h3>Booking Time</h3></TableCell>
+                                            <TableCell><h3>Duration</h3></TableCell>
+                                            <TableCell><h3>Accept Or Reject</h3></TableCell>
 
                                         </TableRow>
                                     </TableHead>
@@ -95,12 +95,12 @@ const BusinessBookings = (props, classes) => {
                                         {
                                             props.businessBookingsList.map((record, index) => {
                                                 return (<TableRow key={index}>
-                                                    <TableCell>{record.providerName}</TableCell>
-                                                    <TableCell>{record.name}</TableCell>
-                                                    <TableCell>{record.phone}</TableCell>
-                                                    <TableCell>30€</TableCell>
-                                                    <TableCell>{record.bookingStartTime && convertDate(record.bookingStartTime)}</TableCell>
-                                                    <TableCell>{record.bookingDuration} min.</TableCell>
+                                                    <TableCell className="secondaryTextColor bold"><strong>{record.providerName}</strong></TableCell>
+                                                    <TableCell className="secondaryTextColor bold"><strong>{record.name}</strong></TableCell>
+                                                    <TableCell className="secondaryTextColor bold"><strong>{record.phone}</strong></TableCell>
+                                                    <TableCell className="secondaryTextColor bold"><strong>30€</strong></TableCell>
+                                                    <TableCell className="secondaryTextColor bold"><strong>{record.bookingStartTime && convertDate(record.bookingStartTime)}</strong></TableCell>
+                                                    <TableCell className="secondaryTextColor bold"><strong>{record.bookingDuration} min.</strong></TableCell>
                                                     {!record.accepted || record.accepted == "null" ? <>
                                                         <TableCell>
                                                             <ButtonGroup>

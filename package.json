@@ -13,6 +13,10 @@
     "@mui/lab": "^5.0.0-alpha.67",
     "@mui/material": "^5.0.4",
     "@mui/styled-engine-sc": "^5.0.3",
+    "@rpldy/mock-sender": "^0.18.2",
+    "@rpldy/upload-button": "^0.18.2",
+    "@rpldy/upload-preview": "^0.18.2",
+    "@rpldy/uploady": "^0.18.2",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
@@ -24,10 +28,13 @@
     "multer": "^1.4.4",
     "multer-storage-cloudinary": "^4.0.0",
     "query-string": "^7.1.1",
+    "rc-progress": "^3.2.4",
     "react": "^17.0.2",
     "react-country-region-selector": "^3.4.0",
+    "react-cropper": "^2.1.8",
     "react-datetime": "^3.1.1",
     "react-dom": "^17.0.2",
+    "react-image-crop": "^10.0.0",
     "react-redux": "^7.2.5",
     "react-router-dom": "^5.3.0",
     "react-scripts": "^5.0.0",
@@ -50,6 +57,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "overrides": {
+    "mini-css-extract-plugin": "2.4.5"
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -67,5 +77,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "mini-css-extract-plugin": "2.4.5"
   }
 }

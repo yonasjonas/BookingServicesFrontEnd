@@ -50,14 +50,14 @@ const MainNavigation = (...props) => {
             <CssBaseline />
             <Toolbar>
                 
-                <a href="/">
+                <a className="mainlogo" href="/">
                     <Typography variant="h4" className={classes.logo}>
                         My <ThumbUpIcon /> nixer
                     </Typography>
                 </a>
                 {isMobile ? (
                     <DrawerComponent />
-                ) : <div className={classes.navlinks}>
+                ) : <div className={classes.navlinks + " MAINNAVLINKS"} >
                     <Link to="/" className={classes.link}>
                         Home
                     </Link>

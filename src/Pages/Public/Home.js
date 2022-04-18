@@ -30,7 +30,7 @@ const Item = styled(Paper)(({ theme }) => ({
 const Home = (props) => {
 
     useEffect(() => {
-        props.businessInfo && props.fetchAllBusinesses();
+        props.businessInfo.length === 0 && props.fetchAllBusinesses();
     });
 
     return (

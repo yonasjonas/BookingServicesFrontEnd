@@ -195,25 +195,24 @@ const BusinessServicesForm = ({ classes, state, ...props }) => {
                         </FormControl>
                     </Grid>
                     <Button
-                        className={classes.smMargin}
-                        variant="contained"
-                        color="primary"
+                        className={classes.smMargin + " buttonBlue"}
+                        variant="outlined"
                         type="submit"
+                        color="primary" 
                     >
                         Submit
                     </Button>
                     <Button
-                        variant="contained"
-                        color="primary"
-                        className={classes.smMargin}
+                        variant="outlined"
+                        className={classes.smMargin + " buttonBlue"}
                         onClick={resetForm}
                     >
                         Reset
                     </Button>
-                    <Button variant="contained" color="primary" className={classes.smMargin} onClick={hideForm}>Hide Form</Button>
+                    <Button variant="outlined" className={classes.smMargin + " buttonBlue"} onClick={hideForm}>Hide Form</Button>
                 </form> :
 
-                <Button variant="contained" color="primary" className={classes.smMargin} onClick={showForm}>Add new</Button>
+                <Button variant="outlined" color="primary" className={classes.smMargin + " fullWidth buttonBlue"} onClick={showForm}>Add new Service</Button>
 
             }
         </>

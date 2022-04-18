@@ -50,17 +50,28 @@ const BusinessProviders = (props, classes) => {
             props.deleteProvider(id, () => addToast("Submitted successfully", { appearance: 'info' }));
         }
     }
-    
+
     let days = [];
 
     let showDays = (allDays) => {
+
+        /* days = []
+        const weekvalue = helpers.convertStringToObject(allDays);
+
+        return (weekvalue && Object.keys(weekvalue).map(i => {
+
+            (weekvalue[i] && weekvalue[i].dayIndex && <div>{weekvalue[i].dayIndex}</div>)
+
+
+        })) */
+        //return days.join(",");
 
         days = []
         const weekvalue = helpers.convertStringToObject(allDays);
 
         weekvalue && Object.keys(weekvalue).map(i => {
             weekvalue[i] && days.push(
-                weekvalue[i].dayIndex
+                " " + weekvalue[i].dayIndex
             )
             /* return <TableCell>
                 <Chip
@@ -70,6 +81,7 @@ const BusinessProviders = (props, classes) => {
             </TableCell> */
         })
         return days.join(",");
+
 
     }
 
@@ -117,11 +129,12 @@ const BusinessProviders = (props, classes) => {
                                 <Table>
                                     <TableHead className={classes.root}>
                                         <TableRow>
-                                            <TableCell>Profile Picture</TableCell>
-                                            <TableCell>Name</TableCell>
-                                            <TableCell>Working days</TableCell>
-                                            <TableCell>Phone</TableCell>
-                                            <TableCell>Email</TableCell>
+                                            <TableCell><h3>Profile Picture</h3></TableCell>
+                                            <TableCell><h3>Name</h3></TableCell>
+                                            <TableCell><h3>Working days</h3></TableCell>
+                                            <TableCell><h3>Phone</h3></TableCell>
+                                            <TableCell><h3>Email</h3></TableCell>
+                                            <TableCell><h3>Manage</h3></TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -130,10 +143,10 @@ const BusinessProviders = (props, classes) => {
                                                 return (
                                                     <TableRow key={index}>
                                                         <TableCell>{getProviderImage(record.id, record.businessId)}</TableCell>
-                                                        <TableCell>{record.name}</TableCell>
-                                                        <TableCell className="weekdaysClass">{showDays(record.weekvalue)}</TableCell>
-                                                        <TableCell>{record.phone}</TableCell>
-                                                        <TableCell>{record.email}</TableCell>
+                                                        <TableCell className="secondaryTextColor bold">{record.name}</TableCell>
+                                                        <TableCell  className="secondaryTextColor bold" style={{ maxWidth: '140px' }}>{showDays(record.weekvalue)}</TableCell>
+                                                        <TableCell className="secondaryTextColor bold">{record.phone}</TableCell>
+                                                        <TableCell className="secondaryTextColor bold">{record.email}</TableCell>
                                                         <TableCell>
                                                             <ButtonGroup>
                                                                 <Button><EditIcon color="primary" onClick={() => { setCurrentId(record.id) }} /></Button>

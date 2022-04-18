@@ -16,7 +16,7 @@ export function fetchAll(dispatch) {
     });   */
 };
 
-export const postImage = (selectedFile, type, userId, providerId) => {
+export const postImage = (selectedFile, type, userId, providerId, onSuccess) => {
 
     let formData = new FormData();
 
@@ -38,6 +38,7 @@ export const postImage = (selectedFile, type, userId, providerId) => {
         }
     ).then((result) => {
         console.log('Success:', result);
+        onSuccess();
     }).catch((error) => {
         console.error('Error:', error);
     });

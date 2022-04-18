@@ -95,69 +95,69 @@ export default function TypographyMenu(props) {
 
             <Paper data-tour="tour-2" sx={{ width: 230, height: 1 }}>
                 <MenuList>
-                    <MenuItem>
+                    <MenuItem className={window.location.pathname === '/dashboard' && "activeMenu"} >
                         <ListItem button>
                             <ListItemIcon>
                                 <PeopleIcon fontSize="small" />
                             </ListItemIcon>
-                            <Link to="/dashboard" >
+                             <Link to="/dashboard" >
                                 <Typography variant="inherit" noWrap />
                                 <ListItemText primary="Dashboard" />
                             </Link>
                         </ListItem>
                     </MenuItem>
 
-                    <MenuItem data-tour="tour-5">
+                    <MenuItem className={window.location.pathname === '/business-details' && "activeMenu"} data-tour="tour-5">
                         <ListItem button>
                             <ListItemIcon>
                                 <PeopleIcon fontSize="small" />
                             </ListItemIcon>
-                            <Link to="/business-details" >
+                             <Link to="/business-details" >
                                 <Typography variant="inherit" noWrap />
                                 <ListItemText primary="Business Information" />
                             </Link>
                         </ListItem>
                     </MenuItem>
-                    <MenuItem data-tour="tour-6">
+                    <MenuItem className={window.location.pathname === '/providers' && "activeMenu"} data-tour="tour-6">
                         <ListItem button>
                             <ListItemIcon>
                                 <PeopleIcon fontSize="small" />
                             </ListItemIcon>
-                            <Link to="/providers" >
+                             <Link to="/providers" >
                                 <Typography variant="inherit" noWrap />
                                 <ListItemText primary="Providers" />
                             </Link>
                         </ListItem>
                     </MenuItem>
-                    <MenuItem data-tour="tour-7">
+                    <MenuItem className={window.location.pathname === '/services' && "activeMenu"} data-tour="tour-7">
                         <ListItem button>
                             <ListItemIcon>
                                 <PeopleIcon fontSize="small" />
                             </ListItemIcon>
-                            <Link to="/services" >
+                             <Link to="/services" >
                                 <Typography variant="inherit" noWrap />
                                 <ListItemText primary="Services" />
 
                             </Link>
                         </ListItem>
                     </MenuItem>
-                    <MenuItem data-tour="tour-8">
+                    <MenuItem className={window.location.pathname === '/bookings' && "activeMenu"} data-tour="tour-8">
                         <ListItem button>
                             <ListItemIcon>
                                 <ShoppingCartIcon fontSize="small" />
                             </ListItemIcon>
-                            <Link to="/bookings" >
+                             <Link to="/bookings" >
                                 <Typography variant="inherit" noWrap />
                                 <ListItemText primary="Bookings" />
                             </Link>
                         </ListItem>
                     </MenuItem>
-                    <MenuItem data-tour="tour-9">
+                    <MenuItem className={window.location.pathname === '/widget' && "activeMenu"} data-tour="tour-9">
                         <ListItem button>
                             <ListItemIcon>
                                 <DraftsIcon fontSize="small" />
                             </ListItemIcon>
-                            <Link to="/widget" >
+                             <Link to="/widget" >
                                 <Typography variant="inherit" noWrap>
                                     Manage Widget</Typography>
                             </Link>

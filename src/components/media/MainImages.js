@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import FileUpload from "../../components/FormElements/FileUpload";
 import HeroImage from "./HeroImage";
 import ProfileImage from "./ProfileImage";
+import UploadPage from "../FormElements/UploadPage";
 import { connect } from "react-redux";
 
 
@@ -48,7 +49,6 @@ function MainImages(props) {
 
         const coverImage = localUser && `https://nixerwebapi.azurewebsites.net/images/business/${localUser}/businessInformationCover.jpg`;
         checkCoverImage(coverImage);
-        console.log({ props })
 
         //
     });
@@ -60,20 +60,27 @@ function MainImages(props) {
 
     return (
         <>
-            {coverImage === null ?
+        
+        
+            {coverImage === null && !props.frontEnd ? 
                 <>
                     <h3 className="noCoverImage">Upload your business cover image that will be visible on your business page</h3>
-                    <FileUpload type="businessInformationCover" exist={false} class="noCoverImage" user={props.user} />
+
+                  <UploadPage exist={false} class="noCoverImage" width={1903} height={300}  user={user} type="businessInformationCover"  text="Add Cover Image"/>
                 </> :
                 <>
                     <HeroImage image={coverImage} />
-                    <FileUpload class="coverImage" type="businessInformationCover" frontEnd={props.frontEnd} exist={true} user={props.user} />
+                    
+                        {!props.frontEnd && <UploadPage frontEnd={props.frontEnd} exist={true} user={user} width={1903} height={300} type="businessInformationCover" text="Change Cover Image" />}
                 </>
             }
-            {profileImage === null ? <><h3 className="noProfileImage">Upload business logo</h3> <FileUpload type="businessInformationProfile" exist={false} class="noProfileImage" user={props.user} /></> :
+            {profileImage === null ? <><h3 className="noProfileImage">Upload business logo</h3>
+                <UploadPage exist={false} class="noCoverImage" user={user} type="businessInformationProfile" text="Add Profile Picture" width={200} height={200}  />
+            </> :
                 <>
                     <ProfileImage image={profileImage} />
-                    <FileUpload class="profileImage" type="businessInformationProfile" frontEnd={props.frontEnd} exist={true} user={props.user} />
+{/*                     <FileUpload class="profileImage" type="businessInformationProfile" frontEnd={props.frontEnd} exist={true} user={props.user} />
+ */}                    {!props.frontEnd && <UploadPage frontEnd={props.frontEnd} exist={true} user={user} type="businessInformationProfile" text="Change Profile Picture" width={200} height={200}  />}
                 </>}
 
         </>

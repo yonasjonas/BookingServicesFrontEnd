@@ -1,21 +1,56 @@
 .primaryColor {
   background: #eb6400 !important;
   color: white !important;
+  transition-duration: 1s;
 }
 .primaryColorHover:hover {
   background: #022b58;
   color: white !important;
+  transition-duration: 1s;
 }
 .secondaryColor {
   background: #022b58 !important;
   color: white !important;
+  transition-duration: 1s;
+
 }
 .secondaryColorHover:hover {
   background: #eb6400 !important;
   color: white !important;
+  transition-duration: 1s;
 }
 .thirdColor {
   color: #e7e7e7 !important;
+}
+.buttonBlue:hover {
+  background: #022b58;
+  color: white;
+  transition-duration: 1s;
+}
+.buttonBlue:hover {
+  background: white;
+  color: #022b58;
+  transition-duration: 1s;
+}
+.secondaryOutlineButton:hover {
+  background: #022b58 !important;
+  color: white !important;
+  transition-duration: 1s;
+}
+.secondaryOutlineButton {
+  border: 1px solid #022b58 !important;
+  color: #3f51b5 !important;
+  transition-duration: 1s;
+}
+.activeMenu {
+  background: #022b58!important;
+}
+.activeMenu:hover {
+  background: #022b58!important;
+  
+}
+.activeMenu a, .activeMenu svg {
+  color: white!important;
 }
 
 .thirdTextColor {
@@ -26,12 +61,15 @@
   color: #eb6400 !important;
 }
 span.rs__cell p {
-  font-size: .8em;
+  font-size: 0.8em;
+}
+.bold {
+  font-weight: 600!important;
 }
 button.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.MuiButtonBase-root.css-1e6y48t-MuiButtonBase-root-MuiButton-root {
   background: #fafafa;
   width: 518px;
-  color: #eb6400!important;
+  color: #eb6400 !important;
   border: solid 1px #eb6400;
 }
 .footerTop {
@@ -40,7 +78,10 @@ button.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.
 .secondaryTextColor {
   color: #022b58 !important;
 }
-.heroText a {width: 45%;margin:5px}
+.heroText a {
+  width: 45%;
+  margin: 5px;
+}
 svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-i4bv87-MuiSvgIcon-root {
   color: #eb6400;
 }
@@ -52,16 +93,28 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-i4bv87-MuiSvgIcon-root {
   border-bottom: 1px solid;
 }
 
-span.rs__cell.rs__header.rs__time {width: 60px;}
+.alignCenter {
+  margin: auto;
+  display: table;
+}
+
+
+span.rs__cell.rs__header.rs__time {
+  width: 60px;
+}
 
 span.rs__cell.rs__header.rs__time span {
-    font-weight: 400;
-    color: #eb6400;
-    font-size: 10px;
+  font-weight: 400;
+  color: #eb6400;
+  font-size: 10px;
 }
-.rs__header {max-height: 45px!important;}
+.rs__header {
+  max-height: 45px !important;
+}
 
-span.rs__cell.rs__header.rs__time {max-height: 30px!important;}
+span.rs__cell.rs__header.rs__time {
+  max-height: 30px !important;
+}
 
 .titleOnly {
   margin: auto;
@@ -73,18 +126,16 @@ span.rs__cell.rs__header.rs__time {max-height: 30px!important;}
 
 .bookButton.secondaryColor.MuiButton-textPrimary.MuiButton-textSizeLarge.MuiButton-sizeLarge:hover {
   font-size: 11px;
-  background: #022b58!important;
-  color: white!important;
+  background: #022b58 !important;
+  color: white !important;
   border: solid 1px #022b58;
 }
 button.MuiButtonBase-root.MuiButton-root.MuiButton-text.bookButton.secondaryColor.MuiButton-textPrimary.MuiButton-textSizeLarge.MuiButton-sizeLarge {
   font-size: 11px;
-  background: white!important;
-  color: #022b58!important;
+  background: white !important;
+  color: #022b58 !important;
   border: solid 1px #022b58;
 }
-
-
 
 body {
   margin: 0;
@@ -292,13 +343,16 @@ div#simple-select em {
   font-size: 18px;
   line-height: 34px;
 }
-
-
 div#simple-select {
-    padding: 8.5px 14px!important;
+  padding: 8.5px 14px !important;
+}
+.makeStyles-logo-5.MuiTypography-h4 {
+  color: white;
 }
 
-span.rs__cell {max-height: 30px;}
+span.rs__cell {
+  max-height: 30px;
+}
 .MuiPaper-root.pagetitle.primaryTextColor.css-1pyfst.MuiPaper-elevation1.MuiPaper-rounded {
   margin-top: -195px;
 }
@@ -313,13 +367,15 @@ span.rs__cell.rs__header.rs__time span {
 .css-m1a27h div div:nth-child(2) {
   display: none;
 }
-.booking_summary {background: #eeedd2;}
+.booking_summary {
+  background: #eeedd2;
+}
 
 .providerNames {
   border-bottom: 1px solid;
   border-radius: 5px;
   padding: 2px;
-    margin: 2px;
+  margin: 2px;
   /* float: left;
      */
 }
@@ -425,4 +481,164 @@ span.rs__cell.rs__header.rs__time span {
 }
 .MuiPaper-root.cateogrieshp.css-1erojb8.MuiPaper-elevation1.MuiPaper-rounded {
   display: flex;
+}
+
+/*77777777777777777777777777777777777777777777777777777*/
+
+body {
+  position: relative;
+  height: 100vh;
+  margin: 0;
+}
+
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+#logo {
+  max-height: 500px;
+  margin-top: 20px;
+}
+
+body {
+  background: #010916;
+  color: #fff;
+}
+
+#logo {
+  height: 120px;
+}
+
+button {
+  height: 60px;
+  font-size: 22px;
+  background-color: #101a2c;
+  border: 1px solid #4b5763;
+  color: #b0b1b3;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-bottom: 4px;
+}
+
+#doc-link {
+  position: fixed;
+  bottom: 2px;
+  right: 10px;
+  font-size: 20px;
+  color: #fff;
+}
+
+.businessInformationCover_div {
+  position: absolute;
+  top: 69px;
+  width: 1904px;
+  margin: 16px !important;
+}
+button.businessInformationCover {
+  margin: auto;
+  margin-top: -55px;
+  display: table;
+  z-index: 1000;
+  position: absolute;
+  left: 0;
+  font-size: 12px;
+  width: 200px;
+  background: #ea6400;
+  height: 31px;
+  color: white;
+  font-weight: 400;
+}
+button.businessInformationProfile_upload {
+  left: -463px;
+  position: relative;
+  top: -227px;
+  font-size: 16px;
+  height: 29px;
+  background: #eb6400;
+  color: white;
+  font-weight: 600;
+}
+button.businessInformationProfile {
+  margin: auto;
+  margin-top: 15px;
+  display: table;
+  z-index: 1000000000;
+  position: absolute;
+  left: 20.4%;
+  font-size: 12px;
+  width: 200px;
+  background: #ea6400;
+  height: 31px;
+  color: white;
+  font-weight: 400;
+}
+button.businessInformationCover_upload {
+  font-size: 20px;
+  height: 49px;
+  background: #022b58;
+  color: white;
+  font-weight: 400;
+  margin-top: -111px;
+  transition-duration: 1s;
+  position: absolute;
+  left: 0;
+  padding: 10px;
+  line-height: 32px;
+}
+
+.businessInformationProfile_div {
+  position: absolute;
+  top: 258px;
+  left: 387px;
+  margin: 0 !important;
+}
+p.businessInformationProfile_explanation {
+  position: absolute;
+  background: #022b58;
+  margin-top: -17px;
+  padding: 20px;
+  font-weight: 400;
+  color: #eb6400;
+  letter-spacing: 1.2px;
+  right: 0;
+}
+.floatLeft {
+  float: left !important;
+}
+.saveIcon {
+  font-size: 26px;
+  padding-top: 6px;
+  float: left;
+  color: white!important;
+}
+.makeStyles-logo-21 {
+  cursor: pointer;
+  flex-grow: 1;
+  color: white;
+}
+.MAINNAVLINKS a:hover {
+  color: #eb6400;
+  border-bottom: 1px solid white;
+  transition-duration: 1s;
+}
+.MAINNAVLINKS a {  
+  transition-duration: 1s;
+}
+a.mainlogo {
+  color: white!important;
+}
+.dashboardpage svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-i4bv87-MuiSvgIcon-root {
+  color: #ffffff;
+}
+.dashboardpage svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-i4bv87-MuiSvgIcon-root {
+  color: #ffffff;
+  font-size: 46px;
+  display: flex;
+  clear: both;
+  margin: auto;
+  margin-bottom: 20px;
+}
+.fullWidth{
+  width: 100%;
 }

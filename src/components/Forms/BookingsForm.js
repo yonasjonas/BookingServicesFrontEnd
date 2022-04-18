@@ -682,9 +682,7 @@ const BookingsForm = ({ classes, ...props }) => {
                 </Grid>
             </form > :
                 <div>
-
-                    <h2 style={{marginTop:'20px'}}className="primaryTextColor titleOnly">Congratulations you just made a booking request and provider will soon get in touch. Email has been sent.</h2>
-                    <a className="confirmedbooking secondaryColor titleOnly" href="/book-services">Browse More</a>
+                    {!props.admin && <><h2 style={{ marginTop: '20px' }} className="primaryTextColor titleOnly">Congratulations you just made a booking request and provider will soon get in touch. Email has been sent.</h2><a className="confirmedbooking secondaryColor titleOnly" href="/book-services">Browse More</a></>}
                 </div>
             }
         </Container>

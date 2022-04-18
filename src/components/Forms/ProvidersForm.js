@@ -380,24 +380,22 @@ const ProvidersForm = ({ classes, ...props }) => {
             </Grid>
             <Button
                 className={classes.smMargin}
-                variant="contained"
-                color="primary"
+                variant="outlined" color="primary" 
                 type="submit"
             >
                 Submit
             </Button>
             <Button
-                variant="contained"
-                color="primary"
+                variant="outlined" color="primary" 
                 className={classes.smMargin}
                 onClick={resetForm}
             >
                 Reset
             </Button>
-            <Button variant="contained" color="primary" className={classes.smMargin} onClick={hideForm}>Hide Form</Button>
+            <Button variant="outlined" color="primary" className={classes.smMargin} onClick={hideForm}>Hide Form</Button>
         </form>: 
         
-        <Button variant="contained" color="primary" className={classes.smMargin} onClick={showForm}>Add new</Button>
+        <Button variant="outlined" color="primary" className={classes.smMargin + " fullWidth buttonBlue"} onClick={showForm}>Add new</Button>
        
         }
          </>

@@ -10,6 +10,11 @@ import Box from '@mui/material/Box';
 import { experimentalStyled as styled } from '@mui/material/styles';
 import MainImages from "../../components/media/MainImages";
 import Tour from 'reactour'
+import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
+import PeopleIcon from '@mui/icons-material/People';
+import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
+import DynamicFormIcon from '@mui/icons-material/DynamicForm';
+import InfoIcon from '@mui/icons-material/Info';
 
 const tourConfig = [
     {
@@ -67,9 +72,9 @@ const Item = styled(Paper)(({ theme }) => ({
     textAlign: 'center',
     color: theme.palette.text.secondary,
     fontSize: '2.5rem',
-    height: '80px',
-    lineHeight: '35px',
-    margin: '20px',
+    height: '153px',
+    lineHeight: '19px',
+    margin: '10px',
 
 }));
 //import Dashboard from "./DashBoardSideMenu";
@@ -83,6 +88,7 @@ const style = theme => ({
         "& .MuiTableCell-head": {
             fontSize: "2.25rem",
             fontWeight: "800!important",
+            color: '#eb6400'
         }
     },
     paper: {
@@ -100,6 +106,7 @@ const BusinessServices = (props, classes) => {
         setTourOpen(false);
         console.log('close tour');
         openedAlready = true
+        localStorage.setItem('openedAlready', "1");
     };
 
     const openTour = () => {
@@ -112,6 +119,7 @@ const BusinessServices = (props, classes) => {
 
     useEffect(() => {
         props.fetchAllBusinessServices();
+        localStorage.getItem("openedAlready") === "1" && setTourOpen(false);
         //props.fetchAllProviders();
     }, [])
     const user = JSON.parse(localStorage.getItem('user'))
@@ -135,36 +143,33 @@ const BusinessServices = (props, classes) => {
                         <Grid item xs={3}>
                             {<MembersMenu />}</Grid>
                         <Grid item xs={9}>
-                            <h5>{"Hi: " + user.businessName}</h5>
-                            <h2>{"Admin Dashboard: "}</h2>
                             <Box sx={{ flexGrow: 1 }}>
-                                <Grid container columns={{ xs: 2, sm: 2, md: 1 }}>
-                                    <Grid item xs={2} sm={4} md={6} key="1">
+                                <Grid className="dashboardpage" container columns={{ xs: 2, sm: 2, md: 1 }}>
+                                    <Grid item xs={2} sm={4} md={4} key="1">
                                         <Link to="/services">
-                                            <Item>Services</Item>
+                                            <Item className="primaryColor" ><MiscellaneousServicesIcon/>Services</Item>
                                         </Link>
                                     </Grid>
-                                    <Grid item xs={2} sm={4} md={6} key="2">
+                                    <Grid item xs={2} sm={4} md={4} key="2">
                                         <Link to="/providers">
-                                            <Item>Providers</Item>
+                                            <Item className="primaryColor" ><PeopleIcon/>Providers</Item>
                                         </Link>
                                     </Grid>
-                                    <Grid item xs={2} sm={4} md={6} key="3">
+                                    <Grid item xs={2} sm={4} md={4} key="3">
                                         <Link to="/bookings">
-                                            <Item>Bookings</Item>
+                                            <Item className="primaryColor" ><PlaylistAddCheckIcon/>Bookings</Item>
                                         </Link>
                                     </Grid>
                                     <Grid item xs={2} sm={4} md={6} key="4">
                                         <Link to="/widget">
-                                            <Item>Get the Widget</Item>
+                                            <Item className="secondaryColor"><DynamicFormIcon/>Get the Widget</Item>
                                         </Link>
                                     </Grid>
-                                    <Grid data-tour="tour-11" item xs={2} sm={4} md={12} key="5">
+                                    <Grid data-tour="tour-11" item xs={2} sm={4} md={6} key="5">
                                         <Link onClick={() => {setTourOpen(true) }}>
-                                            <Item>Open Help Tour</Item>
+                                            <Item className="secondaryColor" ><InfoIcon/>Open Help Tour</Item>
                                         </Link>
                                     </Grid>
-
                                 </Grid>
                             </Box>
                         </Grid>

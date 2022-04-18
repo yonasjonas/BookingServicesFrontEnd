@@ -59,10 +59,11 @@ function LoginPage({ history, classes, location, ...props }) {
     //alreadyadded = false
     const { addToast } = useToasts();
     useEffect(() => {
-        !alreadyadded && props.alert && props.alert.message && 
-            addToast(props.alert.message, { appearance: 'error' });
-            alreadyadded = true;
-    });
+        //!alreadyadded && location && location.state && addToast(location.state, { appearance: 'success' });
+    
+        //alreadyadded = true;
+        
+            });
     function handleSubmit(event) {
         if (validate()) {
             event.preventDefault();
@@ -70,7 +71,7 @@ function LoginPage({ history, classes, location, ...props }) {
             initialFieldValues.isSubmitting = true;
             props.login(values.Email, values.Password);
             alreadyadded = false;
-            history.push('/');
+            history.push('/dashboard');
             /* accountService.login(values.Email, values.Password).then(() => {
                 alertService.success('Login Success', { keepAfterRouteChange: true });
                 history.push('dashboard');

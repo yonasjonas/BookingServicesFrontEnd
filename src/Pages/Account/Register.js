@@ -8,6 +8,7 @@ import Checkbox from '@mui/material/Checkbox';
 import { FormLabel } from '@mui/material';
 import { CountryDropdown, RegionDropdown, CountryRegionData } from 'react-country-region-selector';
 import { accountService, alertService } from '../../services';
+import { useToasts } from "react-toast-notifications";
 
 
 const ITEM_HEIGHT = 48;
@@ -83,6 +84,7 @@ function Register(history, classes, ...props) {
     const [county, setCounty] = useState("Dublin");
     const [number, setNumber] = useState([]);
     const [acceptTerms, setAcceptTerms] = useState(false);
+    const { addToast } = useToasts();
 
     const [category, setCategory] = useState(null);
 
@@ -152,18 +154,20 @@ function Register(history, classes, ...props) {
         if (validate()) {
             accountService.register(values)
                 .then(() => {
-                    //alertService.success('Registration successful, please check your email for verification instructions', { keepAfterRouteChange: true });
-                    history.history.push({
+                    onSuccess();
+                    /* history.history.push({
                         pathname: '/login',
                         state: "Registration successful, please check your email for verification instructions"
-                    });
+                    }); */
                 })
                 .catch(error => {
-                    //alertService.error(error);
+                    alertService.error(error);
                 });
             const onSuccess = () => {
-                //addToast("Submitted successfully", { appearance: 'success' });
-                resetForm();
+                alertService.success('You have registered successfully. Check your email for verification link to activate your account', { keepAfterRouteChange: true });
+                    
+                //addToast("You have registered successfully. Check your email for verification link to activate your account", { appearance: 'success', });
+                //resetForm();
             }
         }
     }
@@ -354,9 +358,8 @@ function Register(history, classes, ...props) {
                         </Grid>
                     </Grid>
                     <Button type="submit"
-                        className={classes.smMargin}
+                        className={classes.smMargin + " fullWidth buttonBlue"}
                         variant="contained"
-                        color="primary"
                     >Register
                     </Button>
 

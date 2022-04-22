@@ -38,22 +38,32 @@ const DrawerComponent = () => {
                     </ListItem>
                     <ListItem onClick={() => setOpenDrawer(false)}>
                         <ListItemText>
+                            <Link to="//book-services">Find Services</Link>
+                        </ListItemText>
+                    </ListItem>
+                    <ListItem onClick={() => setOpenDrawer(false)}>
+                        <ListItemText>
                             <Link to="/about">About</Link>
                         </ListItemText>
                     </ListItem>
                     <ListItem onClick={() => setOpenDrawer(false)}>
                         <ListItemText>
-                            <Link to="/contact">Contact</Link>
+                            <Link to="/login">Login</Link>
                         </ListItemText>
                     </ListItem>
                     <ListItem onClick={() => setOpenDrawer(false)}>
                         <ListItemText>
-                            <Link to="/account">Account</Link>
+                            <Link to="/register">Register</Link>
+                        </ListItemText>
+                    </ListItem>
+                    <ListItem onClick={() => setOpenDrawer(false)}>
+                        <ListItemText>
+                            <Link to="/dashboard">Dashboard</Link>
                         </ListItemText>
                     </ListItem>
                 </List>
             </Drawer>
-            <IconButton onClick={() => setOpenDrawer(!openDrawer)}>
+            <IconButton className="mobilemenu" onClick={() => setOpenDrawer(!openDrawer)}>
                 <MenuIcon />
             </IconButton>
         </>

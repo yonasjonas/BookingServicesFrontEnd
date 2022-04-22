@@ -33,10 +33,10 @@ const BusinessInformation = (props) => {
       <Container maxWidth="lg">
         <Paper>
           <Grid container>
-            <Grid item xs={3}>
+            <Grid item xs={1} md={3}>
               {<MembersMenu />}
             </Grid>
-            <Grid item xs={9}>
+            <Grid item xs={11} md={9}>
               <BusinessInformationForm props={props} />
             </Grid>
           </Grid>

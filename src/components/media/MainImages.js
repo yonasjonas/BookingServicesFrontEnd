@@ -64,9 +64,9 @@ function MainImages(props) {
         
             {coverImage === null && !props.frontEnd ? 
                 <>
-                    <h3 className="noCoverImage">Upload your business cover image that will be visible on your business page</h3>
+                    <h3 className="noCoverImage hidemobile">Upload your business cover image that will be visible on your business page</h3>
 
-                  <UploadPage exist={false} class="noCoverImage" width={1903} height={300}  user={user} type="businessInformationCover"  text="Add Cover Image"/>
+                  <UploadPage exist={false} class="noCoverImage hidemobile" width={1903} height={300}  user={user} type="businessInformationCover"  text="Add Cover Image"/>
                 </> :
                 <>
                     <HeroImage image={coverImage} />
@@ -74,11 +74,11 @@ function MainImages(props) {
                         {!props.frontEnd && <UploadPage frontEnd={props.frontEnd} exist={true} user={user} width={1903} height={300} type="businessInformationCover" text="Change Cover Image" />}
                 </>
             }
-            {profileImage === null ? <><h3 className="noProfileImage">Upload business logo</h3>
+            {profileImage === null ? <><h3 className="noProfileImage hidemobile">Upload business logo</h3>
                 <UploadPage exist={false} class="noCoverImage" user={user} type="businessInformationProfile" text="Add Profile Picture" width={200} height={200}  />
             </> :
                 <>
-                    <ProfileImage image={profileImage} />
+                    <ProfileImage className="hidemobile" image={profileImage} />
 {/*                     <FileUpload class="profileImage" type="businessInformationProfile" frontEnd={props.frontEnd} exist={true} user={props.user} />
  */}                    {!props.frontEnd && <UploadPage frontEnd={props.frontEnd} exist={true} user={user} type="businessInformationProfile" text="Change Profile Picture" width={200} height={200}  />}
                 </>}

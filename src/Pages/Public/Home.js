@@ -31,16 +31,17 @@ const Home = (props) => {
 
     useEffect(() => {
         props.businessInfo.length === 0 && props.fetchAllBusinesses();
+        console.log("UploadPage", process.env);
     });
 
     return (
-        <div>
-            <img src={hero} alt="Image a girl managing booking on the go" />
+        <>
+            <img className="heroimage" src={hero} alt="Image a girl managing booking on the go" />
 
             <div className="heroText">
                 <h1 className="secondaryTextColor titleOnly">Welcome to MyNixer!</h1>
-                <h2 className="thirdTextColor titleOnly">Here you can become a service provider and provide services like </h2>
-                <Item className="cateogrieshp">
+                <h2 className="thirdTextColor titleOnly hidemobile">Here you can become a service provider and provide services like </h2>
+                <Item className="cateogrieshp hidemobile">
                     <div className="secondaryColor"><PetsOutlinedIcon fontSize="large"/><br/>Pet Services</div>
                     <div className="secondaryColor"><SchoolOutlinedIcon fontSize="large"/><br/>Tutoring Lessons</div>
                     <div className="secondaryColor"><ChildCareOutlinedIcon fontSize="large"/><br/>Child Minding</div>
@@ -54,15 +55,15 @@ const Home = (props) => {
                     <div className="secondaryColor"><LanOutlinedIcon fontSize="large"/><br/>IT Services</div>
                     <div className="secondaryColor"><MopedOutlinedIcon fontSize="large"/><br/>Delivery</div>
                 </Item>
-                <Item className="textundercateogrieshp">
+                <Item className="textundercateogrieshp hidemobile">
                 <p style={{textAlign:"center"}} className="thirdTextColor">
                     * Above are only the examples of services that you can offer. <br/>
                 </p>
-                <h2 style={{textAlign:"center"}} className="secondaryTextColor titleOnly">And you can offer whatever you like as long as it is legal.</h2> 
+                <h2 style={{textAlign:"center"}} className="secondaryTextColor titleOnly hidemobile">And you can offer whatever you like as long as it is legal.</h2> 
                 </Item>
                 <Grid container spacing={2} className="thirdTextColor">
                     <Grid item xs={2} md={4}></Grid>
-                    <Grid className="ctahp" item xs={2} md={4}>
+                    <Grid className="ctahp" item xs={12} md={4}>
                         <Button href="/book-services" className="secondaryColor" variant="outlined">Book Services</Button>
                         <Button href="/register" className="primaryColor" variant="outlined">Advertise Service</Button>
                     </Grid>
@@ -72,7 +73,7 @@ const Home = (props) => {
             </div>
 
             <HomepageCards businessInfo={props.businessInfo} />
-        </div>
+        </>
 
 
     )

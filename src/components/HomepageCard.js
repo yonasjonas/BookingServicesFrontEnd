@@ -15,12 +15,12 @@ const HomepageCards = (props) => {
               <Grid item md={3}>
                 <Card sx={{ maxWidth: 345 }}>
                 <ButtonBase
-                onClick={event => { document.location.href = `/single-business/${business.id}` }}>
+                onClick={event => { document.location.href = `/single-business/${business.businessId}` }}>
                   <CardActionArea>
                     <CardMedia
                       component="img"
                       height="140"
-                      src={`https://nixerwebapi.azurewebsites.net/images/business/${business.id}/businessInformationCover.jpg`}
+                      src={`https://nixerwebapi.azurewebsites.net/images/business/${business.businessId}/businessInformationCover.jpg`}
                       alt={business.businessName}
                     />
                     <CardContent>

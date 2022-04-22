@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../actions/businesses";
 import { TextField, Grid, Paper, TableBody, TableCell, MenuItem, Select, TableRow, TableContainer, Table, TableHead, withStyles, Container, ButtonGroup, Button, Link } from '@material-ui/core';
@@ -26,13 +26,18 @@ const Businesses = (props, classes) => {
     const [category, setCategory] = useState("All");
     const [businesses, setBusinesses] = useState(null);
     const [county, setCounty] = useState("All");
+    const prevBusinessesRef = useRef();
 
     useEffect(() => {
         //props.location.pathname === '/book-services' && setBusinesses(null);
         props.fetchAllBusinesses();
-        !businesses && setBusinesses(props.businesses);
+        prevBusinessesRef.current === businesses && setBusinesses(props.businesses);
         //businesses.length === 0 && props && props.businesses &&  setBusinesses(props.businesses);
-    }, [])
+        prevBusinessesRef.current = businesses;
+
+
+        console.log(businesses, '- Has changed')
+    }, [businesses])
 
     const onDelete = id => {
         if (window.confirm('Are you sure?')) {
@@ -127,7 +132,7 @@ const Businesses = (props, classes) => {
             label="Filter by County"
             onChange={searchFilters}
         >
-            
+
             <MenuItem value="All">
                 <em>All</em>
             </MenuItem>
@@ -140,15 +145,35 @@ const Businesses = (props, classes) => {
 
         </TextField>
     }
+    function getOneBusiness(record, index, classes) {
+        return record.isVerified && (<Grid className="onebusiness" container spacing={2} key={index}>
+            <Grid item xs={12} md={3}><div style={{ background: `url(https://nixerwebapi.azurewebsites.net/images/business/${record.id}/businessInformationCover.jpg)` }} className="listservicesimage"></div></Grid>
+            <Grid item xs={12} md={3}><h2>{record.businessName.toUpperCase()}</h2>
+                {helpers.getRandomInt(100, 1500, 0)} Reviews {helpers.getRandomInt(3, 5, 2)} out of 5 <img height="14px" src="../../5stars.png" alt="reviews" /></Grid>
+            <Grid item xs={6} md={2}><p style={{maxWidth:"90%", textAlign:"center", }} className="providerNames primaryOutline" >{record.county}</p></Grid>
+            <Grid item xs={6} md={2}><p style={{maxWidth:"90%",  textAlign:"center"}} className="providerNames secondaryOutline" >{record.category}</p></Grid>
+            <Grid item xs={12} md={2}>
+                <Button
+                    className={classes.smMargin + " primaryOutlineButton"}
+                    variant="contained"
+                >
+                    <Link href={"single-business/" + record.id} color="inherit">
+                        Business Info and Book
+                    </Link>
+                </Button></Grid>
+    
+        </Grid>
+        );
+    }
 
 
     return (
-        <Container maxWidth={false}>
+        <Container className="listofservices" maxWidth="lg">
             <Paper>
-                <Grid container spacing={0}>
+                <Grid container>
                     <Grid item xs={12} md={2}></Grid>
-                    <Grid item xs={12} md={4}>
-                        Find services that are offered by various businesses. You can filter by category or county
+                    <Grid style={{margin:"20px"}} item xs={12} md={6} spacing={2}>
+                        <strong>Find services that are offered by various businesses. You can filter by category or county</strong>
                     </Grid>
                     <Grid item xs={12} md={2}>
                         {props.businesses && props.businesses.length > 0 && categoryFilter(props.businesses)}
@@ -157,58 +182,20 @@ const Businesses = (props, classes) => {
                         {props.businesses && props.businesses.length > 0 && countyFilter(props.businesses)}
                     </Grid>
                     <Grid item xs={12} md={2}></Grid>
-
-                    <Grid item xs={12}>
-                        <TableContainer>
-                            <Table>
-                                <TableBody>
-                                    {businesses && businesses.length > 0 ? businesses.map((record, index) => {
-                                        return record.isVerified && (<TableRow key={index}>
-                                            <TableCell><img height="80px" width="130px;" src={`https://nixerwebapi.azurewebsites.net/images/business/${record.id}/businessInformationProfile.jpg`} /></TableCell>
-                                            <TableCell>{record.businessName.toUpperCase()}</TableCell>
-                                            <TableCell>{helpers.getRandomInt(100, 1500, 0)} Reviews {helpers.getRandomInt(3, 5, 2)} out of 5 <img height="14px" src="../../5stars.png" alt="reviews" /></TableCell>
-                                            <TableCell>{record.county}</TableCell>
-                                            <TableCell>{record.category}</TableCell>
-                                            <TableCell>
-                                                <Button
-                                                    className={classes.smMargin + " secondaryColor"}
-                                                    variant="contained"
-                                                >
-                                                    <Link href={"single-business/" + record.id} color="inherit">
-                                                        Business Info and Book
-                                                    </Link>
-                                                </Button></TableCell>
-
-                                        </TableRow>
-                                        )
-                                    }) :
-                                        props.businesses && (county === "All" ||  category === "All") && props.businesses.map((record, index) => {
-                                            return record.isVerified && (<TableRow key={index}>
-                                                <TableCell><img height="80px" width="130px;" src={`https://nixerwebapi.azurewebsites.net/images/business/${record.id}/businessInformationProfile.jpg`} /></TableCell>
-                                                <TableCell>{record.businessName.toUpperCase()}</TableCell>
-                                                <TableCell>{helpers.getRandomInt(100, 1500, 0)} Reviews {helpers.getRandomInt(3, 5, 2)} out of 5 <img height="14px" src="../../5stars.png" alt="reviews" /></TableCell>
-                                                <TableCell>{record.county}</TableCell>
-                                                <TableCell>{record.category}</TableCell>
-                                                <TableCell>
-                                                    <Button
-                                                        className={classes.smMargin + " secondaryColor"}
-                                                        variant="contained"
-                                                    >
-                                                        <Link href={"single-business/" + record.id} color="inherit">
-                                                            Business Info and Book
-                                                        </Link>
-                                                    </Button></TableCell>
-                                            </TableRow>
-                                            )
-                                        })
-                                    }
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                    </Grid>
                 </Grid>
-            </Paper>
-        </Container>
+
+
+
+
+                {businesses && businesses.length > 0 ? businesses.map((record, index) => {
+                    return getOneBusiness(record, index, classes)
+                }) :
+                    props.businesses && (county === "All" || category === "All") && props.businesses.map((record, index) => {
+                        return getOneBusiness(record, index, classes)
+                    })
+                }
+            </Paper >
+        </Container >
     )
 }
 

@@ -4,8 +4,8 @@ import * as actions from "../../actions/businessServices";
 import * as provideractions from "../../actions/businessProvidersActions";
 import { Grid, Paper, TableBody, TableCell, TableRow, TableContainer, Table, TableHead, withStyles, Container, ButtonGroup, Button } from '@material-ui/core';
 import { useToasts } from "react-toast-notifications";
-import MembersMenu from '../../components/navigation/MemberMenu';
-import { Link } from "react-router-dom";
+import MemberMenu from '../../components/navigation/MemberMenu';
+import MemberMenuOld from '../../components/navigation/MemberMenuOld';import { Link } from "react-router-dom";
 import Box from '@mui/material/Box';
 import { experimentalStyled as styled } from '@mui/material/styles';
 import MainImages from "../../components/media/MainImages";
@@ -140,34 +140,35 @@ const BusinessServices = (props, classes) => {
             <Container maxWidth={"lg"}>
                 <TableContainer>
                     <Grid container>
-                        <Grid item xs={3}>
-                            {<MembersMenu />}</Grid>
-                        <Grid item xs={9}>
+                        <Grid item xs={1} md={3}>
+                            {<>
+					<MemberMenu /></>}</Grid>
+                        <Grid item xs={11} md={9}>
                             <Box sx={{ flexGrow: 1 }}>
-                                <Grid className="dashboardpage" container columns={{ xs: 2, sm: 2, md: 1 }}>
-                                    <Grid item xs={2} sm={4} md={4} key="1">
+                                <Grid className="dashboardpage" container>
+                                    <Grid item xs={6} md={4} key="1">
                                         <Link to="/services">
-                                            <Item className="primaryColor" ><MiscellaneousServicesIcon/>Services</Item>
+                                            <Item className="primaryColor dashbox" ><MiscellaneousServicesIcon/>Services</Item>
                                         </Link>
                                     </Grid>
-                                    <Grid item xs={2} sm={4} md={4} key="2">
+                                    <Grid item xs={6} md={4} key="2">
                                         <Link to="/providers">
-                                            <Item className="primaryColor" ><PeopleIcon/>Providers</Item>
+                                            <Item className="primaryColor dashbox" ><PeopleIcon/>Providers</Item>
                                         </Link>
                                     </Grid>
-                                    <Grid item xs={2} sm={4} md={4} key="3">
+                                    <Grid item xs={6} md={4} key="3">
                                         <Link to="/bookings">
-                                            <Item className="primaryColor" ><PlaylistAddCheckIcon/>Bookings</Item>
+                                            <Item className="primaryColor dashbox" ><PlaylistAddCheckIcon/>Bookings</Item>
                                         </Link>
                                     </Grid>
-                                    <Grid item xs={2} sm={4} md={6} key="4">
+                                    <Grid item xs={6} md={6} key="4">
                                         <Link to="/widget">
-                                            <Item className="secondaryColor"><DynamicFormIcon/>Get the Widget</Item>
+                                            <Item className="secondaryColor dashbox"><DynamicFormIcon/>Get the Widget</Item>
                                         </Link>
                                     </Grid>
-                                    <Grid data-tour="tour-11" item xs={2} sm={4} md={6} key="5">
+                                    <Grid data-tour="tour-11" item xs={12} md={6} key="5">
                                         <Link onClick={() => {setTourOpen(true) }}>
-                                            <Item className="secondaryColor" ><InfoIcon/>Open Help Tour</Item>
+                                            <Item className="secondaryColor dashbox" ><InfoIcon/>Open Help Tour</Item>
                                         </Link>
                                     </Grid>
                                 </Grid>

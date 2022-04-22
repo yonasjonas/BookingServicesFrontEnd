@@ -1,3 +1,4 @@
+import MainLogo from '../media/MainLogo';
 import React, { useState, useEffect } from 'react';
 import { accountService } from '../../services';
 import { Role } from '../../helpers';
@@ -50,11 +51,7 @@ const MainNavigation = (...props) => {
             <CssBaseline />
             <Toolbar>
                 
-                <a className="mainlogo" href="/">
-                    <Typography variant="h4" className={classes.logo}>
-                        My <ThumbUpIcon /> nixer
-                    </Typography>
-                </a>
+                <MainLogo />
                 {isMobile ? (
                     <DrawerComponent />
                 ) : <div className={classes.navlinks + " MAINNAVLINKS"} >
@@ -67,25 +64,27 @@ const MainNavigation = (...props) => {
                     <Link data-tour="tour-10" to="/book-services" className={classes.link}>
                         Find Services
                     </Link>
-                    {!props[0].loggedIn ?
-                        <>
-                            <Link variant="subtitle" to="/login" className={classes.link}>
-                                Login
-                            </Link>
-                            <Link variant="subtitle" to="/register" className={classes.link}>
-                                Register
-                            </Link>
-                        </>
-                        :
-                        <>
-                            <Link to="/dashboard" className={classes.link + " dashboardButton primaryColor"}>
-                                Dashboard
-                            </Link>
-                        </>
-
-                    }
+                    
 
                 </div>}
+                {!props[0].loggedIn ?
+                    <div className="loginregisterlinks">
+                        <Link variant="subtitle" to="/login" className={classes.link}>
+                            Login
+                        </Link>
+                        <Link variant="subtitle" to="/register" className={classes.link}>
+                            Register
+                        </Link>
+                    </div>
+                    :
+                    <>
+                        <Link to="/dashboard" className={classes.link + " dashboardButton primaryColor dashboardlinks"}>
+                            Dashboard
+                        </Link>
+                    </>
+
+                }
+                
             </Toolbar>
         </AppBar>
     );

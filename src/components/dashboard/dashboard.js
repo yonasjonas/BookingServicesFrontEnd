@@ -21,7 +21,6 @@ import { mainListItems, secondaryListItems } from './listItems';
 import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
-import MemberMenu from '../../components/navigation/MemberMenu';
 
 
 
@@ -172,6 +171,7 @@ function DashboardContent() {
 					<Divider />
 
 					<MemberMenu />
+					<MemberMenuOld />
 					<Divider />
 
 				</Drawer>

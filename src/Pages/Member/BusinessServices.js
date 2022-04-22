@@ -9,6 +9,8 @@ import BusinessServicesForm from '../../components/Forms/BusinessServicesForm';
 import { useToasts } from "react-toast-notifications";
 import MembersMenu from '../../components/navigation/MemberMenu';
 import MainImages from "../../components/media/MainImages";
+import * as helpers from '../../helpers';
+
 
 const style = theme => ({
     root: {
@@ -48,34 +50,34 @@ const BusinessServices = (props, classes) => {
             <Container maxWidth="lg">
                 <TableContainer>
                     <Grid container>
-                        <Grid item xs={3}>{<MembersMenu />}</Grid>
-                        <Grid item xs={9}>
+                    <Grid item xs={1} md={3}><MembersMenu /></Grid>
+                        <Grid item xs={11} md={9}>
                             <h1>Business Services</h1>
                             <BusinessServicesForm {...({ currentId, setCurrentId })} />
                             <Table>
                                 <TableHead className={classes.root}>
-                                    <TableRow>
-                                            <TableCell><h3>Image</h3></TableCell>
-                                            <TableCell><h3>Name</h3></TableCell>
-                                            <TableCell><h3>Duration</h3></TableCell>
-                                            <TableCell><h3>Providers</h3></TableCell>
-                                            <TableCell><h3>Price</h3></TableCell>
-                                            <TableCell><h3>Manage</h3></TableCell> 
+                                    <TableRow  key="1">
+                                            <TableCell className="hidemobile"><h4>Image</h4></TableCell>
+                                            <TableCell><h4>Name</h4></TableCell>
+                                            <TableCell className="hidemobile"><h4>Duration</h4></TableCell>
+                                            <TableCell className="hidemobile"><h4>Providers</h4></TableCell>
+                                            <TableCell><h4>Price</h4></TableCell>
+                                            <TableCell><h4>Manage</h4></TableCell> 
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     {
                                         props.businessServicesList && props.businessServicesList.map((record, index) => {
                                             //console.log("record", record)
-                                            return (<TableRow key={index}>
-                                                <TableCell><img className="serviceImage" src={"https://nixerwebapi.azurewebsites.net/images/business/" + record.businessId + "/service/serviceImage_"+ record.id +".jpg"} /></TableCell>
-                                                <TableCell className="secondaryTextColor bold"><strong>{record.serviceName}</strong></TableCell>
-                                                <TableCell><strong>{record.timeSlotDuration}min.</strong></TableCell>
-                                                <TableCell>{typeof record.providerId === 'string' && record.providerId.split(',').map(i => {
-                                                    return (<div style={{maxWidth:'140px'}} className="providerNames secondaryOutlineButton alignCenter">{props.businessProviders.find(j => j.id == i) ? props.businessProviders.find(j => j.id == i).name + " " : ""}</div>)
+                                            return (<TableRow key={record.id}>
+                                                <TableCell className="hidemobile">{helpers.getServiceImage(record.id, record.businessId, "grid")}</TableCell>
+                                                <TableCell className="secondaryTextColor"><strong>{record.serviceName}</strong></TableCell>
+                                                <TableCell className="hidemobile"><strong>{record.timeSlotDuration}min.</strong></TableCell>
+                                                <TableCell className="hidemobile">{typeof record.providerId === 'string' && record.providerId.split(',').map(i => {
+                                                    return (<div style={{maxWidth:'140px'}} className="providerNames secondaryOutlineButton titleOnly">{props.businessProviders.find(j => j.id == i) ? props.businessProviders.find(j => j.id == i).name + " " : ""}</div>)
                                                 })}
                                                 </TableCell>
-                                                <TableCell><strong>{record.price}€</strong></TableCell>
+                                                <TableCell>{record.price}€</TableCell>
                                                 <TableCell>
                                                     <ButtonGroup>
                                                         <Button><EditIcon className="primary" onClick={() => { setCurrentId(record.id) }} /></Button>

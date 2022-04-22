@@ -6,8 +6,8 @@ import { Grid, InputLabel, Select, MenuItem, withStyles, FormControl, Button, Te
 import useForm from '../useForm';
 import { useToasts } from "react-toast-notifications";
 import FileUpload from "../FormElements/FileUpload";
-
-
+import UploadPage from "../FormElements/UploadPage";
+import * as helpers from '../../helpers';
 
 const styles = theme => ({
     root: {
@@ -133,84 +133,94 @@ const BusinessServicesForm = ({ classes, state, ...props }) => {
 
     return (
         <>
+
             {console.log({ editing })}
             {editing ?
 
-                <form
-                    autoComplete="off"
-                    noValidate
-                    className={classes.root}
-                    onSubmit={handleSubmit}
-                >
-                    <Grid container>
-                        {props.currentId !== 0 ? <>
-                            <strong>Upload image</strong><br />
-                            <FileUpload class="serviceImage" type="serviceImage" providerId={props.currentId} /></> : "Save Service to upload image"}
-                        <TextField
-                            name="serviceName"
-                            variant="outlined"
-                            label="Service Name"
-                            value={values.serviceName}
-                            onChange={handleInputChange}
-                            {...(errors.serviceName && { error: true, helperText: errors.serviceName })}
-                        />
-                        <TextField
-                            name="price"
-                            variant="outlined"
-                            label="Price"
-                            value={values.price}
-                            onChange={handleInputChange}
-                            {...(errors.price && { error: true, helperText: errors.price })}
-                        />
-                        <TextField
-                            name="timeSlotDuration"
-                            variant="outlined"
-                            label="Time Slot Duration"
-                            value={values.timeSlotDuration}
-                            onChange={handleInputChange}
-                            {...(errors.timeSlotDuration && { error: true, helperText: errors.timeSlotDuration })}
-                        />
-                        <FormControl variant="outlined" className={classes.formControl}>
 
+                <div>
+                    {props.currentId !== 0 ? <>
+                        {helpers.getServiceImage(props.currentId, props && props.user && props.user.id && props.user.id, "form")}
 
-                            <Select
-                                multiple
-                                native
+                                
+                        <UploadPage exist={false} class="noCoverImage hidemobile titleOnly" 
+                        providerId={props.currentId} 
+                        width={300} height={300} 
+                        user={props && props.user && props.user.id && props.user.id} type="serviceImage"  text="Add Service Image"/></> : "Save Service to upload image"
+}
+
+                    <form
+                        autoComplete="off"
+                        noValidate
+                        className={classes.root}
+                        onSubmit={handleSubmit}
+                    >
+                        <Grid container>
+                           
+                            <TextField
+                                name="serviceName"
                                 variant="outlined"
-                                label="Days of service"
-                                name="providerId"
-                                value={typeof values.providerId === 'string' ? values.providerId.split(',') : values.providerId}
-                                // @ts-ignore Typings are not considering `native`
-                                onChange={handleChangeMultiple}
-                                inputProps={{
-                                    id: 'select-multiple-native',
-                                }}
-                            >
-                                {props.businessProviders.map((provider) => (
-                                    <option key={provider.id} value={provider.id}>
-                                        {provider.name}
-                                    </option>
-                                ))}
-                            </Select>
-                        </FormControl>
-                    </Grid>
-                    <Button
-                        className={classes.smMargin + " buttonBlue"}
-                        variant="outlined"
-                        type="submit"
-                        color="primary" 
-                    >
-                        Submit
-                    </Button>
-                    <Button
-                        variant="outlined"
-                        className={classes.smMargin + " buttonBlue"}
-                        onClick={resetForm}
-                    >
-                        Reset
-                    </Button>
-                    <Button variant="outlined" className={classes.smMargin + " buttonBlue"} onClick={hideForm}>Hide Form</Button>
-                </form> :
+                                label="Service Name"
+                                value={values.serviceName ? values.serviceName : ""}
+                                onChange={handleInputChange}
+                                {...(errors.serviceName && { error: true, helperText: errors.serviceName })}
+                            />
+                            <TextField
+                                name="price"
+                                variant="outlined"
+                                label="Price"
+                                value={values.price ? values.price : ""}
+                                onChange={handleInputChange}
+                                {...(errors.price && { error: true, helperText: errors.price })}
+                            />
+                            <TextField
+                                name="timeSlotDuration"
+                                variant="outlined"
+                                label="Time Slot Duration"
+                                value={values.timeSlotDuration ? values.timeSlotDuration : ""}
+                                onChange={handleInputChange}
+                                {...(errors.timeSlotDuration && { error: true, helperText: errors.timeSlotDuration })}
+                            />
+                            <FormControl variant="outlined" className={classes.formControl}>
+                                <Select
+                                    multiple
+                                    native
+                                    variant="outlined"
+                                    label="Days of service"
+                                    name="providerId"
+                                    value={typeof values.providerId === 'string' ? values.providerId.split(',') : values.providerId}
+                                    // @ts-ignore Typings are not considering `native`
+                                    onChange={handleChangeMultiple}
+                                    inputProps={{
+                                        id: 'select-multiple-native',
+                                    }}
+                                >
+                                    {props.businessProviders.map((provider) => (
+                                        <option key={provider.id} value={provider.id}>
+                                            {provider.name}
+                                        </option>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Button
+                            className={classes.smMargin + " buttonBlue"}
+                            variant="outlined"
+                            type="submit"
+                            color="primary"
+                        >
+                            Submit
+                        </Button>
+                        <Button
+                            variant="outlined"
+                            className={classes.smMargin + " buttonBlue"}
+                            onClick={resetForm}
+                        >
+                            Reset
+                        </Button>
+                        <Button variant="outlined" className={classes.smMargin + " buttonBlue"} onClick={hideForm}>Hide Form</Button>
+                    </form>
+                </div> :
 
                 <Button variant="outlined" color="primary" className={classes.smMargin + " fullWidth buttonBlue"} onClick={showForm}>Add new Service</Button>
 

@@ -3,17 +3,20 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { userActions } from '../../actions/user.actions';
 import useForm from '../../components/useForm';
-import { Grid, InputLabel, Select, MenuItem, withStyles, FormControl, Button, TextField, Paper, Container } from '@material-ui/core';
+import { Grid, InputLabel, Typography, MenuItem, withStyles, FormControl, Button, TextField, Paper, Container } from '@material-ui/core';
 import { useToasts } from "react-toast-notifications";
-import { accountService, alertService } from '../../services';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+
 
 
 const styles = theme => ({
     root: {
+        backgroundColor: '#000',
         '& .MuiTextField-root': {
             margin: theme.spacing(1),
             backgroundColor: '#000',
         }
+        
     },
     formControl: {
         margin: theme.spacing(1),
@@ -59,6 +62,8 @@ function LoginPage({ history, classes, location, ...props }) {
     //alreadyadded = false
     const { addToast } = useToasts();
     useEffect(() => {
+
+        console.log(process.env.REACT_APP_UPLOAD_URL)
         //!alreadyadded && location && location.state && addToast(location.state, { appearance: 'success' });
     
         //alreadyadded = true;
@@ -108,8 +113,16 @@ function LoginPage({ history, classes, location, ...props }) {
     } = useForm(initialFieldValues, validate, props.setCurrentId,)
 
     return (
-        <Container maxWidth="sm">
+        <Container className="loginform" maxWidth="sm">
+            <Grid className="titleOnly" container>
+            <Typography variant="h4" className={classes.logo}>
+                        My <ThumbUpIcon /> nixer
+                    </Typography>
+                <p>Login to your account and manage your services and bookings</p>
+                    
+                </Grid>
             <Paper>
+            
                 {location.pathname === '/register' && location.state && <h2>{location.state}</h2>}
                 <form onSubmit={handleSubmit} className={classes.root}>
                     <Grid container>
@@ -130,11 +143,13 @@ function LoginPage({ history, classes, location, ...props }) {
                             </div>
                         </div>
                     </Grid>
+                    
                     <Button type="submit"
-                        className={classes.smMargin + " secondaryColor"}
+                        className={classes.smMargin + " primaryColor "}
                         variant="contained"
                         color="primary"
-                    >Login
+                        fullWidth>
+                            Login
                     </Button>
 
                 </form >

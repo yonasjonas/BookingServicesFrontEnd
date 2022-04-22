@@ -73,8 +73,8 @@ const BusinessBookings = (props, classes) => {
             <Container maxWidth="lg">
                 <Paper>
                     <Grid container>
-                        <Grid item xs={3}>{<MembersMenu />}</Grid>
-                        <Grid item xs={9}>
+                    <Grid item xs={1} md={3}><MembersMenu /></Grid>
+                        <Grid item xs={11} md={9}>
                             <TableContainer>
                                 <Grid container><BookingsForm {...({ currentId, setCurrentId })} accept={accepted} admin={true} /></Grid>
                                 <h1> Bookings</h1>

@@ -7,6 +7,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import ProvidersForm from '../../components/Forms/ProvidersForm';
 import { useToasts } from "react-toast-notifications";
 import MembersMenu from '../../components/navigation/MemberMenu';
+import MembersMenuOld from '../../components/navigation/MemberMenuOld';
 import MainImages from "../../components/media/MainImages";
 import * as helpers from '../../helpers';
 import TagFacesIcon from '@mui/icons-material/TagFaces';
@@ -96,45 +97,26 @@ const BusinessProviders = (props, classes) => {
 
     }
 
-    const getProviderImage = (id, businessId) => {
-
-
-        let path = "https://nixerwebapi.azurewebsites.net/images/business/" + businessId + "/provider/providerImage_" + id + ".jpg";
-
-
-        /* // when go live enable this
-        if (imageExists(path)) {
-            path = "noimage.png"
-        }
-        else {
-            path = "noimage.png"
-        } */
-
-
-        return <img className="providerImage" src={path} />;
-
-    }
-
 
     return (
         <><MainImages />
             <Container maxWidth="lg">
                 <Paper>
                     <Grid container>
-                        <Grid item xs={3}>{<MembersMenu />}</Grid>
-                        <Grid item xs={9}>
+                        <Grid item xs={1} md={3}><MembersMenu /></Grid>
+                        <Grid item xs={11} md={9}>
                             <TableContainer>
                                 <h1> Providers</h1>
                                 <Grid container><ProvidersForm {...({ currentId, setCurrentId })} /></Grid>
                                 <Table>
                                     <TableHead className={classes.root}>
                                         <TableRow>
-                                            <TableCell><h3>Profile Picture</h3></TableCell>
-                                            <TableCell><h3>Name</h3></TableCell>
-                                            <TableCell><h3>Working days</h3></TableCell>
-                                            <TableCell><h3>Phone</h3></TableCell>
-                                            <TableCell><h3>Email</h3></TableCell>
-                                            <TableCell><h3>Manage</h3></TableCell>
+                                            <TableCell className="hidemobile"><h4>Profile Picture</h4></TableCell>
+                                            <TableCell><h4>Name</h4></TableCell>
+                                            <TableCell className="hidemobile"><h4>Working days</h4></TableCell>
+                                            <TableCell className="hidemobile"><h4>Phone</h4></TableCell>
+                                            <TableCell className="hidemobile"><h4>Email</h4></TableCell>
+                                            <TableCell><h4>Manage</h4></TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -142,11 +124,11 @@ const BusinessProviders = (props, classes) => {
                                             props.providersList && props.providersList.map((record, index) => {
                                                 return (
                                                     <TableRow key={index}>
-                                                        <TableCell>{getProviderImage(record.id, record.businessId)}</TableCell>
-                                                        <TableCell className="secondaryTextColor bold">{record.name}</TableCell>
-                                                        <TableCell  className="secondaryTextColor bold" style={{ maxWidth: '140px' }}>{showDays(record.weekvalue)}</TableCell>
-                                                        <TableCell className="secondaryTextColor bold">{record.phone}</TableCell>
-                                                        <TableCell className="secondaryTextColor bold">{record.email}</TableCell>
+                                                        <TableCell className="hidemobile">{helpers.getProviderImage(record.id, record.businessId, "grid")}</TableCell>
+                                                        <TableCell className="secondaryTextColor">{record.name}</TableCell>
+                                                        <TableCell  className="secondaryTextColor hidemobile" style={{ maxWidth: '140px' }}>{showDays(record.weekvalue)}</TableCell>
+                                                        <TableCell className="secondaryTextColor hidemobile">{record.phone}</TableCell>
+                                                        <TableCell className="secondaryTextColor hidemobile">{record.email}</TableCell>
                                                         <TableCell>
                                                             <ButtonGroup>
                                                                 <Button><EditIcon color="primary" onClick={() => { setCurrentId(record.id) }} /></Button>

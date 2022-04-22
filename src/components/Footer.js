@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid, Container } from '@material-ui/core';
 
 
@@ -6,40 +6,18 @@ import { Grid, Container } from '@material-ui/core';
 
 function Footer() {
     //alreadyadded = false
-    
+    const [innerHeight, setInnerHeight] = useState('relative')
 
+    useEffect(() => {
+        if (document.querySelector('#root').offsetHeight - 200 > window.innerHeight ) {
+            setInnerHeight("absolute")
+            console.log("root height", document.querySelector('#root').offsetHeight, "windows height: ", window.innerHeight)
+        }
+    })
     return (
-        <Container className="footerAll primaryColor" style={{}} maxWidth={false} container>
-            
-                    
-                    <Grid className="footerTop primaryColor" container spacing={0}>
-                        <Grid item xs={12} md={3}>
-                            <ul>
-                                <li>Terms and Conditions</li>
-                                <li>Find Services</li>
-                                <li>Register</li>
-                                <li>About MyNixer</li>
-                            </ul>
-                        </Grid>
-                        <Grid item xs={12} md={3}>
-                            <ul>
-                                <li>Terms and Conditions</li>
-                                <li>Find Services</li>
-                                <li>Register</li>
-                                <li>About MyNixer</li>
-                            </ul>
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            
-                        </Grid>
-                    </Grid>
-                    <Grid style={{textAlign:"center"}}className="fotterBottom secondaryColor">
-                        Copyright © MyNixer 2022 All Rights Reserved.
-                    </Grid>
-
-
+        <Container style={{textAlign:"center",fontSize:"12px",padding:"10px",position:`${innerHeight}`,bottom:"0px"}} className="fotterBottom secondaryColor" maxWidth={false}>
+            Copyright © MyNixer 2022 All Rights Reserved.
         </Container>
-
     )
 }
 

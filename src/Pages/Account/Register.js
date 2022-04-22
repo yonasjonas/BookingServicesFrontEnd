@@ -3,12 +3,13 @@ import { Link } from 'react-router-dom';
 //import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import useForm from '../../components/useForm';
-import { Grid, Box, InputLabel, Select, MenuItem, withStyles, Button, TextField, Paper, Container } from '@material-ui/core';
+import { Grid, Box, InputLabel, Select, MenuItem, withStyles, Button, TextField, Paper, Container, Typography } from '@material-ui/core';
 import Checkbox from '@mui/material/Checkbox';
 import { FormLabel } from '@mui/material';
 import { CountryDropdown, RegionDropdown, CountryRegionData } from 'react-country-region-selector';
 import { accountService, alertService } from '../../services';
 import { useToasts } from "react-toast-notifications";
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 
 
 const ITEM_HEIGHT = 48;
@@ -183,7 +184,14 @@ function Register(history, classes, ...props) {
 
 
     return (
-        <Container maxWidth="md">
+        <Container className="registerform" maxWidth="md">
+             <Grid className="titleOnly" container>
+            <Typography variant="h4" className={classes.logo}>
+                        My <ThumbUpIcon /> nixer
+                    </Typography>
+                <p>Register and start providing services to your community. <br/><br/><strong>It is free!!!</strong><br/><br/>You will be able to upload business cover image and business logo after you will register. <br/> <br/>Once you are logged in after registration you will able to add service providers and services and start advertising on our platform! <br/><strong>Good luck!</strong></p>
+                    
+                </Grid>
             <Paper>
                 <form onSubmit={handleSubmit} className={classes.root}>
                     <Grid container spacing={2}>
@@ -358,12 +366,14 @@ function Register(history, classes, ...props) {
                         </Grid>
                     </Grid>
                     <Button type="submit"
-                        className={classes.smMargin + " fullWidth buttonBlue"}
-                        variant="contained"
-                    >Register
+                        className={classes.smMargin + " primaryColor"}
+                        variant="outlined"
+                        color="primary"
+                    fullWidth>Register
                     </Button>
 
                 </form >
+                <p>* After registration you will receive a verification email. Please click the link in the email to verify your account. </p>
             </Paper>
         </Container>
     )

@@ -113,22 +113,24 @@ function RangeSlider(...props) {
         Object.keys(weekvalue).map(i => {
             if (weekvalue[i].dayIndex === props[0].day ) {
                 
-                console.log(weekvalue[i].dayIndex)
+                //console.log(weekvalue[i].dayIndex)
                 
 
                 let startTimeValue = null;
                 let endTimeValue = null;
 
-                let startTime = parseInt(weekvalue[i].startTime.substring(0, weekvalue[i].startTime.indexOf(":")));
-                let endTime = parseInt(weekvalue[i].endTime.substring(0, weekvalue[i].endTime.indexOf(":")));
+                //let startTime = parseInt(weekvalue[i].startTime.substring(0, weekvalue[i].startTime.indexOf(":")));
+                //let endTime = parseInt(weekvalue[i].endTime.substring(0, weekvalue[i].endTime.indexOf(":")));
+                let startTime = weekvalue[i].startTime;
+                let endTime = weekvalue[i].endTime;
 
                 marks.forEach(element => {
-                    if (element.value == startTime) {
-                        startTime = element.label;
+                    if (element.label == startTime) {
+                        //startTime = element.label;
                         startTimeValue = element.value;
                     }
-                    if (element.value == endTime) {
-                        endTime = element.label;
+                    if (element.label == endTime) {
+                        //endTime = element.label;
                         endTimeValue = element.value;
                     }
                 });
@@ -136,7 +138,7 @@ function RangeSlider(...props) {
                 setCurrentValue([startTimeValue, endTimeValue]);
         
             }
-            console.log(weekvalue[i].dayIndex)
+            //console.log(weekvalue[i].dayIndex)
             //console.log(weekvalue[i].startTime)
         
         })
@@ -186,12 +188,7 @@ function RangeSlider(...props) {
                     "endTime": endTime
                 }
             }
-            setCurrentValue([startTimeValue, endTimeValue]);
-
-
-
-
-        }
+            setCurrentValue([startTimeValue, endTimeValue]);}
         else {
 
             if (startTime && endTime && day) {
@@ -223,7 +220,7 @@ function RangeSlider(...props) {
 
     return (
 
-        <Box sx={{ width: "60%", margin: "15px" }}>
+        <Box classname="providerformbox" sx={{ width: "90%", margin: "15px" }}>
             <Typography id="input-slider" gutterBottom>
                 Hours for {props[0].day}
             </Typography>

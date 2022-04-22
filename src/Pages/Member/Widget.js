@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import * as actions from "../../actions/businessServices";
 import { Grid, Paper, TableBody, TableCell, TableRow, TableContainer, Table, TableHead, withStyles, Container, ButtonGroup, Button } from '@material-ui/core';
 import MainImages from "../../components/media/MainImages";
+import MembersMenuOld from '../../components/navigation/MemberMenuOld';
 import MembersMenu from '../../components/navigation/MemberMenu';
 
 
@@ -38,8 +39,8 @@ const BusinessServices = (props, classes) => {
             <Container maxWidth="lg">
                 <Paper>
                     <Grid container>
-                        <Grid item xs={3}>{<MembersMenu />}</Grid>
-                        <Grid item xs={9}><h1> Widget</h1>
+                    <Grid item xs={3} md={3}><MembersMenu /></Grid>
+                        <Grid item xs={9} md={9}><h1> Widget</h1>
                             <p>Widget coming soon...</p>
                         </Grid>
                     </Grid>

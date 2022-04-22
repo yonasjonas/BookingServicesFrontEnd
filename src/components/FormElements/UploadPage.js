@@ -53,6 +53,8 @@ const ItemUploadProgress = memo(({ id, show = false }) => {
         <UploadProgress progress={progress} />;
 });
 
+let isUploading = false;
+
 const ItemPreviewWithCrop = withRequestPreSendUpdate(({
     id,
     url,
@@ -62,6 +64,8 @@ const ItemPreviewWithCrop = withRequestPreSendUpdate(({
     requestData,
 }) => {
     const croppingRef = useRef(null);
+
+    //const [isUploading, setIsUploading] = useState(false);
     const [isCropped, setCropped] = useState(null);
     const [croppedImg, setCroppedImg] = useState(null);
     const [uploadedImage, setUploaded] = useState(false);
@@ -72,15 +76,18 @@ const ItemPreviewWithCrop = withRequestPreSendUpdate(({
         updateRequest({ items: requestData.items});
         setCroppedImg(croppingRef.current.getDataUrl());
         setUploaded(true)
+        isUploading = false
     }, [requestData, updateRequest]);
 
-    return (<SingleCropContainer>
+    return (<SingleCropContainer className="UploadPreview">
         {!croppedImg ?
             <UploadCropper
                 ref={croppingRef}
                 url={url}
                 type={type}
                 name={name}
+                BusinessId={requestData && requestData.options && requestData.options.params && requestData.options.params.businessId ? requestData.options.params.businessId : "3"}
+                ProviderId= {requestData && requestData.options && requestData.options.params && requestData.options.params.providerId && requestData.options.params.providerId}
                 setCropped={setCropped}
                 width={requestData && requestData.options && requestData.options.params && requestData.options.params.width && requestData.options.params.width}
                 height={requestData && requestData.options && requestData.options.params && requestData.options.params.width && requestData.options.params.height}
@@ -93,9 +100,9 @@ const ItemPreviewWithCrop = withRequestPreSendUpdate(({
                 <button className={requestData.options.params.Type + "_upload buttonBlue"} onClick={onUpload}>
                     <SaveIcon className="saveIcon"/><span>Confirm and Save new Image</span>
                 </button>
-                <p className={"businessInformationProfile_explanation"}>
-                    <Grid className="floatLeft" md="2"><HelpOutlineIcon style={{fontSize:'81px', marginRight: '10px'}}/></Grid> 
-                    <Grid md="10">You can drag the image to adjust it the way that you will want it to appear once uploaded. <br/>
+                <p className={"businessInformationProfile_explanation "}>
+                    <Grid className="floatLeft" md={2}><HelpOutlineIcon style={{fontSize:'81px', marginRight: '10px'}}/></Grid> 
+                    <Grid md={10}>You can drag the image to adjust it the way that you will want it to appear once uploaded. <br/>
                                 You can also use mouse wheel to zoom the image. <br/> 
                                 Once you are finished click Upload Selection button!
                     </Grid>
@@ -124,15 +131,15 @@ export const UploadPage = (...props) => {
     'BusinessId': userId */
 
 
+    
     //setProps(props);
-    //console.log("UploadPage", process.env.UPLOAD_URL);
     return (<Uploady
-        destination={{ url: 'http://localhost:4000/api/upload/image/file' }}
+        destination={{ url: 'https://nixerwebapi.azurewebsites.net/api/upload/image/file' }}
         multiple={false}
         sendWithFormData={true}
         params={{
             'Type': props[0].type,
-            'BusinessId': props[0].user,
+            'BusinessId': props[0].user && props[0].user,
             'ProviderId': props[0].providerId && props[0].providerId,
             'width': props[0].width,
             'height': props[0].height,
@@ -140,8 +147,12 @@ export const UploadPage = (...props) => {
 
     >
         <h4></h4>
-        <UploadButton className={props[0].type + " buttonBlue"}>{props[0].text}</UploadButton>
+        <UploadButton 
+            onSubmit={isUploading === true}
+            className={props[0].type + " buttonBlue hidemobile"}
+            disabled={isUploading} >{props[0].text}</UploadButton>
         <UploadPreview
+            className={props[0].type + " UploadPreview"}
             previewComponentProps={props[0]}
             PreviewComponent={ItemPreviewWithCrop}
         />

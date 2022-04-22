@@ -200,7 +200,7 @@ const BusinessInformationForm = ({ classes, ...props}) => {
         <>
           
             <form onSubmit={handleSubmit} className={classes.root}>
-            <Container maxWidth="md">
+            <Container maxWidth="lg">
             {props && props.businessInformation && props.businessInformation.length > 0  &&
                 <Paper>
                     <Grid container spacing={2}>

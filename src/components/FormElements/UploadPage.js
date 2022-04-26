@@ -53,7 +53,7 @@ const ItemUploadProgress = memo(({ id, show = false }) => {
         <UploadProgress progress={progress} />;
 });
 
-let isUploading = false;
+let isUploadingGlobal = false;
 
 const ItemPreviewWithCrop = withRequestPreSendUpdate(({
     id,
@@ -71,12 +71,13 @@ const ItemPreviewWithCrop = withRequestPreSendUpdate(({
     const [uploadedImage, setUploaded] = useState(false);
 
     const onUpload = useCallback(async () => {
+        isUploadingGlobal = true;
         //console.log("onUpload: ", localprops);
         requestData.items[0].file = await croppingRef.current.cropImage();
         updateRequest({ items: requestData.items});
         setCroppedImg(croppingRef.current.getDataUrl());
         setUploaded(true)
-        isUploading = false
+        window.location.reload();
     }, [requestData, updateRequest]);
 
     return (<SingleCropContainer className="UploadPreview">
@@ -109,6 +110,10 @@ const ItemPreviewWithCrop = withRequestPreSendUpdate(({
                 </p>
 
             </div> : !uploadedImage && <>
+            
+            <button className={requestData && requestData.options && requestData.options.params && requestData.options.params.Type &&requestData.options.params.Type + "_upload buttonBlue"} onClick={onUpload}>
+                    <SaveIcon className="saveIcon"/><span>Confirm and Save new Image</span>
+                </button>
             <p className={"businessInformationProfile_explanation"}><Grid className="floatLeft" md="2"><HelpOutlineIcon style={{fontSize:'81px', marginRight: '10px'}}/></Grid> <Grid md="10">You can drag the image to adjust it the way that you will want it to appear once uploaded. <br/>
                 You can also use mouse wheel to zoom the image. <br/> 
                 Once you are finished click Upload Selection button!</Grid></p></>}
@@ -129,6 +134,11 @@ export const UploadPage = (...props) => {
     'Type': type
     'FileName': selectedFile.name
     'BusinessId': userId */
+    const [isUploading, setIsUploading] = useState(false);
+
+    const checkIfUploading = () => {
+        setIsUploading(true);
+    }
 
 
     
@@ -148,9 +158,11 @@ export const UploadPage = (...props) => {
     >
         <h4></h4>
         <UploadButton 
-            onSubmit={isUploading === true}
-            className={props[0].type + " buttonBlue hidemobile"}
-            disabled={isUploading} >{props[0].text}</UploadButton>
+            extraProps={{'data-tour': props[0].type === "businessInformationProfile" ? 'tour-3' : 'tour-4'} }
+            onClick={checkIfUploading}
+            className={props[0].type + " buttonBlue hidemobile" + (isUploading && (isUploading === true || isUploadingGlobal ) ? " hide" : " hid")}
+            >{props[0].text}
+        </UploadButton>
         <UploadPreview
             className={props[0].type + " UploadPreview"}
             previewComponentProps={props[0]}

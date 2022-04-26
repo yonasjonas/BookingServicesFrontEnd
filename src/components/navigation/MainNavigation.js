@@ -50,7 +50,6 @@ const MainNavigation = (...props) => {
         <AppBar position="static" className="secondaryColor mainnav">
             <CssBaseline />
             <Toolbar>
-                
                 <MainLogo />
                 {isMobile ? (
                     <DrawerComponent />
@@ -61,7 +60,7 @@ const MainNavigation = (...props) => {
                     <Link to="/about" className={classes.link}>
                         About
                     </Link>
-                    <Link data-tour="tour-10" to="/book-services" className={classes.link}>
+                    <Link data-tour="tour-9" to="/book-services" className={classes.link}>
                         Find Services
                     </Link>
                     

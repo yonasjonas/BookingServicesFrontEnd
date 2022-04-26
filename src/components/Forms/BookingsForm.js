@@ -210,12 +210,12 @@ const BookingsForm = ({ classes, ...props }) => {
         if (props.id) {
             //console.log("props.id", props.id);
         }
-        const inter = setInterval(() => {
+        /* const inter = setInterval(() => {
             if (inputservices.current) {
                 inputservices.current.scrollIntoView(false);
                 clearInterval(inter);
             }
-        }, 1000);
+        }, 1000); */
 
     }, [props.currentId])
 
@@ -285,7 +285,7 @@ const BookingsForm = ({ classes, ...props }) => {
         //console.log("currentprovider5", currentProviders.filter(x => x.id == providerId)[0].name)
 
 
-        if (currentProv) {
+        if (currentProv && currentProv.childData !== null) {
             Object.keys(currentProv).map(i => {
                 weekdays.forEach(element => {
                     if (element.label == currentProv[parseInt(i)].dayIndex) {
@@ -321,8 +321,10 @@ const BookingsForm = ({ classes, ...props }) => {
 
 
 
-        Object.keys(currentProviderWeekdays).map(x => {
-            days.push(currentProviderWeekdays[x].dayIndex);
+        currentProviderWeekdays && currentProviderWeekdays.childData !== null && Object.keys(currentProviderWeekdays).map(x => {
+            if (currentProviderWeekdays[x] && currentProviderWeekdays[x].dayIndex) {
+                days.push(currentProviderWeekdays[x].dayIndex);
+            }
         });
 
 
@@ -405,8 +407,9 @@ const BookingsForm = ({ classes, ...props }) => {
             // @ts-ignore Typings are not considering `native`
             onChange={handleInputChange}
         ><Item>
-            <h1 ref={input1} className="primaryTextColor titleOnly">Pick Provider Below</h1>
-                {<h4 className="secondaryTextColor titleOnly"> You selected: {currentService.serviceName && currentService.serviceName}</h4>}
+                
+                {<h1 className="secondaryTextColor titleOnly"> You selected: {currentService.serviceName && currentService.serviceName}</h1>}
+                <h3 ref={input1} className="primaryTextColor titleOnly">Now pick a provider</h3>
 
 
                 {currentProviders.map((providers) => (
@@ -418,7 +421,7 @@ const BookingsForm = ({ classes, ...props }) => {
                             <h4 className="secondaryTextColor">{providers.name}</h4>
                         </Grid>
                         <Grid item xs={12} md={3}>
-                            <h4 className="secondaryTextColor">{helpers.getRandomInt(100, 1500, 0)} Reviews {helpers.getRandomInt(3, 5, 2)} out of 5 <img height="14px" src="../../5stars.png" alt="reviews" /></h4>
+                            <h4 className="secondaryTextColor">{helpers.getRandomInt(100, 1500, 0)} Reviews {helpers.getRandomInt(3, 5, 2)} out of 5 <img height="14px" src="https://nixerwebapi.azurewebsites.net/images/5stars.png" alt="reviews" /></h4>
                         </Grid>
                         <Grid item xs={12} md={3}>
                             <Button onClick={() => { renderProviderTimes(providers.id) }} className="bookButton secondaryColor" color="primary" size="large">Pick Provider</Button>
@@ -430,18 +433,19 @@ const BookingsForm = ({ classes, ...props }) => {
                 }
             </Item>
         </Box>
-            : null}
+            : null
+    }
     const calendarBlock = () => {
         return providerTimes !== null && serviceId ?
             <Box
                 sx={{
-                    
+                    width: '100%',
                     marginTop: '0px',
                 }}
                 label="Select Time"
                 name="provider"
                 value={values.provider}
-                onChange={handleInputChange, handleInputChange}
+                onChange={handleInputChange}
             >
                 <Item ref={input2}>
                     <h4 className="secondaryTextColor titleOnly">Pick a time slot for your booking</h4>
@@ -487,21 +491,26 @@ const BookingsForm = ({ classes, ...props }) => {
                                                 setSelectedBookingTime(new Date(start));
                                                 showBookingSummary(start, timeSlotDuration);
                                                 setTimeout(() => {
-                                                    input3.current && input3.current.scrollIntoView({
+
+                                                    inputName && inputName.current.scrollIntoView({
                                                         behavior: "smooth",
                                                     });
-                                        
+
                                                 }, 100);
-                                                inputName.current.focus();
-                                                
+                                                //input3 && input3.current && input3.current.focus();
+
+
                                             }
-                                            
+
 
 
                                         }}
                                         disableRipple={disabled}
                                     // disabled={disabled}
-                                    > {!disabled ? <p style={{ color: "white" }}>Select</p> : <EventBusyIcon color="danger" className="disabled" />} </Button>
+                                    > {!disabled && window.innerWidth > 768 ? <p style={{ color: "white" }}>Select</p>
+                                        : !disabled && window.innerWidth < 768 ? <p className="iconsconfirm">Book</p>
+                                            : <EventBusyIcon className="disabled" />}
+                                    </Button>
                                 );
                             }
                         }}
@@ -527,38 +536,41 @@ const BookingsForm = ({ classes, ...props }) => {
                 value={values.provider}
                 onChange={handleInputChange}
             >
-               <Item ref={input3}>
-                <Grid className="customerDetailsBlock" container>
-                <h2 className="primaryTextColor titleOnly">Enter your details so provider could get in touch with you after you make a booking</h2> 
-                    <Grid item xs={12} md={4}>
-                        <TextField
-                            name="name"
-                            variant="outlined"
-                            label="Full Name *"
-                            value={values.name}
-                            onChange={handleInputChange}
-                        />
+                <Item>
+                    <Grid className="customerDetailsBlock" container style={{}}>
+                        <Grid item xs={12} md={12}>
+                            <h2 ref={inputName} className="primaryTextColor titleOnly">Enter your details so provider could get in touch with you after you make a booking</h2>
+                        </Grid>
+                        <Grid item xs={12} md={4}>
+                            <TextField
+                                name="name"
+                                variant="outlined"
+                                label="Full Name *"
+                                value={values.name}
+                                onChange={handleInputChange}
+                            />
 
-                    </Grid>
-                    <Grid item xs={12} md={4}>
-                        <TextField
-                            name="email"
-                            variant="outlined"
-                            label="Email *"
-                            value={values.email}
-                            onChange={handleInputChange}
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={4}>
-                        <TextField
-                            name="phone"
-                            variant="outlined"
-                            label="Phone Number *"
-                            value={values.phone}
-                            onChange={handleInputChange}
-                        />
-                    </Grid>
-                </Grid >
+                        </Grid>
+                        <Grid item xs={12} md={4}>
+                            <TextField
+                                name="email"
+                                variant="outlined"
+                                label="Email *"
+                                value={values.email}
+                                onChange={handleInputChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={4}>
+                            <TextField
+                                name="phone"
+                                variant="outlined"
+                                label="Phone Number *"
+                                value={values.phone}
+                                onChange={handleInputChange}
+                            />
+                        </Grid>
+                        {values.phone === "" && values.email === "" && values.name === "" && <div style={{ height: '400px' }}></div>}
+                    </Grid >
                 </Item>
             </Box>
 
@@ -572,25 +584,25 @@ const BookingsForm = ({ classes, ...props }) => {
             <Item className="booking_summary">
                 <h1 className="primaryTextColor titleOnly">Booking Summary</h1>
                 <Grid container item xs={12} md={12}>
-                <Button className="cancel" color="primary" onClick={() => { setBookingSummaryOpened(false) }}>
-                    <CloseIcon className="closeicon"/>
-                </Button>
+                    <Button className="cancel" color="primary" onClick={() => { setBookingSummaryOpened(false) }}>
+                        <CloseIcon className="closeicon" />
+                    </Button>
 
-                    <Grid item xs={2} md={12}>
+                    <Grid item xs={12} md={12}>
                         <strong>Service Name: </strong><div>{currentService.serviceName}</div>
                         <br />
 
                     </Grid>
-                    <Grid item xs={2} md={6}>
+                    <Grid item xs={12} md={6}>
                         <strong>Price:</strong> <div>€{currentService.price}.00</div>
                     </Grid>
-                    <Grid item xs={2} md={6}>
+                    <Grid item xs={12} md={6}>
                         <strong>Service Duration: </strong><div>{currentService.timeSlotDuration} minutes</div>
                     </Grid>
-                    <Grid item xs={2} md={12}>
+                    <Grid item xs={12} md={12}>
                         <strong>Provider:</strong>
                         <div>{currentProvider && <img height="70px" src={"https://nixerwebapi.azurewebsites.net/images/business/" + currentProvider.businessId + "/provider/providerImage_" + currentProviders[0].id + ".jpg"} />}
-                        <br /> {currentProvider ? <strong>{currentProvider.name}</strong> : <div>not selected yet...</div>}
+                            <br /> {currentProvider ? <strong>{currentProvider.name}</strong> : <div>not selected yet...</div>}
                         </div>
                     </Grid>
 
@@ -610,9 +622,9 @@ const BookingsForm = ({ classes, ...props }) => {
                         }
                     </Grid>
                     <Grid item xs={12} md={12}>
-                        {values.phone ?
+                        {values.phone && window.innerWidth < 768 ?
                             <>
-                                <Button
+                               <Button
                                     className={classes.smMargin}
                                     variant="contained"
                                     color="secondary"
@@ -620,7 +632,7 @@ const BookingsForm = ({ classes, ...props }) => {
                                 >
                                     Reserve a Service
                                 </Button>
-                            </> : <Button
+                            </> : window.innerWidth < 768 &&  <Button
                                 className={classes.smMargin}
                                 variant="contained"
                                 color="secondary"
@@ -632,15 +644,15 @@ const BookingsForm = ({ classes, ...props }) => {
                     </Grid>
                 </Grid>
             </Item>
-            
+
             : serviceId ? <div className="closedCartdiv">
-                 <Button variant="contained" className="primaryColor" color="primary" onClick={() => { setBookingSummaryOpened(true) }}>
-                 <ShoppingCartIcon style={{color:"white!important"}}/>
-                
-                <div className="closedCart">Open Cart</div>
-                        </Button>
+                <Button variant="contained" className="primaryColor" color="primary" onClick={() => { setBookingSummaryOpened(true) }}>
+                    <ShoppingCartIcon style={{ color: "white!important" }} />
+
+                    <div className="closedCart">Open Booking Summary</div>
+                </Button>
             </div>
-            : <div style={{ display: 'none' }}></div>
+                : <div style={{ display: 'none' }}></div>
     }
 
     return (
@@ -671,24 +683,24 @@ const BookingsForm = ({ classes, ...props }) => {
                         <Grid item xs={12} md={6}>
                             {providersBlock()}
                         </Grid>
-                        <Grid item xs={12}  md={6}>
+                        <Grid item xs={12} md={6}>
                             {calendarBlock()}
                         </Grid>
                         <Grid item xs={12} md={12}>
                             {customerDetailsBlock()}
                         </Grid>
                         <Grid item xs={12} md={12}>
-                        {values.phone !== "" && values.email !== "" && values.name !== "" &&
-                            <>
-                                <Button
-                                    className={classes.smMargin + " primaryColor fullWidth"}
-                                    variant="contained"
-                                    type="submit"
-                                >
-                                    Reserve a Service
-                                </Button>
-                            </> }
-                    </Grid>
+                            {values.phone !== "" && values.email !== "" && values.name !== "" &&
+                                <>
+                                    <Button
+                                        className={classes.smMargin + " primaryColor fullWidth"}
+                                        variant="contained"
+                                        type="submit"
+                                    >
+                                        Reserve a Service
+                                    </Button>
+                                </>}
+                        </Grid>
 
 
                     </div>
@@ -697,7 +709,7 @@ const BookingsForm = ({ classes, ...props }) => {
                 </Grid>
                 <Grid>
                     <Grid className="bookingsummaryblock" item xs={12} md={12}>
-                        
+
                         {bookingSummaryBlock()}
                     </Grid>
                 </Grid>

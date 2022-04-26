@@ -59,7 +59,8 @@ const useForm = (initialFieldValues, validate, setCurrentId, setDays) => {
 			...initialFieldValues
 		})
 		//setErrors({})
-		setCurrentId(0);
+		initialFieldValues.Address1 === undefined && setCurrentId(0);
+		
 		if (!!initialFieldValues.weekvalue) {
 			setDays([]);
 			values.weekvalue = {};

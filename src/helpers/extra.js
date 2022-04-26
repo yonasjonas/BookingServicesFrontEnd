@@ -17,9 +17,8 @@ export const checkImage = (path) => {
         img.onerror = () => resolve({ path, status: "error" });
         img.src = path;
     }).then((result) => {
-        if (result.status == "ok") { console.log("ok?", result.status); return true; }
-        else if (result.status == "error") { console.log("not?", result.status); return false; }
-
+        if (result.status == "ok") { console.log("ok?", result.status); return result.status; }
+        else if (result.status == "error") { console.log("not?", result.status); return result.status; }
     });
 };
 
@@ -33,9 +32,9 @@ export const convertDate = (date) => {
 export const getServiceImage = (id, businessId, location) => {
     const d = new Date();
     let path = "https://nixerwebapi.azurewebsites.net/images/business/" + businessId + "/service/serviceImage_" + id + ".jpg?" + d.getTime();
-    const imageInfo = checkImage(path);
-    console.log("imageInfo", imageInfo);
-    return <img className={"providerImage_" + location} src={path} />;
+    //const imageInfo = checkImage(path);
+    //console.log("imageInfo", imageInfo);
+    return <img className={"serviceImage_" + location} src={path} />;
 }
 
 // handy to get provider image from anywhere

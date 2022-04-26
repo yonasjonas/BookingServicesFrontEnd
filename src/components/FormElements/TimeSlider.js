@@ -111,7 +111,7 @@ function RangeSlider(...props) {
         
 
         Object.keys(weekvalue).map(i => {
-            if (weekvalue[i].dayIndex === props[0].day ) {
+            if (weekvalue[i] && weekvalue[i].dayIndex && weekvalue[i].dayIndex === props[0].day ) {
                 
                 //console.log(weekvalue[i].dayIndex)
                 

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import FileUpload from "../../components/FormElements/FileUpload";
+import { Chip, Grid, Paper, TableBody, TableCell, TableRow, TableContainer, Table, TableHead, withStyles, Container, ButtonGroup, Button } from '@material-ui/core';
+
 import HeroImage from "./HeroImage";
 import ProfileImage from "./ProfileImage";
 import UploadPage from "../FormElements/UploadPage";
@@ -19,11 +21,11 @@ function MainImages(props) {
         }).then((result) => {
             if (result.status === "ok") setCoverImage(img.src);
             else {
-                setCoverImage("https://www.fg-a.com/wallpapers/magnetic-field-1920.jpg");
+                setCoverImage("https://toppng.com/uploads/preview/file-upload-image-icon-115632290507ftgixivqp.png");
                 checkProfileImage(`https://nixerwebapi.azurewebsites.net/images/business/${user}/businessInformationProfile.jpg`);
 
-        }
-            
+            }
+
         }).then(() => {
             checkProfileImage(`https://nixerwebapi.azurewebsites.net/images/business/${user}/businessInformationProfile.jpg`);
         })
@@ -37,7 +39,7 @@ function MainImages(props) {
             img.src = path;
         }).then((result) => {
             if (result.status === "ok") setProfileImage(img.src);
-            else{setProfileImage("https://altissia.org/wp-content/uploads/2020/09/Your-Logo-1.jpg")}
+            else { setProfileImage("https://altissia.org/wp-content/uploads/2020/09/Your-Logo-1.jpg") }
         });
     };
 
@@ -59,31 +61,41 @@ function MainImages(props) {
     const [profileImage, setProfileImage] = useState(null);
 
     return (
-        <>
-        
-        
-            {coverImage === null && !props.frontEnd ? 
+        <Container spacing={0} maxWidth={false}>
+
+
+            {coverImage === null && !props.frontEnd ?
                 <>
                     <h3 className="noCoverImage hidemobile">Upload your business cover image that will be visible on your business page</h3>
 
-                  <UploadPage exist={false} class="noCoverImage hidemobile" width={1903} height={300}  user={user} type="businessInformationCover"  text="Add Cover Image"/>
+                    <UploadPage exist={false} class="noCoverImage hidemobile" width={1903} height={300} user={user} type="businessInformationCover" text="Add Cover Image" />
                 </> :
                 <>
                     <HeroImage image={coverImage} />
-                    
-                        {!props.frontEnd && <UploadPage frontEnd={props.frontEnd} exist={true} user={user} width={1903} height={300} type="businessInformationCover" text="Change Cover Image" />}
+
+                    {!props.frontEnd && <UploadPage frontEnd={props.frontEnd} exist={true} user={user} width={1903} height={300} type="businessInformationCover" text="Change Cover Image" />}
                 </>
             }
             {profileImage === null ? <><h3 className="noProfileImage hidemobile">Upload business logo</h3>
-                <UploadPage exist={false} class="noCoverImage" user={user} type="businessInformationProfile" text="Add Profile Picture" width={200} height={200}  />
+                <Container spacing={0} maxWidth="lg">
+                    <Grid item xs={12} md={3}>
+                        <UploadPage exist={false} class="noCoverImage" user={user} type="businessInformationProfile" text="Add Profile Picture" width={200} height={200} />
+                    </Grid>
+                    <Grid item xs={12} md={3}></Grid>
+                </Container>
             </> :
                 <>
-                    <ProfileImage className="hidemobile" image={profileImage} />
-{/*                     <FileUpload class="profileImage" type="businessInformationProfile" frontEnd={props.frontEnd} exist={true} user={props.user} />
- */}                    {!props.frontEnd && <UploadPage frontEnd={props.frontEnd} exist={true} user={user} type="businessInformationProfile" text="Change Profile Picture" width={200} height={200}  />}
+                    <Container spacing={0} maxWidth="lg">
+                        <Grid item xs={12} md={3}>
+                            <ProfileImage className="hidemobile" image={profileImage} />
+                            {!props.frontEnd && <UploadPage frontEnd={props.frontEnd} exist={true} user={user} type="businessInformationProfile" text="Change Profile Picture" width={200} height={200} />}                </Grid>
+                        <Grid item xs={12} md={3}></Grid>
+                    </Container>
+
+
                 </>}
 
-        </>
+        </Container>
     );
 }
 

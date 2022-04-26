@@ -52,7 +52,7 @@ const TopNavigation = (...props) => {
                  {props[0].user.user.loggedIn ?
                    <span>
  
-                   <div>{"Logged in as: " + props[0].user.user.user.businessName + " "} <Link onClick={props[0].user.logout} to="/">Logout</Link></div>
+                   <div>Logged in with: <a href='/business-details'>{props[0].user.user.user.email}</a> <Link onClick={props[0].user.logout} to="/">Logout</Link></div>
                    
                  </span> :
                  <p>Login</p>

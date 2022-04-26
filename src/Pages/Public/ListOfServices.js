@@ -147,9 +147,9 @@ const Businesses = (props, classes) => {
     }
     function getOneBusiness(record, index, classes) {
         return record.isVerified && (<Grid className="onebusiness" container spacing={2} key={index}>
-            <Grid item xs={12} md={3}><div style={{ background: `url(https://nixerwebapi.azurewebsites.net/images/business/${record.id}/businessInformationCover.jpg)` }} className="listservicesimage"></div></Grid>
+            <Grid item xs={12} md={3}><div style={{ background: `url(https://nixerwebapi.azurewebsites.net/images/business/${record.businessId}/businessInformationCover.jpg)` }} className="listservicesimage"></div></Grid>
             <Grid item xs={12} md={3}><h2>{record.businessName.toUpperCase()}</h2>
-                {helpers.getRandomInt(100, 1500, 0)} Reviews {helpers.getRandomInt(3, 5, 2)} out of 5 <img height="14px" src="../../5stars.png" alt="reviews" /></Grid>
+                {helpers.getRandomInt(100, 1500, 0)} Reviews {helpers.getRandomInt(3, 5, 2)} out of 5 <img height="14px" src="https://nixerwebapi.azurewebsites.net/images/5stars.png" alt="reviews" /></Grid>
             <Grid item xs={6} md={2}><p style={{maxWidth:"90%", textAlign:"center", }} className="providerNames primaryOutline" >{record.county}</p></Grid>
             <Grid item xs={6} md={2}><p style={{maxWidth:"90%",  textAlign:"center"}} className="providerNames secondaryOutline" >{record.category}</p></Grid>
             <Grid item xs={12} md={2}>
@@ -157,7 +157,7 @@ const Businesses = (props, classes) => {
                     className={classes.smMargin + " primaryOutlineButton"}
                     variant="contained"
                 >
-                    <Link href={"single-business/" + record.id} color="inherit">
+                    <Link href={"single-business/" + record.businessId} color="inherit">
                         Business Info and Book
                     </Link>
                 </Button></Grid>

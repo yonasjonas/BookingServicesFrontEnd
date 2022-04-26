@@ -81,7 +81,7 @@ const BusinessServicesForm = ({ classes, state, ...props }) => {
     const handleSubmit = e => {
         e.preventDefault();
         //console.log("works", state);
-        values.providerId  = values.providerId && typeof values.providerId !== 'string' ? values.providerId.join(',') : values.providerId;
+        values.providerId = values.providerId && typeof values.providerId !== 'string' ? values.providerId.join(',') : values.providerId;
         setValues({
             "providerId": values.providerId,
         })
@@ -109,7 +109,6 @@ const BusinessServicesForm = ({ classes, state, ...props }) => {
         setEditing(false)
         resetForm();
         props.currentId = 0;
-        console.log(props.currentId)
     }
 
     useEffect(() => {
@@ -121,34 +120,27 @@ const BusinessServicesForm = ({ classes, state, ...props }) => {
             setValues({
                 ...temp
             })
-            /* values.providerId = temp.providerId ? temp.providerId.split(',') : [];
-            setValues({
-                "providerId": values.providerId,
-            }) */
             setErrors({})
-
         }
 
     }, [props.currentId])
 
     return (
         <>
-
-            {console.log({ editing })}
             {editing ?
-
-
                 <div>
-                    {props.currentId !== 0 ? <>
-                        {helpers.getServiceImage(props.currentId, props && props.user && props.user.id && props.user.id, "form")}
+                    {props.currentId !== 0 && props && props.user && props.user.id ? <>
+                        {
+                            <Grid container>
+                                <Grid item xs={12} md={12} style={{ minHeight: "300px" }}>
+                                    {helpers.getServiceImage(props.currentId, props.user.id, "form")}
 
-                                
-                        <UploadPage exist={false} class="noCoverImage hidemobile titleOnly" 
-                        providerId={props.currentId} 
-                        width={300} height={300} 
-                        user={props && props.user && props.user.id && props.user.id} type="serviceImage"  text="Add Service Image"/></> : "Save Service to upload image"
-}
+                                    <br />
+                                    <UploadPage exist={false} class="noCoverImage hidemobile titleOnly" providerId={props.currentId} width={300} height={300} user={props && props.authentication && props.authentication.user && props.authentication.user.id && props.authentication.user.id} type="providerImage" text="Add/Change Provider Image" />
 
+                                </Grid>
+                            </Grid>
+                        }</> : "Save Provider to upload image"}
                     <form
                         autoComplete="off"
                         noValidate
@@ -156,7 +148,7 @@ const BusinessServicesForm = ({ classes, state, ...props }) => {
                         onSubmit={handleSubmit}
                     >
                         <Grid container>
-                           
+
                             <TextField
                                 name="serviceName"
                                 variant="outlined"

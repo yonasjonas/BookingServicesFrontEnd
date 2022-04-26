@@ -6,6 +6,8 @@ import useForm from '../../components/useForm';
 import { Grid, InputLabel, Typography, MenuItem, withStyles, FormControl, Button, TextField, Paper, Container } from '@material-ui/core';
 import { useToasts } from "react-toast-notifications";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import { accountService, alertService } from '../../services';
+
 
 
 
@@ -72,18 +74,20 @@ function LoginPage({ history, classes, location, ...props }) {
     function handleSubmit(event) {
         if (validate()) {
             event.preventDefault();
-            console.log("handleSubmit: ", event);
+            //console.log("handleSubmit: ", event);
             initialFieldValues.isSubmitting = true;
             props.login(values.Email, values.Password);
             alreadyadded = false;
-            history.push('/dashboard');
-            /* accountService.login(values.Email, values.Password).then(() => {
-                alertService.success('Login Success', { keepAfterRouteChange: true });
+            //props.user && !props.user.loggedIn && props && props.alert && props.alert.message && addToast(props.alert.message, { appearance: 'error', autoDismissTimeout: 100000, transitionDuration: 3 });
+
+            //history.push('/dashboard');
+            accountService.login(values.Email, values.Password).then(() => {
+                addToast('Login Success', { appearance: 'success', autoDismissTimeout: 100000, transitionDuration: 3 });
                 history.push('dashboard');
             })
             .catch(error => {
-                alertService.error(error);
-            }); */
+                addToast(props.alert.message, { appearance: 'error', autoDismissTimeout: 100000, transitionDuration: 3 });
+            });
         }
         
     }

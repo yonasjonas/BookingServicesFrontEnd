@@ -84,6 +84,12 @@
   border: 1px solid #022b58 !important;
   color: #3f51b5 !important;
   transition-duration: 1s;
+  display: grid!important;
+  justify-items: center;
+  align-items: center;
+  justify-content: center;
+  align-content: stretch;
+  padding: 1px!important;
 }
 .secondaryOutlineButton:hover {
   background: #022b58 !important;
@@ -115,9 +121,29 @@
 .activeMenu:hover {
   background: #022b58 !important;
 }
+.serviceImage_upload.buttonBlue {
+  bottom: -1px!important;
+  position: absolute;
+  margin-left: -300px!important;
+}
+.providerImage_upload.buttonBlue {
+  bottom: -4px!important;
+  position: absolute;
+  margin-left: 0px!important;
+}
+button.providerImage.buttonBlue.hidemobile.hid {
+  position: relative;
+  top: -90px;
+}
+.providerImage_div {
+  margin-top: -45px!important;
+}
 .activeMenu a,
 .activeMenu svg {
   color: white !important;
+}
+.UploadPreview {
+  display: -webkit-box!important;
 }
 
 .thirdTextColor {
@@ -149,12 +175,6 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-i4bv87-MuiSvgIcon-root {
 
 span.rs__cell.rs__header.rs__time {
   width: 60px;
-}
-
-span.rs__cell.rs__header.rs__time span {
-  font-weight: 400;
-  color: #eb6400;
-  font-size: 10px;
 }
 .rs__header {
   max-height: 45px !important;
@@ -305,16 +325,25 @@ img.providerImage_grid {
   height: 100px;
   width: 100px;
 }
-img.providerImage_form {
+img.serviceImage_grid {
+  max-width: 100px;
+  max-height: 100px;
+  height: 100px;
+  width: 100px;
+}
+img.serviceImage_form {
   max-width: 300px;
   max-height: 300px;
   height: 300px;
   width: 300px;
   position: absolute;
 }
-.UploadPreview {
-  margin-left: -297px!important;
-  margin-top: -54px;
+img.providerImage_form {
+  max-width: 300px;
+  max-height: 300px;
+  height: 300px;
+  width: 300px;
+  position: absolute;
 }
 
 h3.noCoverImage {
@@ -534,7 +563,6 @@ span.rs__cell.rs__header.rs__time span {
   padding: 22px 19px 0;
   border-bottom: 1px solid;
   margin-bottom: 10px;
-  width: 300px;
   text-align: center;
 }
 .cateogrieshp .secondaryColor {
@@ -547,6 +575,17 @@ span.rs__cell.rs__header.rs__time span {
 }
 .MuiPaper-root.cateogrieshp.css-1erojb8.MuiPaper-elevation1.MuiPaper-rounded {
   display: flex;
+}
+.daysroot.css-u10pvi-MuiStack-root {
+  float: left;
+  width: 100%;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eadfdf;
+  margin-bottom: 20px;
+  display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: space-around;
 }
 
 /*77777777777777777777777777777777777777777777777777777*/
@@ -615,11 +654,6 @@ button.businessInformationCover {
   font-weight: 400;
 }
 button.businessInformationProfile_upload {
-  left: -463px;
-  position: relative;
-  top: -227px;
-  font-size: 16px;
-  height: 29px;
   background: #eb6400;
   color: white;
   font-weight: 600;
@@ -628,7 +662,7 @@ button.businessInformationProfile {
   margin: auto;
   margin-top: 15px;
   display: table;
-  z-index: 1000000000;
+  z-index: 10;
   position: absolute;
   left: 20.4%;
   font-size: 12px;
@@ -651,11 +685,10 @@ button.businessInformationCover_upload {
   padding: 10px;
   line-height: 32px;
 }
-
 .businessInformationProfile_div {
   position: absolute;
-  top: 258px;
-  left: 387px;
+  top: 254px;
+  left: 21.4%;
   margin: 0 !important;
 }
 p.businessInformationProfile_explanation {
@@ -707,7 +740,7 @@ a.mainlogo {
   margin-bottom: 20px;
 }
 .fullWidth {
-  width: 100%;
+  width: 100%!important;
 }
 .loginform button {
   margin: 0!important;
@@ -719,10 +752,6 @@ a.mainlogo {
 img.heroimage {
   width: 100%;
 }
-.MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-2 {
-  border: 1px solid black;
-}
-
 
 .listservicesimage {
   min-width: 278px;
@@ -748,6 +777,12 @@ img.heroimage {
 
 
 @media (min-width: 769px) {
+
+  span.rs__cell.rs__header.rs__time span {
+    font-weight: 400;
+    color: #eb6400;
+    font-size: 10px;
+  }
 
   button.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.MuiButtonBase-root.css-1e6y48t-MuiButtonBase-root-MuiButton-root {
     background: #fafafa;
@@ -787,6 +822,24 @@ img.heroimage {
   }
 }
 @media (max-width: 768px) {
+  span.rs__cell.rs__header {width: 30px;}
+
+  span.rs__cell.rs__header.rs__time span {
+    font-weight: 400;
+    color: #eb6400;
+    font-size: 8px;
+    z-index: 10;
+    margin-left: -32px;
+}
+
+span.rs__cell {width: 30px;}
+
+button.MuiButtonBase-root.MuiButton-root.MuiButton-text {padding: 2px;}
+
+span.rs__cell button {
+  min-width: 46px;
+  COLOR: white;
+}
   .MuiGrid-root.bizinfo.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-6 {
     margin-top: 320px!important;
 }
@@ -832,9 +885,9 @@ button.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.
     margin: 5px;
   }
   .MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation0.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft.css-12i7wg6-MuiPaper-root-MuiDrawer-paper {
-    position: absolute;
-    top: 274px;
-    height: 316px;
+    position: fixed;
+    top: 30%;
+    height: 360px;
     border-bottom: 1px solid #eb6400;
   }
   button.MuiButtonBase-root.MuiIconButton-root.mobilemenu {
@@ -900,13 +953,16 @@ button.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.
   z-index: -1;
 }
 .membermenu a {
-  color: #eb6400;
+  color: #022b58;
   font-weight: 800 !important;
 }
 
 .activeMenu {
   background: #ea6300 !important;
   color: white !important;
+}
+.hide {
+  display: none !important;
 }
 /* .footerBottom {
   bottom: 0;

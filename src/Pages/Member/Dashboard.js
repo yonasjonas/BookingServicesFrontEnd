@@ -18,12 +18,12 @@ import InfoIcon from '@mui/icons-material/Info';
 
 const tourConfig = [
     {
-        selector: '[data-tour="tour-start1"]',
-        content: 'Welcome! This is your dashboard. Here you can manage your business services, providers and bookings. This guide will help you get started.',
+        selector: '[data-tour="tour-1111"]',
+        content: 'Welcome! This is your dashboard. Here you can manage your business info, services, providers and bookings. This guide will help you get started.',
     },
     {
-        selector: '[data-tour="tour-2"]',
-        content: 'This is your dashboard navigation. Use these to navigate between your business services, providers and bookings.',
+        selector: '[data-tour="tour-1"]',
+        content: 'This is your dashboard navigation.',
     },
     {
         selector: '[data-tour="tour-3"]',
@@ -34,28 +34,24 @@ const tourConfig = [
         content: 'Add your business cover picture by clicking here. * Your business will not be published till you will upload this',
     },
     {
-        selector: '[data-tour="tour-5"]',
+        selector: '[data-tour="tour-business-details"]',
         content: 'In Business Information page you can change your details and password',
     },
     {
-        selector: '[data-tour="tour-6"]',
+        selector: '[data-tour="tour-providers"]',
         content: 'First you need to add your business providers. If it is only you just add yourself and set your working times. You need at least one provider to publish your business.',
     },
     {
-        selector: '[data-tour="tour-7"]',
+        selector: '[data-tour="tour-services"]',
         content: 'Then add your services and link it to providers. You can add multiple services to one provider and vice versa. You need at least one services that is linked to provider to publish your business.'
     },
     {
-        selector: '[data-tour="tour-8"]',
+        selector: '[data-tour="tour-bookings"]',
         content: 'You will start seeing your bookings once you will finish your page setup and will start accepting bookings.',
     },
     {
         selector: '[data-tour="tour-9"]',
         content: 'Once your business is live it will be visible on the Find Services page',
-    },
-    {
-        selector: '[data-tour="tour-10"]',
-        content: 'Widget will be ready in the near future',
     },
     {
         selector: '[data-tour="tour-11"]',

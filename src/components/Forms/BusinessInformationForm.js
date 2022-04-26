@@ -66,7 +66,7 @@ const initialFieldValues = {
 
 
 
-const BusinessInformationForm = ({ classes, ...props}) => {
+const BusinessInformationForm = ({ classes, ...props }) => {
     const [businessInformation, setBusinessInformation] = useState(null);
 
     const [number, setNumber] = useState([]);
@@ -102,10 +102,10 @@ const BusinessInformationForm = ({ classes, ...props}) => {
         if ("County" in initialFieldValues)
             temp.County = initialFieldValues.County.length > 0 ? "" : "County is required"
         if ("Country" in initialFieldValues)
-            temp.Country = initialFieldValues.Country.length > 0 ? "" : "Country is required"
+            temp.Country = initialFieldValues.Country && initialFieldValues.Country.length > 0 ? "" : "Country is required"
         if ("Category" in initialFieldValues)
             temp.Category = initialFieldValues.Category.length > 0 ? "" : "Category is required"
-        
+
         if ("ConfirmPassword" in initialFieldValues && "Password" in initialFieldValues)
             temp.ConfirmPassword = initialFieldValues.ConfirmPassword === values.Password ? "" : "Passwords does not match"
         if ("AcceptTerms" in initialFieldValues)
@@ -142,9 +142,27 @@ const BusinessInformationForm = ({ classes, ...props}) => {
             alreadyExists = true;
         }
     }
+    const updateBeforeSave = () => {
+        if (props && props.businessInformation.length > 0) {
+            values.BusinessName = values.BusinessName === "" ? props.businessInformation[0].businessName : values.BusinessName
+            values.Email = values.Email === "" ? props.businessInformation[0].email : values.Email
+            values.Phone = values.Phone === "" ? props.businessInformation[0].phone : values.Phone
+            values.Description = values.Description === "" ? props.businessInformation[0].description : values.Description
+            values.Address1 = values.Address1 === "" ? props.businessInformation[0].address1 : values.Address1
+            values.Address2 = values.Address2 === "" ? props.businessInformation[0].address2 : values.Address2
+            values.County = values.County === "" ? props.businessInformation[0].county : values.County
+            values.Country = values.Country === "" ? props.businessInformation[0].country : values.Country
+            values.Category = values.Category === "" ? props.businessInformation[0].category : values.Category
+            
+            setCountry(values.Country);
+            setCounty(values.County);
+            //alreadyExists = true;
+        }
+    }
 
     const handleSubmit = e => {
         e.preventDefault();
+        updateBeforeSave();
         //console.log("works:", values);
         if (validate()) {
             const onSuccess = () => {
@@ -152,7 +170,7 @@ const BusinessInformationForm = ({ classes, ...props}) => {
                 //resetForm();
                 //updateAfterSave();
             }
-            if (businessInformation && !alreadyExists) props.updateBusinessInfo(props.user.id, values, onSuccess);
+            if (!alreadyExists) props.updateBusinessInfo(props.user.id, values, onSuccess);
         }
     }
     const arrayOfDublin = () => {
@@ -164,16 +182,19 @@ const BusinessInformationForm = ({ classes, ...props}) => {
     }
     useEffect(() => {
 
-        props.fetchBusinessInfo(2);
+        props.fetchBusinessInfo(props.user.id);
+        console.log({
+            props
+        })
 
-        
+
         //if (values.Country == "") setValues({ ...values, Country: "Ireland" });
         //if (values.County == "") setValues({ ...values, County: "Dublin" });
         setNumber(arrayOfDublin());
-        if (props){
+        if (props) {
             if (props.businessInformation.length > 0) {
                 setBusinessInformation(props.businessInformation[0])
-                setValues({                    
+                setValues({
                     BusinessName: props.businessInformation[0].businessName,
                     Email: props.businessInformation[0].email,
                     Phone: props.businessInformation[0].phone,
@@ -190,7 +211,7 @@ const BusinessInformationForm = ({ classes, ...props}) => {
 
             if (props.businessInformation.length > 0 && !alreadyExists) updateAfterSave();
         }
-        
+
 
         //abortController.abort();
 
@@ -198,172 +219,172 @@ const BusinessInformationForm = ({ classes, ...props}) => {
 
     return (
         <>
-          
+
             <form onSubmit={handleSubmit} className={classes.root}>
-            <Container maxWidth="lg">
-            {props && props.businessInformation && props.businessInformation.length > 0  &&
-                <Paper>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} md={4}>
-                            <TextField
-                                name="BusinessName"
-                                label="BusinessName"
-                                type="text"
-                                variant="outlined"
-                                value={values.BusinessName ? values.BusinessName : props.businessInformation[0].businessName}
-                                onChange={handleInputChange}
-                                {...(errors.BusinessName && { error: true, helperText: errors.BusinessName })}
-                            />
-
-                        </Grid>
-                        <Grid item xs={12} md={4}>
-                            <TextField name="Email" label="Email" type="text" variant="outlined" value={values.Email ? values.Email : props.businessInformation[0].email} onChange={handleInputChange} {...(errors.Email && { error: true, helperText: errors.Email })} />
-                        </Grid>
-                        <Grid item xs={12} md={4}>
-                            <TextField name="Phone" label="Phone" type="text" variant="outlined" value={values.Phone ? values.Phone : props.businessInformation[0].phone} onChange={handleInputChange} {...(errors.Phone && { error: true, helperText: errors.Phone })} />
-                        </Grid>
-                        <Grid className="business-category" item xs={12} md={12} {...(errors.Category && { helperText: errors.Category })}>
-                            <InputLabel id="simple-select-label">Business Category</InputLabel>
-                            <Select
-
-                                className="simple-select-label"
-                                id="simple-select"
-                                name="Category"
-                                value={values.Category ? values.Category : props.businessInformation[0].category}
-                                type="text"
-                                variant="outlined"
-                                label="Category"
-                                displayEmpty
-                                onChange={handleInputChange}
-                                renderValue={(selected) => {
-                                    if (selected && selected.length === 0) {
-                                        return <em>Select Business Type</em>;
-                                    }
-                                    return selected;
-                                }}
-                                {...(errors.Category && { error: true, helperText: errors.Category })}
-
-
-                            >
-                                <MenuItem disabled value="">
-                                    <em>Select Business Type</em>
-                                </MenuItem>
-                                <MenuItem value="beauty">All Beauty Services</MenuItem>
-                                <MenuItem value="Handyman">Handyman / Construction</MenuItem>
-                                <MenuItem value="Personal Trainer">Personal Trainer</MenuItem>
-                                <MenuItem value="Driving Instructor">Driving Instructor</MenuItem>
-                                <MenuItem value="Massage">Massage</MenuItem>
-                                <MenuItem value="Consulting">Consulting</MenuItem>
-                                <MenuItem value="Cleaning">Cleaning</MenuItem>
-                                <MenuItem value="Household">Household</MenuItem>
-                                <MenuItem value="Pet Services">Pet Services</MenuItem>
-                                <MenuItem value="Tutoring Lessons">Tutoring Lessons</MenuItem>
-                                <MenuItem value="Child Minding">Child Minding</MenuItem>
-                                <MenuItem value="Child Minding">IT Services</MenuItem>
-                                <MenuItem value="Other Classes">Other Classes</MenuItem>
-
-                            </Select>
-
-                        </Grid>
-
-                        <Grid item xs={12} md={4}>
-                            <InputLabel id="simple-select-label">Country</InputLabel>
-                            <CountryDropdown
-                                className="countryDropdown"
-                                type="text"
-                                name="Country"
-                                variant="outlined"
-                                value={country ? country : props.businessInformation[0].country}
-                                onChange={setCountry}
-                                {...(errors.Country && { error: true, helperText: errors.Country })}
-                            />
-
-                        </Grid>
-                        <Grid item xs={12} md={4}>
-                            <InputLabel id="simple-select-label">County</InputLabel>
-                            <RegionDropdown
-                                className="countyDropdown"
-                                type="text"
-                                name="County"
-                                variant="outlined"
-                                country={country ? country : props.businessInformation[0].country}
-                                value={county ? county : props.businessInformation[0].county}
-                                onChange={setCounty}
-                                {...(errors.County && { error: true, helperText: errors.County })} />
-                        </Grid>
-                        <Grid item xs={12} md={4}>
-                            {county && country && county === 'Dublin' &&
-
-
-                                <>
-                                    <InputLabel id="simple-select-label">Select Area</InputLabel>
-
-                                    <Select
-                                        className="selectdublinarea"
-                                        id="simple-select"
-                                        name="Address1"
-                                        value={values.Address1 ? values.Address1 : props.businessInformation[0].address1}
+                <Container maxWidth="lg">
+                    {props && props.businessInformation && props.businessInformation.length > 0 &&
+                        <Paper>
+                            <Grid container spacing={2}>
+                                <Grid item xs={12} md={4}>
+                                    <TextField
+                                        name="BusinessName"
+                                        label="BusinessName"
                                         type="text"
                                         variant="outlined"
-                                        displayEmpty
+                                        value={values.BusinessName ? values.BusinessName : props.businessInformation[0].businessName}
+                                        onChange={handleInputChange}
+                                        {...(errors.BusinessName && { error: true, helperText: errors.BusinessName })}
+                                    />
+
+                                </Grid>
+                                <Grid item xs={12} md={4}>
+                                    <TextField name="Email" label="Email" type="text" variant="outlined" value={values.Email ? values.Email : props.businessInformation[0].email} onChange={handleInputChange} {...(errors.Email && { error: true, helperText: errors.Email })} />
+                                </Grid>
+                                <Grid item xs={12} md={4}>
+                                    <TextField name="Phone" label="Phone" type="text" variant="outlined" value={values.Phone ? values.Phone : props.businessInformation[0].phone} onChange={handleInputChange} {...(errors.Phone && { error: true, helperText: errors.Phone })} />
+                                </Grid>
+                                <Grid className="business-category" item xs={12} md={12} {...(errors.Category && { helperText: errors.Category })}>
+                                    <InputLabel id="simple-select-label">Business Category</InputLabel>
+                                    <Select
+
+                                        className="simple-select-label"
+                                        id="simple-select"
+                                        name="Category"
+                                        value={values.Category ? values.Category : props.businessInformation[0].category}
+                                        type="text"
+                                        variant="outlined"
                                         label="Category"
+                                        displayEmpty
+                                        onChange={handleInputChange}
                                         renderValue={(selected) => {
                                             if (selected && selected.length === 0) {
-                                                return <em>Select Dublin Area</em>;
+                                                return <em>Select Business Type</em>;
                                             }
                                             return selected;
                                         }}
-                                        onChange={handleInputChange}
+                                        {...(errors.Category && { error: true, helperText: errors.Category })}
+
+
                                     >
                                         <MenuItem disabled value="">
-                                            <em>Select Dublin Number</em>
+                                            <em>Select Business Type</em>
                                         </MenuItem>
-                                        {number.length > 0 && number.map(number => {
-                                            return <MenuItem key={number} value={"Dublin " + number}>Dublin {number}</MenuItem>
-                                        })}
+                                        <MenuItem value="All Beauty Services">All Beauty Services</MenuItem>
+                                        <MenuItem value="Handyman / Construction">Handyman / Construction</MenuItem>
+                                        <MenuItem value="Personal Trainer">Personal Trainer</MenuItem>
+                                        <MenuItem value="Driving Instructor">Driving Instructor</MenuItem>
+                                        <MenuItem value="Massage">Massage</MenuItem>
+                                        <MenuItem value="Consulting">Consulting</MenuItem>
+                                        <MenuItem value="Cleaning">Cleaning</MenuItem>
+                                        <MenuItem value="Household">Household</MenuItem>
+                                        <MenuItem value="Pet Services">Pet Services</MenuItem>
+                                        <MenuItem value="Tutoring Lessons">Tutoring Lessons</MenuItem>
+                                        <MenuItem value="Child Minding">Child Minding</MenuItem>
+                                        <MenuItem value="IT Services">IT Services</MenuItem>
+                                        <MenuItem value="Other Classes">Other Classes</MenuItem>
+
                                     </Select>
 
+                                </Grid>
+
+                                <Grid item xs={12} md={4}>
+                                    <InputLabel id="simple-select-label">Country</InputLabel>
+                                    <CountryDropdown
+                                        className="countryDropdown"
+                                        type="text"
+                                        name="Country"
+                                        variant="outlined"
+                                        value={country ? country : props.businessInformation[0].country}
+                                        onChange={setCountry}
+                                    />
+
+                                </Grid>
+                                <Grid item xs={12} md={4}>
+                                    <InputLabel id="simple-select-label">County</InputLabel>
+                                    <RegionDropdown
+                                        className="countyDropdown"
+                                        type="text"
+                                        name="County"
+                                        variant="outlined"
+                                        country={country ? country : props.businessInformation[0].country}
+                                        value={county ? county : props.businessInformation[0].county}
+                                        onChange={setCounty}
+                                        />
+                                </Grid>
+                                <Grid item xs={12} md={4}>
+                                    {county && country && county === 'Dublin' &&
 
 
-                                </>}
-                        </Grid>
-                        <Grid
+                                        <>
+                                            <InputLabel id="simple-select-label">Select Area</InputLabel>
 
-                            item xs={12} md={12}>
-                            <TextField
-                                className="descriptionregister"
-                                multiline
-                                minRows={4}
-                                maxRows={4}
-                                name="Description"
-                                label="Description"
-                                type="text"
-                                variant="outlined"
-                                value={values.Description ? values.Description : props.businessInformation[0].description}
-                                onChange={handleInputChange} />
-                        </Grid>
-                        <InputLabel id="simple-select-label">Change Password</InputLabel>
-                        <Grid item xs={12} md={6}>
-                            <TextField name="Password" label="Password" type="password" variant="outlined" value={values.Password ? values.Password : ""} onChange={handleInputChange}
-                                {...(errors.Password && { error: true, helperText: errors.Password })} />
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <TextField name="ConfirmPassword" label="ConfirmPassword" type="password" variant="outlined" value={values.ConfirmPassword ? values.ConfirmPassword : ""} onChange={handleInputChange}
-                                {...(errors.ConfirmPassword && { error: true, helperText: errors.ConfirmPassword })}
-                            />
-                        </Grid>
+                                            <Select
+                                                className="selectdublinarea"
+                                                id="simple-select"
+                                                name="Address1"
+                                                value={values.Address1 ? values.Address1 : props.businessInformation[0].address1}
+                                                type="text"
+                                                variant="outlined"
+                                                displayEmpty
+                                                label="Category"
+                                                renderValue={(selected) => {
+                                                    if (selected && selected.length === 0) {
+                                                        return <em>Select Dublin Area</em>;
+                                                    }
+                                                    return selected;
+                                                }}
+                                                onChange={handleInputChange}
+                                            >
+                                                <MenuItem disabled value="">
+                                                    <em>Select Dublin Number</em>
+                                                </MenuItem>
+                                                {number.length > 0 && number.map(number => {
+                                                    return <MenuItem key={number} value={"Dublin " + number}>Dublin {number}</MenuItem>
+                                                })}
+                                            </Select>
 
 
-                    </Grid>
-                    <Button type="submit"
-                        className={classes.smMargin}
-                        variant="contained"
-                        color="primary"
-                    >Register
-                    </Button>
-                </Paper>}
-            </Container>
-        </form >
+
+                                        </>}
+                                </Grid>
+                                <Grid
+
+                                    item xs={12} md={12}>
+                                    <TextField
+                                        className="descriptionregister"
+                                        multiline
+                                        minRows={4}
+                                        maxRows={4}
+                                        name="Description"
+                                        label="Description"
+                                        type="text"
+                                        variant="outlined"
+                                        value={values.Description ? values.Description : props.businessInformation[0].description}
+                                        onChange={handleInputChange} />
+                                </Grid>
+                                <InputLabel id="simple-select-label">Change Password</InputLabel>
+                                <Grid item xs={12} md={6}>
+                                    <TextField name="Password" label="Password" type="password" variant="outlined" value={values.Password ? values.Password : ""} onChange={handleInputChange}
+                                        {...(errors.Password && { error: true, helperText: errors.Password })} />
+                                </Grid>
+                                <Grid item xs={12} md={6}>
+                                    <TextField name="ConfirmPassword" label="ConfirmPassword" type="password" variant="outlined" value={values.ConfirmPassword ? values.ConfirmPassword : ""} onChange={handleInputChange}
+                                        {...(errors.ConfirmPassword && { error: true, helperText: errors.ConfirmPassword })}
+                                    />
+                                </Grid>
+                                <Button type="submit"
+                                    className={classes.smMargin + " fullWidth registerbutton"}
+                                    variant="outlined"
+                                    color="primary"
+                                >Update Information
+                                </Button>
+
+
+                            </Grid>
+
+                        </Paper>}
+                </Container>
+            </form >
         </>
     )
 }

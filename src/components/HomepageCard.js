@@ -28,7 +28,7 @@ const HomepageCards = (props) => {
                       {business.businessName}
                       </Typography>
                       <Typography variant="body2" >
-                      <div className="pagetitle"><strong style={{fontSize:'9px'}}>12 Reviews 4.7 out of 5 </strong><br/><img src="../../5stars.png" alt="reviews" /></div>
+                      <div className="pagetitle"><strong style={{fontSize:'9px'}}>12 Reviews 4.7 out of 5 </strong><br/><img src="https://nixerwebapi.azurewebsites.net/images/5stars.png" alt="reviews" /></div>
                       </Typography>
                       <Typography variant="body2" >
                         <div><h4>{business.description}</h4></div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import HomepageCards from "../../components/HomepageCard";
-import hero from '../../images/hero.jpg';
+//import hero from 'https://nixerwebapi.azurewebsites.net/images/hero.jpg';
 import { Grid, Paper, Button } from '@material-ui/core';
 import * as businessesActions from "../../actions/businesses";
 import { styled } from '@mui/material/styles';
@@ -36,7 +36,7 @@ const Home = (props) => {
 
     return (
         <>
-            <img className="heroimage" src={hero} alt="Image a girl managing booking on the go" />
+            <img className="heroimage" src="https://nixerwebapi.azurewebsites.net/images/hero.jpg" alt="Image a girl managing booking on the go" />
 
             <div className="heroText">
                 <h1 className="secondaryTextColor titleOnly">Welcome to MyNixer!</h1>

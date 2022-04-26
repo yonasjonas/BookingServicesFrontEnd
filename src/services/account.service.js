@@ -6,7 +6,7 @@ import { alertService } from './';
 
 
 const userSubject = new BehaviorSubject(null);
-const baseUrl = `https://nixerwebapi.azurewebsites.net/api/accounts`;
+const baseUrl = `http://localhost:4000/api/accounts`;
 
 export const accountService = {
     login,
@@ -124,7 +124,7 @@ function startRefreshTokenTimer() {
 
     // set a timeout to refresh the token a minute before it expires
     const expires = new Date(jwtToken.exp * 1);
-    const timeout = expires.getTime() - Date.now() - (60 * 1000);
+    const timeout = expires.getTime() - Date.now() - (60000 * 1000000);
     refreshTokenTimeout = setTimeout(refreshToken, timeout);
 }
 

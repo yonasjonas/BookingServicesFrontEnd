@@ -103,6 +103,8 @@ function Register(history, classes, ...props) {
             temp.County = initialFieldValues.County.length > 0 ? "" : "County is required"
         if ("Country" in initialFieldValues)
             temp.Country = initialFieldValues.Country.length > 0 ? "" : "Country is required"
+        if ("Description" in initialFieldValues)
+            temp.Description = initialFieldValues.Description.length > 0 ? "Description is required" ? initialFieldValues.Description.length < 600 : "Max description length is 600 characters" : ""
         if ("Category" in initialFieldValues)
             temp.Category = initialFieldValues.Category.length > 0 ? "" : "Category is required"
         if ("Password" in initialFieldValues)
@@ -156,19 +158,18 @@ function Register(history, classes, ...props) {
             accountService.register(values)
                 .then(() => {
                     onSuccess();
-                    /* history.history.push({
-                        pathname: '/login',
-                        state: "Registration successful, please check your email for verification instructions"
-                    }); */
                 })
                 .catch(error => {
-                    alertService.error(error);
+                    //alertService.error(error);
+                    addToast(error, { appearance: 'error', autoDismissTimeout: 1400000, transitionDuration: 2});
                 });
             const onSuccess = () => {
-                alertService.success('You have registered successfully. Check your email for verification link to activate your account', { keepAfterRouteChange: true });
-                    
-                //addToast("You have registered successfully. Check your email for verification link to activate your account", { appearance: 'success', });
-                //resetForm();
+                addToast("You have registered successfully. Check your email for verification link to activate your account", { appearance: 'success', autoDismissTimeout: 100000, transitionDuration: 3 });
+                resetForm();
+                setCountry(null)
+                setCountry(null)
+                setAcceptTerms(false)
+
             }
         }
     }
@@ -189,7 +190,7 @@ function Register(history, classes, ...props) {
             <Typography variant="h4" className={classes.logo}>
                         My <ThumbUpIcon /> nixer
                     </Typography>
-                <p>Register and start providing services to your community. <br/><br/><strong>It is free!!!</strong><br/><br/>You will be able to upload business cover image and business logo after you will register. <br/> <br/>Once you are logged in after registration you will able to add service providers and services and start advertising on our platform! <br/><strong>Good luck!</strong></p>
+                <p>Register and start providing services to your community. <br/><br/><h3>It is free!!!</h3><br/><br/>You will be able to upload business cover image and business logo after you will register. <br/> <br/>Once you are logged in after registration you will able to add service providers and services and start advertising on our platform! <br/><h3>Good luck!</h3></p>
                     
                 </Grid>
             <Paper>

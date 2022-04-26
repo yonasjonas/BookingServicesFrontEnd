@@ -74,7 +74,7 @@ const BusinessPage = (props, classes) => {
                     <Grid className="bizinfo" item xs={12} md={6}>
                         <Item className="pagetitle primaryTextColor" ><h2><strong>{businessInfo && businessInfo.businessName}</strong></h2></Item>
 
-                        <Item className="pagetitle" >1671 Reviews 5 out of 5 <img src="../../5stars.png" alt="reviews" /></Item>
+                        <Item className="pagetitle" >1671 Reviews 5 out of 5 <img src="https://nixerwebapi.azurewebsites.net/images/5stars.png" alt="reviews" /></Item>
 
                         <Item className="pagetitle" >
                             <h3>Business Information</h3><p>{businessInfo && businessInfo.description}</p>

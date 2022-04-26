@@ -41,7 +41,7 @@ function App(...props) {
                 <div className={`alert ${alert.type}`}>{alert.message}</div>
             }
             <Router history={history}>
-                <TopNavigation user={props[0]} />
+                <TopNavigation user={props && props[0]} />
                 <MainNavigation loggedIn={props && props[0] && props[0].user && props[0].user.loggedIn} />
                 <CustomAlert />
                 <ToastProvider autoDismiss={true}>
@@ -78,7 +78,7 @@ const mapStateToProps = state => ({
 
 const mapActionsToProps = {
     clearAlerts: alertActions.clear,
-    userActions: userActions.refreshToken,
+    //userActions: userActions.refreshToken,
     logout: userActions.logout,
     fetchAllBusinesses: businessesActions.fetchAll
 

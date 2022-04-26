@@ -52,7 +52,7 @@ const BusinessServices = (props, classes) => {
                     <Grid container>
                     <Grid item xs={1} md={3}><MembersMenu /></Grid>
                         <Grid item xs={11} md={9}>
-                            <h1>Business Services</h1>
+                            <h1 style={{    marginTop: "89px"}}>Business Services</h1>
                             <BusinessServicesForm {...({ currentId, setCurrentId })} />
                             <Table>
                                 <TableHead className={classes.root}>
@@ -70,17 +70,18 @@ const BusinessServices = (props, classes) => {
                                         props.businessServicesList && props.businessServicesList.map((record, index) => {
                                             //console.log("record", record)
                                             return (<TableRow key={record.id}>
-                                                <TableCell className="hidemobile">{helpers.getServiceImage(record.id, record.businessId, "grid")}</TableCell>
-                                                <TableCell className="secondaryTextColor"><strong>{record.serviceName}</strong></TableCell>
-                                                <TableCell className="hidemobile"><strong>{record.timeSlotDuration}min.</strong></TableCell>
-                                                <TableCell className="hidemobile">{typeof record.providerId === 'string' && record.providerId.split(',').map(i => {
-                                                    return (<div style={{maxWidth:'140px'}} className="providerNames secondaryOutlineButton titleOnly">{props.businessProviders.find(j => j.id == i) ? props.businessProviders.find(j => j.id == i).name + " " : ""}</div>)
+                                                <TableCell key="1" className="hidemobile">{helpers.getServiceImage(record.id, record.businessId, "grid")}</TableCell>
+                                                <TableCell key="2" className="secondaryTextColor"><strong>{record.serviceName}</strong></TableCell>
+                                                <TableCell key="3" className="hidemobile"><strong>{record.timeSlotDuration}min.</strong></TableCell>
+                                                <TableCell key="4" className="hidemobile">{typeof record.providerId === 'string' && record.providerId.split(',').map(i => {
+                                                    if (i === "") return;
+                                                    return (props.businessProviders.find(j => j.id == i) && <div key={i} style={{maxWidth:'140px'}} className="providerNames secondaryOutlineButton titleOnly">{props.businessProviders.find(j => j.id == i) ? props.businessProviders.find(j => j.id == i).name + " " : null}</div>)
                                                 })}
                                                 </TableCell>
-                                                <TableCell>{record.price}€</TableCell>
-                                                <TableCell>
+                                                <TableCell key="5" >{record.price}€</TableCell>
+                                                <TableCell key="6" >
                                                     <ButtonGroup>
-                                                        <Button><EditIcon className="primary" onClick={() => { setCurrentId(record.id) }} /></Button>
+                                                        <Button key={record.id + 5}><EditIcon className="primary" onClick={() => { setCurrentId(record.id) }} /></Button>
                                                         <Button><DeleteIcon color="secondary" onClick={() => { onDelete(record.id) }} /></Button>
                                                     </ButtonGroup>
                                                 </TableCell>

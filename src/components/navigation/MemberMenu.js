@@ -30,6 +30,7 @@ import SendIcon from '@mui/icons-material/Send';
 import { Link } from "react-router-dom";
 import ListItem from '@mui/material/ListItem';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import ListIcon from '@mui/icons-material/List';
 
 const drawerWidth = 240;
 
@@ -112,6 +113,9 @@ const correctIcon = (index) => {
 		return <SettingsIcon />
 	}
 	else if (index === 4) {
+		return <ListIcon />
+	}
+	else if (index === 5) {
 		return <WidgetsIcon />
 	}
 }
@@ -129,8 +133,33 @@ const correctLink = (index) => {
 		return "/services"
 	}
 	else if (index === 4) {
+		return "/bookings"
+	}
+	else if (index === 5) {
 		return "/widget"
 	}
+}
+
+const correctIndex = (index) =>{
+	if (index === 0) {
+		return ' tour-dashboard'
+	}
+	else if (index === 1) {
+		return 'tour-business-details'
+	}
+	else if (index === 2) {
+		return 'tour-providers'
+	}
+	else if (index === 3) {
+		return 'tour-services'
+	}
+	else if (index === 4) {
+		return 'tour-bookings'
+	}
+	else if (index === 5) {
+		return 'tour-widget'
+	}
+		
 }
 let checked = false;
 
@@ -156,34 +185,35 @@ export default function MembersMenu() {
 		setOpen(false);
 	};
 
+	
+
 	return (
 		<Box className="membermenu" sx={{ display: 'flex' }}>
 			<CssBaseline />
 
-			<IconButton
+			
+
+
+			<Drawer data-tour="tour-1" 
+				variant="permanent"
+				sx={{
+					marginTop: "50px",
+
+
+				}}
+				open={open}>
+					<IconButton
 				color="inherit"
 				aria-label="open drawer"
 				onClick={handleDrawerOpen}
-				edge="start"
 				sx={{
-					marginRight: 5,
+					
 					...(open && { display: 'none' }),
-					position: 'absolute',
-					left: '19px',
-					marginTop: '52px'
+					position: 'relative',
 				}}
 			>
 				<MenuIcon />
 			</IconButton>
-
-
-			<Drawer
-				variant="permanent"
-				sx={{
-					marginTop: "50px"
-
-				}}
-				open={open}>
 				{window.innerWidth < 768 &&
 					<DrawerHeader>
 						<IconButton onClick={handleDrawerClose}>
@@ -191,10 +221,11 @@ export default function MembersMenu() {
 						</IconButton>
 					</DrawerHeader>}
 				<Divider />
+				
 				<List>
-					{['Dashboard', 'Business Information', 'Providers', 'Services', 'Widget'].map((text, index) => (
+					{['Dashboard', 'Business Information', 'Providers', 'Services', 'Bookings' , 'Widget'].map((text, index) => (
 
-						<Link key={index} to={correctLink(index)} >
+						<Link key={index} to={correctLink(index)} data-tour={correctIndex(index)} >
 							<ListItem button>
 								<ListItemIcon>
 									{correctIcon(index)}

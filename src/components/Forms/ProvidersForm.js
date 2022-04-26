@@ -331,12 +331,23 @@ const ProvidersForm = ({ classes, ...props }) => {
 
                 <div>
                     {props.currentId !== 0 ? <>
-                    {helpers.getProviderImage(props.currentId, props && props.authentication && props.authentication.user && props.authentication.user.id && props.authentication.user.id, "form")}
+                    {
+                        <Grid container>
+                        <Grid item xs={12} md={12} style={{minHeight:"300px"}}>
+                    {helpers.getProviderImage(props.currentId, props 
+                        && props.authentication 
+                        && props.authentication.user 
+                        && props.authentication.user.id 
+                        && props.authentication.user.id, "form relativeposition")}
+                        
                             <br />
-                            
                             <UploadPage exist={false} class="noCoverImage hidemobile titleOnly" providerId={props.currentId} width={300} height={300}  user={props && props.authentication && props.authentication.user && props.authentication.user.id && props.authentication.user.id} type="providerImage"  text="Add/Change Provider Image"/>
 
-                            </> : "Save Provider to upload image"}
+                            </Grid>
+                        </Grid>
+                            
+                        
+                            }</> : "Save Provider to upload image"}
                     <form
                         autoComplete="off"
                         noValidate
@@ -381,7 +392,7 @@ const ProvidersForm = ({ classes, ...props }) => {
                         onChange={handleInputChange}
                         {...(errors.phone && { error: true, helperText: errors.timeSlotDuration })}
                     /> */}
-                            <Stack direction="row" spacing={3}>
+                            <Stack className="daysroot" direction="row" spacing={3}>
                                 <ToggleButtonGroup
                                     className="weekdaysselect"
                                     value={days}

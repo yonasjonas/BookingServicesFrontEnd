@@ -49,7 +49,7 @@ const BusinessServices = (props, classes) => {
                         <Grid item xs={3}>{<Nav />}</Grid>
                         <Grid item xs={9}>
                             <TableContainer>
-                                <h1> Providers</h1>
+                                <h1 style={{    marginTop: "89px"}}> Providers</h1>
                                 <Grid container><BusinessServicesForm {...({ currentId, setCurrentId })} /></Grid>
                                 <Table>
                                     <TableHead className={classes.root}>

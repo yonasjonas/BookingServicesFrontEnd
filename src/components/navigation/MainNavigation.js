@@ -52,7 +52,7 @@ const MainNavigation = (...props) => {
             <Toolbar>
                 <MainLogo />
                 {isMobile ? (
-                    <DrawerComponent />
+                    <DrawerComponent props={props} />
                 ) : <div className={classes.navlinks + " MAINNAVLINKS"} >
                     <Link to="/" className={classes.link}>
                         Home

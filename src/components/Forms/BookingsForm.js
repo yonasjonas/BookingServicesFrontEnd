@@ -709,7 +709,6 @@ const BookingsForm = ({ classes, ...props }) => {
                 </Grid>
                 <Grid>
                     <Grid className="bookingsummaryblock" item xs={12} md={12}>
-
                         {bookingSummaryBlock()}
                     </Grid>
                 </Grid>

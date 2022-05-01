@@ -21,47 +21,57 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
-const DrawerComponent = () => {
+const DrawerComponent = (props) => {
     const classes = useStyles();
     const [openDrawer, setOpenDrawer] = useState(false);
     return (
         <>
-            <Drawer
+            <Drawer className="mainnavmobile"
                 open={openDrawer}
                 onClose={() => setOpenDrawer(false)}
             >
-                <List>
+                 {<List>
                     <ListItem onClick={() => setOpenDrawer(false)}>
                         <ListItemText>
-                            <Link to="/">Home</Link>
+                        <Link to="/" className={classes.link}>
+                        Home
+                    </Link>
                         </ListItemText>
                     </ListItem>
                     <ListItem onClick={() => setOpenDrawer(false)}>
                         <ListItemText>
-                            <Link to="//book-services">Find Services</Link>
+                        <Link to="/about" className={classes.link}>
+                        About
+                    </Link>
                         </ListItemText>
                     </ListItem>
                     <ListItem onClick={() => setOpenDrawer(false)}>
                         <ListItemText>
-                            <Link to="/about">About</Link>
+                        <Link data-tour="tour-9" to="/book-services" className={classes.link}>
+                        Find Services
+                    </Link>
                         </ListItemText>
                     </ListItem>
-                    <ListItem onClick={() => setOpenDrawer(false)}>
+                    {!props.props[0].loggedIn ? <><ListItem onClick={() => setOpenDrawer(false)}>
                         <ListItemText>
-                            <Link to="/login">Login</Link>
+                        <Link variant="subtitle" to="/login" className={classes.link}>
+                            Login
+                        </Link>
                         </ListItemText>
                     </ListItem>
                     <ListItem onClick={() => setOpenDrawer(false)}>
-                        <ListItemText>
-                            <Link to="/register">Register</Link>
-                        </ListItemText>
+                    <Link variant="subtitle" to="/register" className={classes.link}>
+                            Register
+                        </Link>
                     </ListItem>
-                    <ListItem onClick={() => setOpenDrawer(false)}>
+                    </>: <> <ListItem onClick={() => setOpenDrawer(false)}>
                         <ListItemText>
                             <Link to="/dashboard">Dashboard</Link>
                         </ListItemText>
                     </ListItem>
+                    </>}
                 </List>
+                }
             </Drawer>
             <IconButton className="mobilemenu" onClick={() => setOpenDrawer(!openDrawer)}>
                 <MenuIcon />

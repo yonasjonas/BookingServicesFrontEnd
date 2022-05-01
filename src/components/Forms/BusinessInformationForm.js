@@ -70,6 +70,7 @@ const BusinessInformationForm = ({ classes, ...props }) => {
     const [businessInformation, setBusinessInformation] = useState(null);
 
     const [number, setNumber] = useState([]);
+    const user = JSON.parse(localStorage.getItem('user'));
     //console.log({ user });
 
     const [currentId, setCurrentId] = useState(0);
@@ -130,29 +131,29 @@ const BusinessInformationForm = ({ classes, ...props }) => {
 
     const updateAfterSave = () => {
         if (props && props.businessInformation.length > 0) {
-            initialFieldValues.BusinessName = props.businessInformation[0].businessName;
-            initialFieldValues.Email = props.businessInformation[0].email;
-            initialFieldValues.Phone = props.businessInformation[0].phone;
-            initialFieldValues.Description = props.businessInformation[0].description;
-            initialFieldValues.Address1 = props.businessInformation[0].address1;
-            initialFieldValues.Address2 = props.businessInformation[0].address2;
-            initialFieldValues.County = props.businessInformation[0].county;
-            initialFieldValues.Country = props.businessInformation[0].country;
-            initialFieldValues.Category = props.businessInformation[0].category;
+            initialFieldValues.BusinessName = user.businessName;
+            initialFieldValues.Email = user.email;
+            initialFieldValues.Phone = user.phone;
+            initialFieldValues.Description = user.description;
+            initialFieldValues.Address1 = user.address1;
+            initialFieldValues.Address2 = user.address2;
+            initialFieldValues.County = user.county;
+            initialFieldValues.Country = user.country;
+            initialFieldValues.Category = user.category;
             alreadyExists = true;
         }
     }
     const updateBeforeSave = () => {
         if (props && props.businessInformation.length > 0) {
-            values.BusinessName = values.BusinessName === "" ? props.businessInformation[0].businessName : values.BusinessName
-            values.Email = values.Email === "" ? props.businessInformation[0].email : values.Email
-            values.Phone = values.Phone === "" ? props.businessInformation[0].phone : values.Phone
-            values.Description = values.Description === "" ? props.businessInformation[0].description : values.Description
-            values.Address1 = values.Address1 === "" ? props.businessInformation[0].address1 : values.Address1
-            values.Address2 = values.Address2 === "" ? props.businessInformation[0].address2 : values.Address2
-            values.County = values.County === "" ? props.businessInformation[0].county : values.County
-            values.Country = values.Country === "" ? props.businessInformation[0].country : values.Country
-            values.Category = values.Category === "" ? props.businessInformation[0].category : values.Category
+            values.BusinessName = values.BusinessName === "" ? user.businessName : values.BusinessName
+            values.Email = values.Email === "" ? user.email : values.Email
+            values.Phone = values.Phone === "" ? user.phone : values.Phone
+            values.Description = values.Description === "" ? user.description : values.Description
+            values.Address1 = values.Address1 === "" ? user.address1 : values.Address1
+            values.Address2 = values.Address2 === "" ? user.address2 : values.Address2
+            values.County = values.County === "" ? user.county : values.County
+            values.Country = values.Country === "" ? user.country : values.Country
+            values.Category = values.Category === "" ? user.category : values.Category
             
             setCountry(values.Country);
             setCounty(values.County);
@@ -167,10 +168,14 @@ const BusinessInformationForm = ({ classes, ...props }) => {
         if (validate()) {
             const onSuccess = () => {
                 addToast("Submitted successfully", { appearance: 'success' });
+                window.location.reload();
+
+                //localStorage.setItem("user", JSON.parse(values))
                 //resetForm();
                 //updateAfterSave();
             }
             if (!alreadyExists) props.updateBusinessInfo(props.user.id, values, onSuccess);
+            
         }
     }
     const arrayOfDublin = () => {
@@ -193,20 +198,20 @@ const BusinessInformationForm = ({ classes, ...props }) => {
         setNumber(arrayOfDublin());
         if (props) {
             if (props.businessInformation.length > 0) {
-                setBusinessInformation(props.businessInformation[0])
+                setBusinessInformation(user)
                 setValues({
-                    BusinessName: props.businessInformation[0].businessName,
-                    Email: props.businessInformation[0].email,
-                    Phone: props.businessInformation[0].phone,
-                    Description: props.businessInformation[0].description,
-                    Address1: props.businessInformation[0].address1,
-                    Address2: props.businessInformation[0].address2,
-                    County: props.businessInformation[0].county,
-                    Country: props.businessInformation[0].country,
-                    Category: props.businessInformation[0].category,
+                    BusinessName: user.businessName,
+                    Email: user.email,
+                    Phone: user.phone,
+                    Description: user.description,
+                    Address1: user.address1,
+                    Address2: user.address2,
+                    County: user.county,
+                    Country: user.country,
+                    Category: user.category,
                 });
-                setCountry(props.businessInformation[0].country);
-                setCounty(props.businessInformation[0].county);
+                setCountry(user.country);
+                setCounty(user.county);
             }
 
             if (props.businessInformation.length > 0 && !alreadyExists) updateAfterSave();
@@ -231,17 +236,17 @@ const BusinessInformationForm = ({ classes, ...props }) => {
                                         label="BusinessName"
                                         type="text"
                                         variant="outlined"
-                                        value={values.BusinessName ? values.BusinessName : props.businessInformation[0].businessName}
+                                        value={values.BusinessName ? values.BusinessName : user.businessName}
                                         onChange={handleInputChange}
                                         {...(errors.BusinessName && { error: true, helperText: errors.BusinessName })}
                                     />
 
                                 </Grid>
                                 <Grid item xs={12} md={4}>
-                                    <TextField name="Email" label="Email" type="text" variant="outlined" value={values.Email ? values.Email : props.businessInformation[0].email} onChange={handleInputChange} {...(errors.Email && { error: true, helperText: errors.Email })} />
+                                    <TextField name="Email" label="Email" type="text" variant="outlined" value={values.Email ? values.Email : user.email} onChange={handleInputChange} {...(errors.Email && { error: true, helperText: errors.Email })} />
                                 </Grid>
                                 <Grid item xs={12} md={4}>
-                                    <TextField name="Phone" label="Phone" type="text" variant="outlined" value={values.Phone ? values.Phone : props.businessInformation[0].phone} onChange={handleInputChange} {...(errors.Phone && { error: true, helperText: errors.Phone })} />
+                                    <TextField name="Phone" label="Phone" type="text" variant="outlined" value={values.Phone ? values.Phone : user.phone} onChange={handleInputChange} {...(errors.Phone && { error: true, helperText: errors.Phone })} />
                                 </Grid>
                                 <Grid className="business-category" item xs={12} md={12} {...(errors.Category && { helperText: errors.Category })}>
                                     <InputLabel id="simple-select-label">Business Category</InputLabel>
@@ -250,7 +255,7 @@ const BusinessInformationForm = ({ classes, ...props }) => {
                                         className="simple-select-label"
                                         id="simple-select"
                                         name="Category"
-                                        value={values.Category ? values.Category : props.businessInformation[0].category}
+                                        value={values.Category ? values.Category : user.category}
                                         type="text"
                                         variant="outlined"
                                         label="Category"
@@ -294,7 +299,7 @@ const BusinessInformationForm = ({ classes, ...props }) => {
                                         type="text"
                                         name="Country"
                                         variant="outlined"
-                                        value={country ? country : props.businessInformation[0].country}
+                                        value={country ? country : user.country}
                                         onChange={setCountry}
                                     />
 
@@ -306,8 +311,8 @@ const BusinessInformationForm = ({ classes, ...props }) => {
                                         type="text"
                                         name="County"
                                         variant="outlined"
-                                        country={country ? country : props.businessInformation[0].country}
-                                        value={county ? county : props.businessInformation[0].county}
+                                        country={country ? country : user.country}
+                                        value={county ? county : user.county}
                                         onChange={setCounty}
                                         />
                                 </Grid>
@@ -322,7 +327,7 @@ const BusinessInformationForm = ({ classes, ...props }) => {
                                                 className="selectdublinarea"
                                                 id="simple-select"
                                                 name="Address1"
-                                                value={values.Address1 ? values.Address1 : props.businessInformation[0].address1}
+                                                value={values.Address1 ? values.Address1 : user.address1}
                                                 type="text"
                                                 variant="outlined"
                                                 displayEmpty
@@ -359,7 +364,7 @@ const BusinessInformationForm = ({ classes, ...props }) => {
                                         label="Description"
                                         type="text"
                                         variant="outlined"
-                                        value={values.Description ? values.Description : props.businessInformation[0].description}
+                                        value={values.Description ? values.Description : user.description}
                                         onChange={handleInputChange} />
                                 </Grid>
                                 <InputLabel id="simple-select-label">Change Password</InputLabel>

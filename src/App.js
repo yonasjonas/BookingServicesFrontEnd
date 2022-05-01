@@ -78,7 +78,7 @@ const mapStateToProps = state => ({
 
 const mapActionsToProps = {
     clearAlerts: alertActions.clear,
-    //userActions: userActions.refreshToken,
+    userActions: userActions.refreshToken,
     logout: userActions.logout,
     fetchAllBusinesses: businessesActions.fetchAll
 

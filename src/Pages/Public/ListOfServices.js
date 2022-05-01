@@ -150,15 +150,14 @@ const Businesses = (props, classes) => {
             <Grid item xs={12} md={3}><div style={{ background: `url(https://nixerwebapi.azurewebsites.net/images/business/${record.businessId}/businessInformationCover.jpg)` }} className="listservicesimage"></div></Grid>
             <Grid item xs={12} md={3}><h2>{record.businessName.toUpperCase()}</h2>
                 {helpers.getRandomInt(100, 1500, 0)} Reviews {helpers.getRandomInt(3, 5, 2)} out of 5 <img height="14px" src="https://nixerwebapi.azurewebsites.net/images/5stars.png" alt="reviews" /></Grid>
-            <Grid item xs={6} md={2}><p style={{maxWidth:"90%", textAlign:"center", }} className="providerNames primaryOutline" >{record.county}</p></Grid>
-            <Grid item xs={6} md={2}><p style={{maxWidth:"90%",  textAlign:"center"}} className="providerNames secondaryOutline" >{record.category}</p></Grid>
+            <Grid item xs={6} md={2}><p style={{maxWidth:"90%", textAlign:"center", }} className="providerNames secondaryTextColor titleOnly" >{record.county}</p></Grid>
+            <Grid item xs={6} md={2}><p style={{maxWidth:"90%",  textAlign:"center"}} className="providerNames secondaryTextColor titleOnly" >{record.category}</p></Grid>
             <Grid item xs={12} md={2}>
                 <Button
-                    className={classes.smMargin + " primaryOutlineButton"}
-                    variant="contained"
+                    className={classes.smMargin + " secondaryOutlineButton fullWidth seeservicesbutton"}
                 >
-                    <Link href={"single-business/" + record.businessId} color="inherit">
-                        Business Info and Book
+                    <Link href={"single-business/" + record.businessId}>
+                        See Services
                     </Link>
                 </Button></Grid>
     
@@ -171,8 +170,7 @@ const Businesses = (props, classes) => {
         <Container className="listofservices" maxWidth="lg">
             <Paper>
                 <Grid container>
-                    <Grid item xs={12} md={2}></Grid>
-                    <Grid style={{margin:"20px"}} item xs={12} md={6} spacing={2}>
+                    <Grid style={{margin:"20px"}} item xs={12} md={7} spacing={2}>
                         <strong>Find services that are offered by various businesses. You can filter by category or county</strong>
                     </Grid>
                     <Grid item xs={12} md={2}>
@@ -181,7 +179,6 @@ const Businesses = (props, classes) => {
                     <Grid item xs={12} md={2}>
                         {props.businesses && props.businesses.length > 0 && countyFilter(props.businesses)}
                     </Grid>
-                    <Grid item xs={12} md={2}></Grid>
                 </Grid>
 
 

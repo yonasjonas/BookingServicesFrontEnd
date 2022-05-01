@@ -50,9 +50,9 @@ const BusinessServices = (props, classes) => {
             <Container maxWidth="lg">
                 <TableContainer>
                     <Grid container>
-                    <Grid item xs={1} md={3}><MembersMenu /></Grid>
+                    <Grid className="servicesform" item xs={1} md={3}><MembersMenu /></Grid>
                         <Grid item xs={11} md={9}>
-                            <h1 style={{    marginTop: "89px"}}>Business Services</h1>
+                            <h1>Business Services</h1>
                             <BusinessServicesForm {...({ currentId, setCurrentId })} />
                             <Table>
                                 <TableHead className={classes.root}>

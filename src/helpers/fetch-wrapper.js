@@ -8,7 +8,7 @@ export const fetchWrapper = {
     delete: _delete
 }
 
-const apiUrl = "https://nixerwebapi.azurewebsites.net/";
+const apiUrl = "http://localhost:4000/";
 
 function get(url) {
     const requestOptions = {

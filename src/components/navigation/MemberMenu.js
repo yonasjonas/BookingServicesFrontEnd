@@ -194,7 +194,7 @@ export default function MembersMenu() {
 			
 
 
-			<Drawer data-tour="tour-1" 
+			<Drawer data-tour="tour-1" className="membermenudrawer"
 				variant="permanent"
 				sx={{
 					marginTop: "50px",

@@ -74,7 +74,7 @@ const BusinessBookings = (props, classes) => {
                 <Paper>
                     <Grid container>
                     <Grid item xs={1} md={3}><MembersMenu /></Grid>
-                        <Grid item xs={11} md={9}>
+                        <Grid className="bookingsform" item xs={11} md={9}>
                             <TableContainer>
                                 <Grid container><BookingsForm {...({ currentId, setCurrentId })} accept={accepted} admin={true} /></Grid>
                                 <h1> Bookings</h1>

@@ -104,7 +104,7 @@ const BusinessProviders = (props, classes) => {
                 <Paper>
                     <Grid container>
                         <Grid item xs={1} md={3}><MembersMenu /></Grid>
-                        <Grid item xs={11} md={9}>
+                        <Grid className="providersform" item xs={11} md={9}>
                             <TableContainer>
                                 <h1> Providers</h1>
                                 <Grid container><ProvidersForm {...({ currentId, setCurrentId })} /></Grid>

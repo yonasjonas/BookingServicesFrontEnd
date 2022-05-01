@@ -6,7 +6,7 @@ import { alertService } from './';
 
 
 const userSubject = new BehaviorSubject(null);
-const baseUrl = `http://localhost:4000/api/accounts`;
+const baseUrl = `https://nixerwebapi.azurewebsites.net/api/accounts`;
 
 export const accountService = {
     login,

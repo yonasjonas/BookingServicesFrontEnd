@@ -8,10 +8,32 @@
   color: white !important;
   transition-duration: 1s;
 }
+.MuiDrawer-root.MuiDrawer-modal.mainnavmobile {
+  background: #0a060699;
+}
+.MuiDrawer-root.MuiDrawer-modal.mainnavmobile .MuiDrawer-paperAnchorLeft {
+  background: #eb6400;
+}
+.MuiButton-sizeMedium.MuiButton-textSizeMedium {
+  color: black!important;
+}
 .secondaryColor {
-  background: #022b58 !important;
+  background: #1ED3EB !important;
   color: white !important;
   transition-duration: 1s;
+}
+.closeicon {
+  color: #eb6400!important;
+}
+.MuiDrawer-root.MuiDrawer-modal.mainnavmobile .MuiDrawer-paperAnchorLeft a {
+  color: white!important;
+  border-bottom: 1px solid #022b58;
+  padding: 6px;
+}
+.topBar a, .topBar div {
+  font-size: 12px;
+  color: #070809!important;
+  font-weight: 400!important;
 }
 .secondaryColorHover:hover {
   background: #eb6400 !important;
@@ -40,7 +62,7 @@
   border: 1px solid #eb6400 !important;
   color: #eb6400 !important;
   transition-duration: 1s;
-  background: #000 !important;
+  background: transparent !important;
 }
 .primaryOutlineButton:hover {
   background: #eb6400 !important;
@@ -56,7 +78,7 @@
 }
 .closedCartdiv {
   position: fixed;
-  bottom: 75px!important;
+  bottom: 75px !important;
 }
 .closedCart {
   min-width: 300px;
@@ -66,10 +88,10 @@
   padding: 5px;
 }
 .closedCartdiv svg {
-  color: white!important;
+  color: white !important;
 }
 .disabled {
-  color:#c8b7b7 !important;
+  color: #c8b7b7 !important;
 }
 .bookingsummaryblock {
   background-color: #ceb1b1;
@@ -78,18 +100,18 @@
   position: fixed;
   bottom: 35px;
   left: 0;
-  max-width: 299px!important;
+  max-width: 299px !important;
 }
 .secondaryOutlineButton {
   border: 1px solid #022b58 !important;
   color: #3f51b5 !important;
   transition-duration: 1s;
-  display: grid!important;
+  display: grid !important;
   justify-items: center;
   align-items: center;
   justify-content: center;
   align-content: stretch;
-  padding: 1px!important;
+  padding: 1px !important;
 }
 .secondaryOutlineButton:hover {
   background: #022b58 !important;
@@ -108,7 +130,7 @@
   margin-left: -532px;
 }
 .mainlogo p {
-  color: #eb0000!important;
+  color: #eb0000 !important;
   position: absolute;
   margin-top: -11px;
   left: 161px;
@@ -122,28 +144,28 @@
   background: #022b58 !important;
 }
 .serviceImage_upload.buttonBlue {
-  bottom: -1px!important;
+  bottom: -1px !important;
   position: absolute;
-  margin-left: -300px!important;
+  margin-left: -300px !important;
 }
 .providerImage_upload.buttonBlue {
-  bottom: -4px!important;
+  bottom: -4px !important;
   position: absolute;
-  margin-left: 0px!important;
+  margin-left: 0px !important;
 }
 button.providerImage.buttonBlue.hidemobile.hid {
   position: relative;
   top: -90px;
 }
 .providerImage_div {
-  margin-top: -45px!important;
+  margin-top: -45px !important;
 }
 .activeMenu a,
 .activeMenu svg {
   color: white !important;
 }
 .UploadPreview {
-  display: -webkit-box!important;
+  display: -webkit-box !important;
 }
 
 .thirdTextColor {
@@ -413,18 +435,9 @@ div#simple-select em {
   color: white;
   transition-duration: 1s;
 }
-.dashboardButton {
-  border: 1px solid grey;
-  padding: 0 18px;
-  background: black;
-  font-size: 18px;
-  line-height: 34px;
-  right: 36px;  
-  position: absolute;
-}
 .loginregisterlinks {
   position: absolute;
-  right: 20px;  
+  right: 20px;
   color: #fafafa;
 }
 .loginregisterlinks a {
@@ -467,8 +480,7 @@ span.rs__cell.rs__header.rs__time span {
 }
 
 .providerNames {
-  border-bottom: 1px solid;
-  border-radius: 5px;
+  
   padding: 2px;
   margin: 2px;
   /* float: left;
@@ -496,7 +508,7 @@ span.rs__cell.rs__header.rs__time span {
 }
 .confirmedbooking {
   line-height: 36px;
-  padding: 10px 50px;
+  padding: 10px 50px !important;
   transition-duration: 2s;
 }
 .App {
@@ -583,9 +595,9 @@ span.rs__cell.rs__header.rs__time span {
   border-bottom: 1px solid #eadfdf;
   margin-bottom: 20px;
   display: flex;
-    flex-wrap: wrap;
-    align-content: flex-start;
-    justify-content: space-around;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  justify-content: space-around;
 }
 
 /*77777777777777777777777777777777777777777777777777777*/
@@ -731,7 +743,7 @@ a.mainlogo {
   color: #ffffff;
 }
 .dashboardpage
-  svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-i4bv87-MuiSvgIcon-root {
+  svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium {
   color: #ffffff;
   font-size: 46px;
   display: flex;
@@ -740,10 +752,10 @@ a.mainlogo {
   margin-bottom: 20px;
 }
 .fullWidth {
-  width: 100%!important;
+  width: 100% !important;
 }
 .loginform button {
-  margin: 0!important;
+  margin: 0 !important;
 }
 .loginform {
   margin-top: 100px;
@@ -760,23 +772,24 @@ img.heroimage {
   background-size: cover !important;
 }
 .onebusiness {
-  border: 1px solid black;
-  background: #eb64001f;
+  border: 1px solid lightgoldenrodyellow;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 @media (min-width: 769px) {
+  button.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.MuiButtonBase-root {
+    color: white!important;
+    min-width: 518px;
+    background: #1ed3eb;
+}
+  .dashboardButton {
+    border: 1px solid grey;
+    padding: 0 18px;
+    background: black;
+    font-size: 18px;
+    line-height: 34px;
+    right: 36px;
+    position: absolute;
+  }
 
   span.rs__cell.rs__header.rs__time span {
     font-weight: 400;
@@ -789,22 +802,22 @@ img.heroimage {
     width: 518px;
     color: #eb6400 !important;
     border: solid 1px #eb6400;
-}
-  .listofservices .providerNames {    
-    margin-top: 35px;
-}
-.listofservices button {
-  margin-top: 20px;
+  }
+  .listofservices .providerNames {
+    margin-top: 14px;
+  }
+  .listofservices button {
+    margin-top: 33px;
 }
 
   .registerform {
     margin-top: 31px;
-}
+  }
   .heroText {
     position: absolute;
   }
-  .MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation0.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft.css-12i7wg6-MuiPaper-root-MuiDrawer-paper {
-    position: relative;
+  .membermenudrawer .MuiDrawer-paperAnchorLeft {
+    position: relative !important;
   }
   .profileLogo.MuiBox-root.css-0 {
     position: relative;
@@ -822,7 +835,27 @@ img.heroimage {
   }
 }
 @media (max-width: 768px) {
-  span.rs__cell.rs__header {width: 30px;}
+  .dashboardpage, form.BusinessInformationForm-root-12, .servicesform, .providersform, .bookingsforms {
+    margin-top: 89px;
+}
+  button.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.MuiButtonBase-root {
+    color: white!important;
+    min-width: 318px;
+    background: #1ed3eb;
+}
+  .dashboardButton {
+    border: 1px solid grey;
+    padding: 0 15px;
+    background: black;
+    font-size: 10px!important;
+    line-height: 34px;
+    right: 91px;
+    position: absolute;
+    background: #e96300!important;
+}
+  span.rs__cell.rs__header {
+    width: 30px;
+  }
 
   span.rs__cell.rs__header.rs__time span {
     font-weight: 400;
@@ -830,48 +863,52 @@ img.heroimage {
     font-size: 8px;
     z-index: 10;
     margin-left: -32px;
-}
+  }
 
-span.rs__cell {width: 30px;}
+  span.rs__cell {
+    width: 30px;
+  }
 
-button.MuiButtonBase-root.MuiButton-root.MuiButton-text {padding: 2px;}
+  button.MuiButtonBase-root.MuiButton-root.MuiButton-text {
+    padding: 2px;
+  }
 
-span.rs__cell button {
-  min-width: 46px;
-  COLOR: white;
-}
+  span.rs__cell button {
+    min-width: 46px;
+    color: white;
+  }
   .MuiGrid-root.bizinfo.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-6 {
-    margin-top: 320px!important;
-}
-button.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.MuiButtonBase-root.css-1e6y48t-MuiButtonBase-root-MuiButton-root {
-  background: #fafafa;
-  width: 244px;
-  color: #eb6400 !important;
-  border: solid 1px #eb6400;
-}
-.titleOnly {
-  margin: auto;
-  display: table;
-  padding: 32px 21px 10px;
-  margin-bottom: 20px;
-  border-bottom: 1px solid;
-}
-.loginregisterlinks {
-  display: none;
-}
-.titleOnly {
-  margin: auto;
-  display: table;
-  padding: 22px 19px 0;
-  border-bottom: 1px solid;
-  margin-bottom: 10px;
-  width: 266px;
-  text-align: center;
-  margin-bottom: 20px!important;
-}
-.profileLogo.MuiBox-root.css-0 {
-  top: 100px;
-}
+    margin-top: 320px !important;
+  }
+  button.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.MuiButtonBase-root.css-1e6y48t-MuiButtonBase-root-MuiButton-root {
+    background: #fafafa;
+    width: 244px;
+    color: #eb6400 !important;
+    border: solid 1px #eb6400;
+  }
+  .titleOnly {
+    margin: auto;
+    display: table;
+    padding: 32px 21px 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid;
+  }
+  .loginregisterlinks {
+    display: none;
+  }
+  .titleOnly {
+    margin: auto;
+    display: table;
+    padding: 22px 19px 0;
+    border-bottom: 1px solid;
+    margin-bottom: 10px;
+    width: 266px;
+    text-align: center;
+    margin-bottom: 20px !important;
+  }
+  .profileLogo.MuiBox-root.css-0 {
+    top: 100px;
+  }
   .hidemobile {
     display: none !important;
   }
@@ -884,10 +921,11 @@ button.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.
     width: 100%;
     margin: 5px;
   }
-  .MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation0.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft.css-12i7wg6-MuiPaper-root-MuiDrawer-paper {
+  .membermenudrawer .MuiDrawer-paperAnchorLeft {
     position: fixed;
     top: 30%;
-    height: 360px;
+    min-height: 400px;
+    max-height: 500px;
     border-bottom: 1px solid #eb6400;
   }
   button.MuiButtonBase-root.MuiIconButton-root.mobilemenu {
@@ -936,7 +974,6 @@ button.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.
     max-height: 106px !important;
   }
   .profileLogo.MuiBox-root.css-0 img {
-    
     min-width: 106px !important;
     max-width: 106px !important;
     min-height: 106px !important;
@@ -944,10 +981,8 @@ button.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.
   }
   .closedCartdiv {
     position: fixed;
-    bottom: 0px!important;
-}
-
-
+    bottom: 0px !important;
+  }
 }
 .MuiContainer-root.fotterBottom.secondaryColor {
   z-index: -1;

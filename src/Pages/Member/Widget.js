@@ -40,8 +40,8 @@ const BusinessServices = (props, classes) => {
                 <Paper>
                     <Grid container>
                     <Grid item xs={3} md={3}><MembersMenu /></Grid>
-                        <Grid item xs={9} md={9}><h1> Widget</h1>
-                            <p>Widget coming soon...</p>
+                        <Grid item xs={9} md={9}><h1 style={{    marginTop: "89px"}}> Widget</h1>
+                            <p style={{    minHeight: "389px"}}>Widget coming soon...</p>
                         </Grid>
                     </Grid>
                 </Paper>

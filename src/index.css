@@ -776,6 +776,12 @@ img.heroimage {
 }
 
 @media (min-width: 769px) {
+  .bookingsform {
+    margin-top: -115px!important;
+}
+.providersform, .servicesform {
+  margin-top: -47px!important;
+}
   button.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.MuiButtonBase-root {
     color: white!important;
     min-width: 518px;

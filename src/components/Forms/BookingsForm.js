@@ -145,13 +145,8 @@ const BookingsForm = ({ classes, ...props }) => {
         handleChangeMultiple,
     } = useForm(initialFieldValues, validate, props.setCurrentId)
     const onAccept = (bookingId, data) => {
-        if (window.confirm('Email will be sent to the customer about you accepting the booking')) {
-            props.updateBooking(bookingId, data);
-        }
-    }
-    const onReject = id => {
         if (window.confirm('Are you sure?')) {
-            props.deleteBooking(id, () => addToast("Submitted successfully. Check your email.", { appearance: 'info' }));
+            props.updateBooking(bookingId, data);
         }
     }
     const handleSubmit = e => {
@@ -183,40 +178,18 @@ const BookingsForm = ({ classes, ...props }) => {
         }
     }
     useEffect(() => {
-
         props.id &&
             props.fetchAllBusinessServices(props.id);
         props.fetchAllProviders(props.id);
-
-
-
-
-
         setBusinessServices(props.businessServices);
-        //setCurrentProviders(props.businessProviders);
         if (props.currentId !== 0 && props.currentId !== undefined) {
-
             let temp = props.businessBookings && props.businessBookings.length && props.businessBookings.find(x => x.id == props.currentId);
-
             initialFieldValues = temp;
             initialFieldValues.accepted = props.accept;
             initialFieldValues.BusinessId = props.businessInfo && props.businessInfo.list && props.businessInfo.list[0] && props.businessInfo.list[0].id && props.businessInfo.list[0].id;
-
             onAccept(props.currentId, temp);
-
-
             setErrors({})
         }
-        if (props.id) {
-            //console.log("props.id", props.id);
-        }
-        /* const inter = setInterval(() => {
-            if (inputservices.current) {
-                inputservices.current.scrollIntoView(false);
-                clearInterval(inter);
-            }
-        }, 1000); */
-
     }, [props.currentId])
 
     const showBookingSummary = (start, duration) => {
@@ -259,14 +232,10 @@ const BookingsForm = ({ classes, ...props }) => {
     const renderProviderTimes = (providerId) => {
 
         setCurrentProvider(props.businessProviders.filter(x => x.id === providerId));
-
         if (oldId !== providerId && props.businessProviders.filter(x => x.id === providerId) !== null) {
-            //setCurrentProviders( props.businessProviders.filter(x => x.id == providerId[0]));
             showWeekDays(props.businessProviders.filter(x => x.id === providerId));
         }
         oldId = providerId;
-
-
         let currentProv = {};
         let days = [];
         let hours = [];
@@ -274,16 +243,8 @@ const BookingsForm = ({ classes, ...props }) => {
             ...values,
             "providerId": providerId
         })
-
-
-
         currentProv = currentProviders.filter(x => x.id == providerId).length > 0 ? JSON.parse(currentProviders.filter(x => x.id == providerId)[0].weekvalue) : {};
-
-
         setCurrentProvider(currentProviders.filter(x => x.id == providerId)[0]);
-
-        //console.log("currentprovider5", currentProviders.filter(x => x.id == providerId)[0].name)
-
 
         if (currentProv && currentProv.childData !== null) {
             Object.keys(currentProv).map(i => {

@@ -1,15 +1,15 @@
 import React from "react";
 import { connect } from "react-redux";
-import * as actions from "../../actions/businessInformation";
+import * as actions from "../../Actions/businessInformation";
 import {
   Grid,
   Paper,
   withStyles,
   Container,
 } from "@material-ui/core";
-import MembersMenu from "../../components/navigation/MemberMenu";
-import BusinessInformationForm from "../../components/Forms/BusinessInformationForm";
-import MainImages from "../../components/media/MainImages";
+import MembersMenu from "../../Components/Navigation/MemberMenu";
+import BusinessInformationForm from "../../Components/Forms/BusinessInformationForm";
+import MainImages from "../../Components/Media/MainImages";
 
 
 const style = (theme) => ({

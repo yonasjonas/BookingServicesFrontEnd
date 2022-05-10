@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import queryString from 'query-string';
 
-import { accountService, alertService } from '../../services';
+import { accountService, alertService } from '../../Services';
 
 function VerifyEmail({ history }) {
     const EmailStatus = {

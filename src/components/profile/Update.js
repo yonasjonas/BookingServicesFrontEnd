@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
-import { accountService, alertService } from '../../services';
+import { accountService, alertService } from '../../Services';
 
 function Update({ history }) {
     const user = JSON.parse(localStorage.getItem('user'))

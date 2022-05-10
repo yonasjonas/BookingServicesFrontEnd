@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import * as actions from "../../actions/businessServices";
+import * as actions from "../../Actions/businessServices";
 import { Grid, Paper, TableBody, TableCell, TableRow, TableContainer, Table, TableHead, withStyles, Container, ButtonGroup, Button } from '@material-ui/core';
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
-import BusinessServicesForm from '../../components/Forms/BusinessServicesForm';
+import BusinessServicesForm from '../../Components/Forms/BusinessServicesForm';
 import { useToasts } from "react-toast-notifications";
-import Nav from '../../components/navigation/MemberMenu';
-import MainImages from "../../components/media/MainImages";
+import Nav from '../../Components/Navigation/MemberMenu';
+import MainImages from "../../Components/Media/MainImages";
 
 
 

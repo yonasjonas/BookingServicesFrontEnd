@@ -1,7 +1,7 @@
-import MainLogo from '../media/MainLogo';
+import MainLogo from '../Media/MainLogo';
 import React, { useState, useEffect } from 'react';
-import { accountService } from '../../services';
-import { Role } from '../../helpers';
+import { accountService } from '../../Services';
+import { Role } from '../../Helpers';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 
 

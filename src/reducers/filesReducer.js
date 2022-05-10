@@ -1,4 +1,4 @@
-import { ACTION_TYPES } from "../actions/file";
+import { ACTION_TYPES } from "../Actions/file";
 
 const initialState = {
     list:[]

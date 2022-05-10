@@ -1,9 +1,7 @@
-import { userConstants } from '../constants';
-import { accountService } from '../services/account.service';
+import { userConstants } from '../Constants';
+import { accountService } from '../Services/account.service';
 import { alertActions } from './alert.actions';
-import { history } from '../helpers/history';
-
-
+import { history } from '../Helpers/history';
 
 export const userActions = {
     login,
@@ -16,14 +14,11 @@ export const userActions = {
 function login(username, password) {
     return dispatch => {
         dispatch(request({ username }));
-
         accountService.login(username, password)
             .then(
                 user => {
-                    //console.log("from dispatchitip", {user});
                     dispatch(success(user));
                     history.push('/dashboard');
-
                 },
                 error => {
                     console.log({error});
@@ -93,7 +88,6 @@ function _delete(id) {
                 error => dispatch(failure(id, error.toString()))
             );
     };
-
     function request(id) { return { type: userConstants.DELETE_REQUEST, id } }
     function success(id) { return { type: userConstants.DELETE_SUCCESS, id } }
     function failure(id, error) { return { type: userConstants.DELETE_FAILURE, id, error } }

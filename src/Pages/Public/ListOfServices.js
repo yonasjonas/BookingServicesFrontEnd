@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { connect } from "react-redux";
-import * as actions from "../../actions/businesses";
+import * as actions from "../../Actions/businesses";
 import { TextField, Grid, Paper, TableBody, TableCell, MenuItem, Select, TableRow, TableContainer, Table, TableHead, withStyles, Container, ButtonGroup, Button, Link } from '@material-ui/core';
-import * as helpers from '../../helpers';
+import * as helpers from '../../Helpers';
 import { useToasts } from "react-toast-notifications";
 
 

@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { userActions } from '../../actions/user.actions';
-import useForm from '../../components/useForm';
+import { userActions } from '../../Actions/user.actions';
+import useForm from '../../Components/useForm';
 import { Grid, InputLabel, Typography, MenuItem, withStyles, FormControl, Button, TextField, Paper, Container } from '@material-ui/core';
 import { useToasts } from "react-toast-notifications";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import { accountService, alertService } from '../../services';
+import { accountService, alertService } from '../../Services';
 
 const styles = theme => ({
     root: {

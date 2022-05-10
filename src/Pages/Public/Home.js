@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { connect } from "react-redux";
-import HomepageCards from "../../components/HomepageCard";
+import HomepageCards from "../../Components/HomepageCard";
 //import hero from 'https://nixerwebapi.azurewebsites.net/images/hero.jpg';
 import { Grid, Paper, Button } from '@material-ui/core';
-import * as businessesActions from "../../actions/businesses";
+import * as businessesActions from "../../Actions/businesses";
 import { styled } from '@mui/material/styles';
 
 import FemaleIcon from '@mui/icons-material/Female';

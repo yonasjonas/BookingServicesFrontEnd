@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import * as actions from "../../actions/businessServices";
-import * as provideractions from "../../actions/businessProvidersActions";
+import * as actions from "../../Actions/businessServices";
+import * as provideractions from "../../Actions/businessProvidersActions";
 import { Grid, Paper, TableBody, TableCell, TableRow, TableContainer, Table, TableHead, withStyles, Container, ButtonGroup, Button } from '@material-ui/core';
 import { useToasts } from "react-toast-notifications";
-import MemberMenu from '../../components/navigation/MemberMenu';
-import MemberMenuOld from '../../components/navigation/MemberMenuOld';import { Link } from "react-router-dom";
+import MemberMenu from '../../Components/Navigation/MemberMenu';
+import MemberMenuOld from '../../Components/Navigation/MemberMenuOld';import { Link } from "react-router-dom";
 import Box from '@mui/material/Box';
 import { experimentalStyled as styled } from '@mui/material/styles';
-import MainImages from "../../components/media/MainImages";
+import MainImages from "../../Components/Media/MainImages";
 import Tour from 'reactour'
 import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
 import PeopleIcon from '@mui/icons-material/People';

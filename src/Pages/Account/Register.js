@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import useForm from '../../components/useForm';
+import useForm from '../../Components/useForm';
 import { Grid, Box, InputLabel, Select, MenuItem, withStyles, Button, TextField, Paper, Container, Typography } from '@material-ui/core';
 import Checkbox from '@mui/material/Checkbox';
 import { FormLabel } from '@mui/material';
 import { CountryDropdown, RegionDropdown, CountryRegionData } from 'react-country-region-selector';
-import { accountService } from '../../services';
+import { accountService } from '../../Services';
 import { useToasts } from "react-toast-notifications";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 

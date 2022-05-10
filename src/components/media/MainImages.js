@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import FileUpload from "../../components/FormElements/FileUpload";
+import FileUpload from "../FormElements/FileUpload";
 import { Chip, Grid, Paper, TableBody, TableCell, TableRow, TableContainer, Table, TableHead, withStyles, Container, ButtonGroup, Button } from '@material-ui/core';
 
 import HeroImage from "./HeroImage";

@@ -21,9 +21,9 @@ import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import IconButton from '@mui/material/IconButton';
-import { accountService } from '../../services';
+import { accountService } from '../../Services';
 
-import { Nav } from '../account';
+import { Nav } from '../Account';
 
 
 import ListSubheader from '@mui/material/ListSubheader';

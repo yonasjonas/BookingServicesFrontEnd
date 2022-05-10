@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import * as fileActions from '../../actions/file';
+import * as fileActions from '../../Actions/file';
 import { connect } from "react-redux";
-import { fetchAll } from '../../actions/businessServices';
+import { fetchAll } from '../../Actions/businessServices';
 import { Button } from '@material-ui/core';
 import { useToasts } from "react-toast-notifications";
 

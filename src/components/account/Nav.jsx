@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, Route } from 'react-router-dom';
 
-import { Role } from '../../helpers';
-import { accountService } from '../../services';
+import { Role } from '../../Helpers';
+import { accountService } from '../../Services';
 
 
 function Nav() {

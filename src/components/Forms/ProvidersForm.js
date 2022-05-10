@@ -1,4 +1,4 @@
-import * as actions from "../../actions/businessProvidersActions";
+import * as actions from "../../Actions/businessProvidersActions";
 import { connect } from "react-redux";
 import React, { useState, useEffect } from "react";
 import { Grid, InputLabel, Select, MenuItem, withStyles, Button, TextField, Divider } from '@material-ui/core';
@@ -13,7 +13,7 @@ import Stack from '@mui/material/Stack';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import FileUpload from "../FormElements/FileUpload";
-import * as helpers from '../../helpers';
+import * as helpers from '../../Helpers';
 import UploadPage from "../FormElements/UploadPage";
 
 

@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { accountService } from '../../services';
-
 function Details({ match }) {
     const { path } = match;
     const user = JSON.parse(localStorage.getItem('user'))

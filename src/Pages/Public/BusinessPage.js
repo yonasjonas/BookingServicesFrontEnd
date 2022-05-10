@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import * as bookingActions from "../../actions/businessBookings";
-import * as providerActions from "../../actions/businessProvidersActions";
-import * as serviceActions from "../../actions/businessServices";
-import * as businessesActions from "../../actions/businesses";
+import * as bookingActions from "../../Actions/businessBookings";
+import * as providerActions from "../../Actions/businessProvidersActions";
+import * as serviceActions from "../../Actions/businessServices";
+import * as businessesActions from "../../Actions/businesses";
 import { Box, Grid, Paper, withStyles, Container, ButtonGroup, Button } from '@material-ui/core';
 import { styled } from '@mui/material/styles';
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import BookingsForm from '../../components/Forms/BookingsForm';
+import BookingsForm from '../../Components/Forms/BookingsForm';
 import { useToasts } from "react-toast-notifications";
-import MembersMenu from '../../components/navigation/MemberMenu';
-import MainImages from "../../components/media/MainImages";
+import MembersMenu from '../../Components/Navigation/MemberMenu';
+import MainImages from "../../Components/Media/MainImages";
 import { useHistory, useParams } from 'react-router-dom'
 
 const style = theme => ({

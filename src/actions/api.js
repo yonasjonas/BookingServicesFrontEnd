@@ -1,6 +1,4 @@
 import axios from "axios";
-import { accountService } from '../services';
-
 const baseURL = "https://nixerwebapi.azurewebsites.net/";
 
 export default {
@@ -20,8 +18,6 @@ export default {
             fetchAll: businessId => axios.get(url + "business/" + businessId ),
             fetchAllFromSingleBusiness: (id) => axios.get(url + "business/" + id),
             fetchById: id=> axios.get(url+id),
-            //fetchByBusinessId: id => axios.get(url + "business/" + id),
-            //createProviderWorkingDays: (id, workingDaysHours) => axios.put(url + id, workingDaysHours),
             create: newRecord => axios.post(url, newRecord),
             update: (id, updateRecord) => axios.put(url + id, updateRecord),
             delete: id => axios.delete(url + id)
@@ -63,16 +59,10 @@ export default {
     },
     fileInformation(url = baseURL + 'api/upload/') {        
         return {
-            //fetchImageById: id => axios.get(url+id),
             fetchAll: () => axios.get(url),
             postImage: newRecord => axios.post(url, newRecord),
-            /*update: (id, updateRecord) => axios.put(url + id, updateRecord, requestOptions),
-            delete: id => axios.delete(url + id) */
         }
-    },
-
-    
-    
+    },  
 }
 function authHeader(url) {
     // return auth header with jwt if user is logged in and request is to the api url

@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import * as actions from "../../actions/businessProvidersActions";
+import * as actions from "../../Actions/businessProvidersActions";
 import { Chip, Grid, Paper, TableBody, TableCell, TableRow, TableContainer, Table, TableHead, withStyles, Container, ButtonGroup, Button } from '@material-ui/core';
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
-import ProvidersForm from '../../components/Forms/ProvidersForm';
+import ProvidersForm from '../../Components/Forms/ProvidersForm';
 import { useToasts } from "react-toast-notifications";
-import MembersMenu from '../../components/navigation/MemberMenu';
-import MembersMenuOld from '../../components/navigation/MemberMenuOld';
-import MainImages from "../../components/media/MainImages";
-import * as helpers from '../../helpers';
+import MembersMenu from '../../Components/Navigation/MemberMenu';
+import MembersMenuOld from '../../Components/Navigation/MemberMenuOld';
+import MainImages from "../../Components/Media/MainImages";
+import * as helpers from '../../Helpers';
 import TagFacesIcon from '@mui/icons-material/TagFaces';
 import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
 

@@ -1,5 +1,5 @@
-import * as actions from "../../actions/businessServices";
-import * as provideractions from "../../actions/businessProvidersActions";
+import * as actions from "../../Actions/businessServices";
+import * as provideractions from "../../Actions/businessProvidersActions";
 import { connect } from "react-redux";
 import React, { useState, useEffect } from "react";
 import { Grid, InputLabel, Select, MenuItem, withStyles, FormControl, Button, TextField, OutlinedInput } from '@material-ui/core';
@@ -7,7 +7,7 @@ import useForm from '../useForm';
 import { useToasts } from "react-toast-notifications";
 import FileUpload from "../FormElements/FileUpload";
 import UploadPage from "../FormElements/UploadPage";
-import * as helpers from '../../helpers';
+import * as helpers from '../../Helpers';
 
 const styles = theme => ({
     root: {

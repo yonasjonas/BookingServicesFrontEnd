@@ -1,6 +1,6 @@
-import * as bookingActions from "../../actions/businessBookings";
-import * as providerActions from "../../actions/businessProvidersActions";
-import * as serviceActions from "../../actions/businessServices";
+import * as bookingActions from "../../Actions/businessBookings";
+import * as providerActions from "../../Actions/businessProvidersActions";
+import * as serviceActions from "../../Actions/businessServices";
 import { connect } from "react-redux";
 import { styled } from '@mui/material/styles';
 import React, { useState, useEffect, useRef } from "react";
@@ -10,7 +10,7 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import { useToasts } from "react-toast-notifications";
 import { Scheduler } from "@aldabil/react-scheduler";
-import * as helpers from '../../helpers';
+import * as helpers from '../../Helpers';
 import EventBusyIcon from '@mui/icons-material/EventBusy';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import CloseIcon from '@mui/icons-material/Close';

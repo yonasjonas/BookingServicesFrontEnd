@@ -1,7 +1,7 @@
 import React from "react";
 import { Paper, Container } from '@material-ui/core';
 import { styled } from '@mui/material/styles';
-import UploadPage from "../../components/FormElements/UploadPage";
+import UploadPage from "../../Components/FormElements/UploadPage";
 
 
 
@@ -17,35 +17,25 @@ const Item = styled(Paper)(({ theme }) => ({
 const About = () => {
     return (
         <Container maxWidth="lg">
-             <img className="heroimage" src="https://nixerwebapi.azurewebsites.net/images/business/1/businessInformationCover.jpg" alt="Image a girl managing booking on the go" />
+             <img className="heroimage" src="https://nixerwebapi.azurewebsites.net/images/business/49/businessInformationCover.jpg" alt="Image a girl managing booking on the go" />
             <Paper style={{padding:"15px"}}>
                 <h1 className="titleOnly secondaryTextColor">About MyNixer </h1>
 
+                <p>MyNixer is a platform that unites freelancers and small businesses that wants to find a new way to advertise their services to a local communities.</p> 
                 <p>Via MyNixer you can quickly get bookings from people looking for the services that you or your team are offering.</p>
 
-                <p>Be it house clean, massage, tutor lessons or a dog walk. It is easy to start to make make money on MyNixer not only for small businesses but for individuals as well!</p>
-                
-                
-                <p>MyNixer is a platform that unites all the people and small businesses who wants to find a new way to advertise their services to a local communities.</p> 
-                <p>It is simple to setup and start get bookings. You are able to set the time of service providers which are later used in the booking form. Anyone can do it! </p>
-                <p>Once you wil register and finally will login to the account where to be presented with a guide to help you get started</p>
-<p>Once you get booking request you can accept it or reject it. You will also have a person phone number and email so you could contact them if needs be</p>
-                
-                <br /><br />
-                We provide a free way for you to setup a business page that will introduce your services and will give you simple facility to get boookings online.
-
-
-                <br /><br />
-
-                <strong>If you are offering services that are time based than you are in the right place!</strong>
-                <br /><br />
-                
-
+                <p>It is simple to setup and start getting bookings. <br />
+                You will be able to set the times for your service providers or just for yourself which will allow to work only on the times desired.</p>
+                <br />
+                <p>Be it house clean, massage, tutor lessons or a dog walk or surfing lessons just to name a few. <br/>
+                It is easy to start to make money with MyNixer. Whether you are a sole trader or a businesses!</p>
+                <strong>If you are offering services for people then you are in the right place!</strong>
+                <br />
                 <h5>And it is free forever!</h5>
 
-                <p style={{color:"#eb6400",fontWeight:400}}>As per revenue website definition of the word nixer means undeclared money. <br/>
-                    As per our view everyone must declare their income and mynixer does not promote it.<br/>
-                Name has been chosen to atract people with a catchy name.</p>
+                <p style={{color:"#eb6400",fontWeight:400}}>As per revenue website definition of the word "nixer" means a side job where person received money that was not declared.<br/>
+                    MyNixer view is that everyone have to declare their income received for all the nixers. <br/> 
+                </p>
         
             </Paper>
 

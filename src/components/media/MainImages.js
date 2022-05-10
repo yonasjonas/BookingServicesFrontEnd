@@ -78,7 +78,7 @@ function MainImages(props) {
             }
             {profileImage === null ? <><h3 className="noProfileImage hidemobile">Upload business logo</h3>
                 <Container spacing={0} maxWidth="lg">
-                    <Grid item xs={12} md={3}>
+                    <Grid className='businesslogocontainer' item xs={12} md={3}>
                         <UploadPage exist={false} class="noCoverImage" user={user} type="businessInformationProfile" text="Add Profile Picture" width={200} height={200} />
                     </Grid>
                     <Grid item xs={12} md={3}></Grid>
@@ -86,7 +86,7 @@ function MainImages(props) {
             </> :
                 <>
                     <Container spacing={0} maxWidth="lg">
-                        <Grid item xs={12} md={3}>
+                        <Grid className='businesslogocontainer' item xs={12} md={3}>
                             <ProfileImage className="hidemobile" image={profileImage} />
                             {!props.frontEnd && <UploadPage frontEnd={props.frontEnd} exist={true} user={user} type="businessInformationProfile" text="Change Profile Picture" width={200} height={200} />}                </Grid>
                         <Grid item xs={12} md={3}></Grid>

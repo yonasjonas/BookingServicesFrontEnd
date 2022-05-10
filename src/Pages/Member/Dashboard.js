@@ -116,11 +116,8 @@ const BusinessServices = (props, classes) => {
     useEffect(() => {
         props.fetchAllBusinessServices();
         localStorage.getItem("openedAlready") === "1" && setTourOpen(false);
-        //props.fetchAllProviders();
     }, [])
     const user = JSON.parse(localStorage.getItem('user'))
-
-
 
     return (
         <>
@@ -139,9 +136,9 @@ const BusinessServices = (props, classes) => {
                         <Grid item xs={1} md={3}>
                             {<>
 					<MemberMenu /></>}</Grid>
-                        <Grid item xs={11} md={9}>
+                        <Grid className="dashboardpage" item xs={11} md={9}>
                             <Box sx={{ flexGrow: 1 }}>
-                                <Grid className="dashboardpage" container>
+                                <Grid container>
                                     <Grid item xs={6} md={4} key="1">
                                         <Link to="/services">
                                             <Item className="primaryColor dashbox" ><MiscellaneousServicesIcon/>Services</Item>

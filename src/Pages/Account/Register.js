@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-//import { Formik, Field, Form, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
+import { connect } from 'react-redux';
 import useForm from '../../components/useForm';
 import { Grid, Box, InputLabel, Select, MenuItem, withStyles, Button, TextField, Paper, Container, Typography } from '@material-ui/core';
 import Checkbox from '@mui/material/Checkbox';
 import { FormLabel } from '@mui/material';
 import { CountryDropdown, RegionDropdown, CountryRegionData } from 'react-country-region-selector';
-import { accountService, alertService } from '../../services';
+import { accountService } from '../../services';
 import { useToasts } from "react-toast-notifications";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 
@@ -121,11 +119,12 @@ function Register(history, classes, ...props) {
     }
 
     useEffect(() => {
-
-        if (values.Country == "") setValues({ ...values, Country: "Ireland" });
-        if (values.County == "") setValues({ ...values, County: "Dublin" });
+        //redirect to dashboard if user loggedin
+        console.log({history})
+        history.user.loggedIn && history.history.push('/dashboard');
+        if (values.Country === "") setValues({ ...values, Country: "Ireland" });
+        if (values.County === "") setValues({ ...values, County: "Dublin" });
         setNumber(arrayOfDublin());
-
     })
 
     const {
@@ -136,31 +135,16 @@ function Register(history, classes, ...props) {
         setErrors,
         handleInputChange,
         resetForm
-    } = useForm(initialFieldValues, validate, props.setCurrentId,)
+    } = useForm(initialFieldValues, validate, props.setCurrentId)
 
-    const setAcceptTermsFunc = (terms) => {
-
-        
-
-        if (acceptTerms && !terms) {
-            
-            setValues({ ...values, AcceptTerms: true });
-        }
-        
-
-    }
     const handleSubmit = e => {
         e.preventDefault();
-        //values.weekvalue = values.weekvalue ? values.weekvalue : "";
-        //console.log("works from register:", values);
-
         if (validate()) {
             accountService.register(values)
                 .then(() => {
                     onSuccess();
                 })
                 .catch(error => {
-                    //alertService.error(error);
                     addToast(error, { appearance: 'error', autoDismissTimeout: 1400000, transitionDuration: 2});
                 });
             const onSuccess = () => {
@@ -175,14 +159,11 @@ function Register(history, classes, ...props) {
     }
 
     const arrayOfDublin = () => {
-
         for (let i = 1; i < 25; i++) {
             number[i] = i;
         }
         return number
     }
-
-
 
     return (
         <Container className="registerform" maxWidth="md">
@@ -190,7 +171,7 @@ function Register(history, classes, ...props) {
             <Typography variant="h4" className={classes.logo}>
                         My <ThumbUpIcon /> nixer
                     </Typography>
-                <p>Register and start providing services to your community. <br/><br/><h3>It is free!!!</h3><br/><br/>You will be able to upload business cover image and business logo after you will register. <br/> <br/>Once you are logged in after registration you will able to add service providers and services and start advertising on our platform! <br/><h3>Good luck!</h3></p>
+                <p>Register and start providing services to your community. <br/><br/><span>It is free!!!</span><br/><br/>You will be able to upload business cover image and business logo after you will register. <br/> <br/>Once you are logged in after registration you will able to add service providers and services and start advertising on our platform! <br/></p><h3>Good luck!</h3>
                     
                 </Grid>
             <Paper>
@@ -379,5 +360,8 @@ function Register(history, classes, ...props) {
         </Container>
     )
 }
+const mapStateToProps = state => ({
+    user: state.authentication
+})
 
-export default withStyles(styles)(Register);
+export default connect(mapStateToProps)(withStyles(styles)(Register));

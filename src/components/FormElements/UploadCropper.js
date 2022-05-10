@@ -22,15 +22,13 @@ const UploadCropper = forwardRef(({ url, type, name, width, height, setCropped }
 	const cropperRef = useRef(null);
 
     if (type === "businessInformationCover"){
-        width = 1920;
-        height = 300;
+        width = '1920px';
+        height = '300px';
     }
     else if (type === "businessInformationProfile"){
-        width = 200;
-        height = 200;
+        width = '306px';
+        height = '306px';
     }
-
-    console.log("dddddddddddddddddddddddddddddddddddddddddddd",{width})
 
 	useImperativeHandle(ref, () => ({
 		cropImage: () => cropImage(cropperRef.current.cropper, type, name),
@@ -49,7 +47,7 @@ const UploadCropper = forwardRef(({ url, type, name, width, height, setCropped }
 	return <StyledCropper
         className={type + "_div"}
 		src={url}
-        style={{ width: width + "px", height: height + "px" }}
+        style={{ width: width, height: height }}
 		autoCrop={true}
         initialAspectRatio={width / height}
         //zoomTo={.7}

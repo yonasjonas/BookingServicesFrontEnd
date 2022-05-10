@@ -8,9 +8,6 @@ import { useToasts } from "react-toast-notifications";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import { accountService, alertService } from '../../services';
 
-
-
-
 const styles = theme => ({
     root: {
         backgroundColor: '#000',
@@ -49,8 +46,6 @@ const styles = theme => ({
         margin: theme.spacing(2),
         padding: theme.spacing(2),
     }
-
-
 });
 
 const initialFieldValues = {
@@ -61,29 +56,23 @@ const initialFieldValues = {
 let alreadyadded = false
 
 function LoginPage({ history, classes, location, ...props }) {
-    //alreadyadded = false
     const { addToast } = useToasts();
     useEffect(() => {
-
-        console.log(process.env.REACT_APP_UPLOAD_URL)
-        //!alreadyadded && location && location.state && addToast(location.state, { appearance: 'success' });
-    
-        //alreadyadded = true;
-        
-            });
+        props.user.loggedIn && history.push('/dashboard');
+    });
     function handleSubmit(event) {
         if (validate()) {
             event.preventDefault();
             //console.log("handleSubmit: ", event);
             initialFieldValues.isSubmitting = true;
-            props.login(values.Email, values.Password);
+            //props.login(values.Email, values.Password);
             alreadyadded = false;
             //props.user && !props.user.loggedIn && props && props.alert && props.alert.message && addToast(props.alert.message, { appearance: 'error', autoDismissTimeout: 100000, transitionDuration: 3 });
 
             //history.push('/dashboard');
             accountService.login(values.Email, values.Password).then(() => {
                 addToast('Login Success', { appearance: 'success', autoDismissTimeout: 100000, transitionDuration: 3 });
-                history.push('dashboard');
+                history.go('dashboard');
             })
             .catch(error => {
                 addToast(props.alert.message, { appearance: 'error', autoDismissTimeout: 100000, transitionDuration: 3 });
@@ -118,13 +107,18 @@ function LoginPage({ history, classes, location, ...props }) {
 
     return (
         <Container className="loginform" maxWidth="sm">
-            <Grid className="titleOnly" container>
-            <Typography variant="h4" className={classes.logo}>
-                        My <ThumbUpIcon /> nixer
-                    </Typography>
+            <Grid className="titleOnly aligncenter" container>
+                <Typography variant="h4" className={classes.logo}>
+                    My <ThumbUpIcon /> nixer
+                </Typography>
                 <p>Login to your account and manage your services and bookings</p>
-                    
-                </Grid>
+                <div>
+                    <p><strong>Demo account:</strong></p>
+                    <p><strong>Email: info@webface.ie</strong></p>
+                    <p><strong>Passwrod: asddsa</strong></p>
+                </div>
+            </Grid>
+            
             <Paper>
             
                 {location.pathname === '/register' && location.state && <h2>{location.state}</h2>}

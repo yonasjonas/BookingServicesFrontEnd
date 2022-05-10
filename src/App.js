@@ -62,7 +62,7 @@ function App(...props) {
                         <Route path="/verify-email" component={VerifyPage} />
                         <Route path="/forgot-password" component={ResetPassword} />
                         <Route path="/login" component={connectedLoginPage} />
-                        <Route path="/register" component={Register} history={history} />
+                        <Route path="/register" component={Register} history={history} user={props}/>
                         <Route exact path="/single-business/:id" component={BusinessPage} />
                     </Switch>
                 </ToastProvider>
@@ -81,7 +81,6 @@ const mapActionsToProps = {
     userActions: userActions.refreshToken,
     logout: userActions.logout,
     fetchAllBusinesses: businessesActions.fetchAll
-
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(App);

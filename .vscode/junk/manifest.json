@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "MyNixer",
+  "name": "App for freelancers",
   "icons": [
     {
       "src": "favicon.ico",

@@ -113,6 +113,11 @@
   align-content: stretch;
   padding: 1px !important;
 }
+.aligncenter {
+  text-align: center!important;
+  margin: auto!important;
+  display: table!important;
+}
 .secondaryOutlineButton:hover {
   background: #022b58 !important;
   color: white !important;
@@ -165,7 +170,7 @@ button.providerImage.buttonBlue.hidemobile.hid {
   color: white !important;
 }
 .UploadPreview {
-  display: -webkit-box !important;
+    margin-top: 77px;
 }
 
 .thirdTextColor {
@@ -421,7 +426,7 @@ div#simple-select em {
   top: 8px;
 }
 .profileLogo.MuiBox-root.css-0 img {
-  max-width: 203px;
+  max-width: 300px;
 }
 .MuiChip-root.rejected-chip {
   background: #0ec2bb;
@@ -652,11 +657,10 @@ button {
   margin: 16px !important;
 }
 button.businessInformationCover {
-  margin: auto;
-  margin-top: -55px;
+  top: -18px;
   display: table;
   z-index: 1000;
-  position: absolute;
+  position: relative;
   left: 0;
   font-size: 12px;
   width: 200px;
@@ -664,6 +668,7 @@ button.businessInformationCover {
   height: 31px;
   color: white;
   font-weight: 400;
+  margin: auto;
 }
 button.businessInformationProfile_upload {
   background: #eb6400;
@@ -673,10 +678,9 @@ button.businessInformationProfile_upload {
 button.businessInformationProfile {
   margin: auto;
   margin-top: 15px;
+  margin-bottom:24px;
   display: table;
   z-index: 10;
-  position: absolute;
-  left: 20.4%;
   font-size: 12px;
   width: 200px;
   background: #ea6400;
@@ -685,23 +689,20 @@ button.businessInformationProfile {
   font-weight: 400;
 }
 button.businessInformationCover_upload {
-  font-size: 20px;
+  font-size: 16px;
   height: 49px;
   background: #022b58;
   color: white;
   font-weight: 400;
-  margin-top: -111px;
+  margin-top: -67px;
   transition-duration: 1s;
-  position: absolute;
+  /* position: absolute; */
   left: 0;
   padding: 10px;
   line-height: 32px;
 }
 .businessInformationProfile_div {
-  position: absolute;
-  top: 254px;
-  left: 21.4%;
-  margin: 0 !important;
+  margin-top: -382px!important;
 }
 p.businessInformationProfile_explanation {
   position: absolute;
@@ -738,12 +739,10 @@ p.businessInformationProfile_explanation {
 a.mainlogo {
   color: white !important;
 }
-.dashboardpage
-  svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-i4bv87-MuiSvgIcon-root {
+.dashboardpage svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-i4bv87-MuiSvgIcon-root {
   color: #ffffff;
 }
-.dashboardpage
-  svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium {
+.dashboardpage svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium {
   color: #ffffff;
   font-size: 46px;
   display: flex;
@@ -827,22 +826,29 @@ img.heroimage {
   }
   .profileLogo.MuiBox-root.css-0 {
     position: relative;
-    margin-top: -183px;
     background: #030c73;
     /* padding: 10px; */
     margin-left: 0px;
     border: 3px solid white;
-    bottom: -32px;
-    left: 20.1%;
-    min-width: 209px;
-    max-width: 209px;
-    min-height: 209px;
-    max-height: 209px;
+    min-width: 306px;
+    max-width: 306px;
+    min-height: 306px;
+    max-height: 306px;}
+  .businesslogocontainer{
+    margin: -200px 0 230px;
   }
+  .MuiGrid-root.businesslogocontainer.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-3 {
+    margin: -200px 0 -23px;
+}
+.dashboardpage, form.BusinessInformationForm-root-12, .servicesform, .providersform, .bookingsforms {
+/*   margin-top: -167px!important;
+ */}
+
+
 }
 @media (max-width: 768px) {
   .dashboardpage, form.BusinessInformationForm-root-12, .servicesform, .providersform, .bookingsforms {
-    margin-top: 89px;
+    margin-top: 67px!important;
 }
   button.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.MuiButtonBase-root {
     color: white!important;
@@ -1005,6 +1011,7 @@ img.heroimage {
 .hide {
   display: none !important;
 }
+
 /* .footerBottom {
   bottom: 0;
   position: absolute;

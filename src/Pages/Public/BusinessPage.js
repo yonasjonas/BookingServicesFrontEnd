@@ -13,7 +13,8 @@ import BookingsForm from '../../Components/Forms/BookingsForm';
 import { useToasts } from "react-toast-notifications";
 import MembersMenu from '../../Components/Navigation/MemberMenu';
 import MainImages from "../../Components/Media/MainImages";
-import { useHistory, useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom';
+import PaymentForm from '../../Components/Forms/PaymentForm';
 
 const style = theme => ({
     root: {
@@ -86,6 +87,7 @@ const BusinessPage = (props, classes) => {
                     <Grid item xs={12} md={12}>
                         <BookingsForm id={id} />
                     </Grid>
+                    <PaymentForm/>
                 </Grid>
 
 

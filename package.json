@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@stripe/react-stripe-js": "^1.0.0",
+    "@stripe/stripe-js": "^1.0.0",
     "@aldabil/react-scheduler": "^2.1.2",
     "@date-io/date-fns": "^2.13.1",
     "@emotion/react": "^11.5.0",

@@ -118,6 +118,7 @@ const BookingsForm = ({ classes, ...props }) => {
     const [bookingSummaryOpened, setBookingSummaryOpened] = useState(false);
     const [booked, setBooked] = useState();
     let providerdays = 0;
+    const [payWithCard, setPayWithCard] = useState(false);
     let oldId;
 
 
@@ -532,11 +533,15 @@ const BookingsForm = ({ classes, ...props }) => {
                                 onChange={handleInputChange}
                             />
                         </Grid>
-                        {values.phone === "" && values.email === "" && values.name === "" ? <div>
-
+                        {values.phone === "" && values.email === "" && values.name === "" ? 
+                        <div>
                             <div style={{ height: '250px' }}></div>
                         </div> :
-                        <PaymentForm serviceId={serviceId}/>
+                        <div>
+                            
+                            <h1>Price: {currentService.price}</h1>
+                            {payWithCard && <PaymentForm serviceId={serviceId}/>}
+                        </div>
                     }
                     </Grid >
                 </Item>
@@ -656,6 +661,21 @@ const BookingsForm = ({ classes, ...props }) => {
                             {calendarBlock()}
                         </Grid>
                         <Grid item xs={12} md={12}>
+                            {values.phone !== "" && values.email !== "" && values.name !== "" &&
+                            <div>
+                                <Button className={classes.smMargin + " primaryColor fullWidth"}
+                                            variant="contained"
+                                            type="submit"
+                                            onClick={() => {setPayWithCard(true)}}
+                                            >
+                                Pay with card</Button>
+                                <Button className={classes.smMargin + " primaryColor fullWidth"}
+                                            variant="contained"
+                                            type="submit"
+                                            onClick={() => {setPayWithCard(false)}}>
+                                Pay after
+                                </Button>
+                            </div>}
                             {customerDetailsBlock()}
                         </Grid>
                         

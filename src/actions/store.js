@@ -7,7 +7,7 @@ export const store = createStore(
     compose(
         applyMiddleware(thunk),
         //line below enables redux tools
-        //window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
     )
 )
 

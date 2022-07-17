@@ -13,6 +13,7 @@ export default function CheckoutForm() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    
     if (!stripe) {
       return;
     }
@@ -89,3 +90,5 @@ export default function CheckoutForm() {
     </form>
   );
 }
+
+// 4242 4242 4242 4242

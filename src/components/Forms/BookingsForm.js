@@ -15,6 +15,8 @@ import EventBusyIcon from '@mui/icons-material/EventBusy';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import CloseIcon from '@mui/icons-material/Close';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import PaymentForm from '../../Components/Forms/PaymentForm';
+
 
 const styles = theme => ({
     root: {
@@ -530,7 +532,12 @@ const BookingsForm = ({ classes, ...props }) => {
                                 onChange={handleInputChange}
                             />
                         </Grid>
-                        {values.phone === "" && values.email === "" && values.name === "" && <div style={{ height: '400px' }}></div>}
+                        {values.phone === "" && values.email === "" && values.name === "" ? <div>
+
+                            <div style={{ height: '250px' }}></div>
+                        </div> :
+                        <PaymentForm serviceId={serviceId}/>
+                    }
                     </Grid >
                 </Item>
             </Box>
@@ -590,6 +597,7 @@ const BookingsForm = ({ classes, ...props }) => {
                                     variant="contained"
                                     color="secondary"
                                     type="submit"
+                                    onClick={handleSubmit}
                                 >
                                     Reserve a Service
                                 </Button>
@@ -617,14 +625,14 @@ const BookingsForm = ({ classes, ...props }) => {
     }
 
     return (
-        <Container maxWidth="lg">
-            {!booked && !props.admin ? <form
-                autoComplete="off"
-                noValidate
-                className={classes.root}
-                onSubmit={handleSubmit}
+        <Container maxWidth="lg">           
+            {!booked && !props.admin ? <div
+                
+                
             >
+
                 <Grid>
+
                     <div className="services-bookform">
                         <h1 className="primaryTextColor titleOnly">Services</h1>
                         {servicesBlock()}
@@ -650,9 +658,11 @@ const BookingsForm = ({ classes, ...props }) => {
                         <Grid item xs={12} md={12}>
                             {customerDetailsBlock()}
                         </Grid>
+                        
                         <Grid item xs={12} md={12}>
                             {values.phone !== "" && values.email !== "" && values.name !== "" &&
                                 <>
+                                
                                     <Button
                                         className={classes.smMargin + " primaryColor fullWidth"}
                                         variant="contained"
@@ -673,7 +683,7 @@ const BookingsForm = ({ classes, ...props }) => {
                         {bookingSummaryBlock()}
                     </Grid>
                 </Grid>
-            </form > :
+            </div > :
                 <div>
                     {!props.admin && <><h2 style={{ marginTop: '20px' }} className="primaryTextColor titleOnly">Congratulations you just made a booking request and provider will soon get in touch. Email has been sent.</h2><a className="confirmedbooking secondaryColor titleOnly" href="/book-services">Browse More</a></>}
                 </div>

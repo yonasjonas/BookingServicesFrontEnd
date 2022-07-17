@@ -1,0 +1,12 @@
+
+.p-PaymentDetails.p-PaymentElement-content input, .p-PaymentDetails.p-PaymentElement-content select {
+    color: rgb(41, 36, 36)!important;
+  }
+  
+  .p-PaymentDetails.p-PaymentElement-content select {
+    color: black!important;
+  }
+  select#Field-countryInput {
+    color: rgb(41, 36, 36)!important;
+  }
+  input#Field-numberInput,select#Field-countryInput,input#Field-expiryInput {color:black!important}

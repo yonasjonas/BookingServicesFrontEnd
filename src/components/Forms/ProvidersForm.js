@@ -286,14 +286,9 @@ const ProvidersForm = ({ classes, ...props }) => {
         else {
             for (let i = 0; i < 7; i++) {
                 if (values.weekvalue[i] !== undefined && values.weekvalue[i] === childData[i]) {
-
-                    
-
                 }
             }
             setValues({ ...values, weekvalue: { ...values.weekvalue, childData: null } });
-
-
         }
 
     }
@@ -304,7 +299,6 @@ const ProvidersForm = ({ classes, ...props }) => {
         setEditing(false)
         resetForm();
         props.currentId = 0;
-        //console.log(props.currentId)
     }
 
     function isContainedIn(a, b) {
@@ -392,7 +386,7 @@ const ProvidersForm = ({ classes, ...props }) => {
                         onChange={handleInputChange}
                         {...(errors.phone && { error: true, helperText: errors.timeSlotDuration })}
                     /> */}
-                            <Stack className="daysroot" direction="row" spacing={3}>
+                            <Stack className="daysroot" style={{width: '100%'}} direction="row" spacing={3}>
                                 <ToggleButtonGroup
                                     className="weekdaysselect"
                                     value={days}
@@ -423,6 +417,7 @@ const ProvidersForm = ({ classes, ...props }) => {
                                     </ToggleButton>
                                 </ToggleButtonGroup>
                             </Stack>
+
                             <div>{errors.workdays && daysError && <p style={{ color: "red" }}>{errors.workdays}</p>}</div>
                             {days.length > 0 || localDays.length !== days.length &&
                                 1 + 1}

@@ -24,7 +24,7 @@ function ToggleButtonNotEmpty(props) {
     }, [days]);
 
     return (
-        <><Stack direction="row" spacing={3}>
+        <div className='daysselectordiv' style={{width: '100%'}}><Stack direction="row" spacing={3}>
             <ToggleButtonGroup
                 value={days}
                 onChange={handleDays}
@@ -34,7 +34,7 @@ function ToggleButtonNotEmpty(props) {
                 
             </ToggleButtonGroup>
         </Stack>
-        </>
+        </div>
     );
 
 }

@@ -80,13 +80,12 @@ function RangeSlider(...props) {
     useEffect(() => {
 
 
+
         if ((props[0].currentId !== 0 && currentId !== props[0].currentId) || props[0].currentId === undefined) {
             //console.log("useEffect");
             setCurrentProvider(props[0].providersList && props[0].providersList.filter(i => i.id === props[0].currentId))
             setCurrentId(props[0].currentId);
             retrieveTimesAndDays(props[0].providersList && props[0].providersList.filter(i => i.id === props[0].currentId));
-
-
         }
     });
 
@@ -159,6 +158,9 @@ function RangeSlider(...props) {
 
         startTime = null;
         endTime = null;
+
+        const weekvalue = currentProvider[0].weekvalue;
+        allInfo = weekvalue;
 
         if (typeof value[0] === 'number') {
 
